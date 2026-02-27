@@ -8,6 +8,7 @@
 :root{
   --accent:#ff3b3b;
   --gold:#FFD700;
+  --vip-gradient: linear-gradient(135deg, #FFD700, #FFA500, #FFCC00);
 }
 
 /* Reset */
@@ -47,36 +48,58 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;}
 @keyframes lightningMove{0%{transform: translateY(-100%);}100%{transform: translateY(100%);}}
 
 /* Marquee messages */
-.marquee-wrap{position:absolute; top:5px; left:10px; right:10px; overflow:hidden; padding:8px 0; border-radius:14px; border:1px solid rgba(255,215,0,0.7); background: linear-gradient(90deg, #FFD700, #FFC200, #FFD700, #FFE066); background-size:400% 100%; animation: goldShine 6s linear infinite; z-index:5;}
+.marquee-wrap{position:absolute; top:5px; left:10px; right:10px; overflow:hidden; padding:6px 0; border-radius:12px; border:1px solid rgba(255,215,0,0.7); background: linear-gradient(90deg, #FFD700, #FFC200, #FFD700, #FFE066); background-size:400% 100%; animation: goldShine 6s linear infinite; z-index:5;}
 @keyframes goldShine{0%{background-position:0% 0%}50%{background-position:100% 0%}100%{background-position:0% 0%}}
-.lane{position:relative;width:100%;height:35px;overflow:hidden;}
-.msg{position:absolute;right:-100%;white-space:nowrap;font-weight:900;letter-spacing:1px;font-size:22px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.6),0 2px 4px rgba(0,0,0,0.4),0 0 6px rgba(255,255,255,0.2);will-change: transform;}
+.lane{position:relative;width:100%;height:30px;overflow:hidden;}
+.msg{position:absolute;right:-100%;white-space:nowrap;font-weight:900;letter-spacing:1px;font-size:20px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.6),0 2px 4px rgba(0,0,0,0.4),0 0 6px rgba(255,255,255,0.2);will-change: transform;}
 .msg.accent{color:#fff;}
 .msg.accent .icon{display:inline-block;animation: bounce 1s infinite alternate, glow 2s infinite alternate;}
-@keyframes bounce{0%{transform: scale(1);}50%{transform: scale(1.3);}100%{transform: scale(1);}}
+@keyframes bounce{0%{transform: scale(1);}50%{transform: scale(1.2);}100%{transform: scale(1);}}
 @keyframes glow{0%{filter: drop-shadow(0 0 2px #fff);}50%{filter: drop-shadow(0 0 6px #fff);}100%{filter: drop-shadow(0 0 2px #fff);}}
 @keyframes slideRTL{ from{transform:translateX(0);} to{transform:translateX(-200vw);} }
 
 /* Glitch overlay */
 .glitch{position:absolute; inset:0; pointer-events:none; background:transparent; animation: glitchFlash 6s infinite; mix-blend-mode:overlay;}
 
-/* Description text (floating, free) */
-.match-info{position:absolute; top:70px; left:10px; right:10px; color:#fff; font-size:13px; line-height:1.4; z-index:5; text-shadow:0 1px 2px rgba(0,0,0,0.6);}
+/* Upcoming match info */
+.match-info{position:absolute; top:70px; left:10px; right:10px; color:#fff; font-size:12px; line-height:1.3; z-index:5; text-shadow:0 1px 2px rgba(0,0,0,0.6);}
 .match-info b{color:#FFD700;}
 
-/* Slot lists (floating, free) */
-.slot-list{position:absolute; width:45%; overflow-y:auto; color:#fff; font-weight:bold; font-size:14px; z-index:5;}
-.slot-list-left{left:10px; top:220px;}
-.slot-list-right{right:10px; top:220px;}
-.slot-item{display:flex; justify-content:space-between; padding:8px 2px; border-bottom:1px solid rgba(255,255,255,0.2);}
-.slot-item span:first-child{flex:1; background: linear-gradient(90deg,#FFD700,#FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:bold;}
-.slot-item span:last-child{margin-left:5px; color:lime;}
+/* Slot list - Mythic VIP card style, smaller */
+.slot-list{position:absolute; width:45%; color:#fff; font-weight:bold; font-size:12px; z-index:5;}
+.slot-list-left{left:10px; top:200px;}
+.slot-list-right{right:10px; top:200px;}
+.slot-item{
+  display:flex; justify-content:space-between; padding:6px 8px; margin-bottom:4px;
+  border-radius:10px; background: var(--vip-gradient); border:2px solid #FFD700;
+  box-shadow: 0 0 8px #FFD700, 0 0 15px rgba(255,215,0,0.5) inset;
+  transition: transform 0.2s ease-in-out;
+}
+.slot-item:hover{transform: scale(1.03);}
+.slot-item span:first-child{
+  flex:1; font-weight:bold; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,0.5);
+}
+.slot-item span:last-child{margin-left:5px; color:lime; font-weight:bold;}
 .slot-item.reserved span:last-child{color:#ff3b3b;}
 
+/* Instagram card */
+.insta-card{
+  position:absolute; bottom:10px; left:50%; transform:translateX(-50%);
+  background: rgba(0,0,0,0.7); color:#fff; font-size:12px; font-weight:bold;
+  padding:6px 12px; border-radius:10px; border:2px solid var(--gold);
+  cursor:pointer; z-index:5; text-align:center; text-decoration:none;
+  display:flex; align-items:center; gap:6px;
+  transition: all 0.2s ease-in-out;
+}
+.insta-card:hover{background:rgba(255,215,0,0.9); color:#000;}
+.insta-card .icon{color:#E1306C; font-size:16px;}
+
+/* Responsive */
 @media(max-width:768px){
   .marquee-wrap{top:5px;}
-  .match-info{top:60px; font-size:12px;}
-  .slot-list{width:45%; font-size:12px;}
+  .match-info{top:60px; font-size:11px;}
+  .slot-list{width:45%; font-size:11px;}
+  .insta-card{font-size:11px; padding:5px 10px;}
 }
 </style>
 </head>
@@ -99,18 +122,26 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;}
   </div>
 </div>
 
-<!-- Floating Description -->
+<!-- Upcoming Match -->
 <div class="match-info" id="matchInfo"></div>
 
-<!-- Floating Slot Lists -->
+<!-- Slot Lists -->
 <div class="slot-list slot-list-left" id="slotListLeft"></div>
 <div class="slot-list slot-list-right" id="slotListRight"></div>
 
+<!-- Instagram -->
+<a href="https://www.instagram.com/bgmi_expertleague" target="_blank" class="insta-card">
+  <span class="icon">📸</span> Follow @bgmi_expertleague
+</a>
+
 <script>
 // Marquee messages
-const messages=[
-  {text:"🔥 GRAND FINAL ALERT 🔥", accent:true},
-  {text:"Be ready at your slot on time", accent:false}
+const messages = [
+  { text: "🔥 GRAND FINAL ALERT 🔥", accent: true },
+  { text: "Check your slot and upcoming match!", accent: false },
+  { text: "All players must sit in their assigned slot!", accent: false },
+  { text: "POV recording of 1–2 minutes is required during fights!", accent: false },
+  { text: "Teams not in their slot will be disqualified!", accent: true }
 ];
 const msgEl=document.getElementById("msg");
 let i=0;
@@ -127,7 +158,7 @@ function showNextMessage(){
 }
 showNextMessage();
 
-// Lightning streaks
+// Lightning
 const lightningContainer=document.getElementById('lightning-container');
 function createLightning(){
   const line=document.createElement('div');
@@ -140,11 +171,11 @@ function createLightning(){
 }
 setInterval(createLightning,200);
 
-// Slot lists
+// Slots - Mythic cards smaller
 const slotListLeft=document.getElementById('slotListLeft');
 const slotListRight=document.getElementById('slotListRight');
 const slots=[
-  {slot:"Slot 1", name:"Reserved", status:"Reserved"},
+  {slot:"Slot 1", name:"BIG BULL", status:"✅"},
   {slot:"Slot 2", name:"GODX", status:"✅"},
   {slot:"Slot 3", name:"HACKER OR WOT", status:"✅"},
   {slot:"Slot 4", name:"HURRICANE", status:"✅"},
@@ -177,13 +208,14 @@ function updateSlots(){
 }
 updateSlots();
 
-// Floating Match Rules / Info
+// Match info
 const matchInfo=document.getElementById('matchInfo');
-matchInfo.innerHTML=`<b>Date:</b> 27 February Today Night<br>
+matchInfo.innerHTML=`<b>Upcoming Match</b><br>
+<b>Date:</b> 27 February Today Night<br>
 <b>⏰ ID & Password:</b> 8:25 PM<br>
 <b>⏱ Kick Request:</b> 8:30 PM<br>
 <b>🚀 Match Start:</b> 8:35 PM<br>
-🎉 <b>Highlights:</b> Death Screenshot required, POV recording 1–2 min during fights, Live entertainment, Official Grand Final match – don’t miss it!`;
+🎉 <b>Highlights:</b> Death Screenshot required, POV recording 1–2 min, Live entertainment, Official Grand Final match!`;
 </script>
 
 </body>
