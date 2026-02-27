@@ -2,102 +2,246 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>BGMI Expert League – Mobile Overlay</title>
+<title>BGMI Overlay – Premium Cyberpunk HUD</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI, Tahoma, Geneva, Verdana, sans-serif;}
-body{background:#000;overflow:hidden;}
-.canvas{width:100vw;height:100vh;max-width:1080px;max-height:1920px;margin:auto;position:relative;
-  background: radial-gradient(circle at top, #200000, #000 60%);}
+:root{
+  --accent:#ff3b3b;
+  --pulse:0;
+  --border-glow:0;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,system-ui;}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;}
 
-.top{position:absolute;top:0;left:0;right:0;height:170px;background:rgba(0,0,0,.75);
-  border-bottom:3px solid red;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.live{color:#ff3b3b;letter-spacing:3px;font-size:14px;}
-.title{font-size:36px;font-weight:900;color:#fff;text-shadow:0 0 12px red,0 0 24px red;}
+/* Canvas */
+.canvas{
+  position:fixed; inset:0;
+  background:#000;
+  overflow:hidden;
+  filter: brightness(calc(1 + var(--pulse)*0.5));
+}
 
-.game-area{position:absolute;top:170px;bottom:240px;left:0;right:0;margin:10px;border-radius:18px;
-  border:2px dashed rgba(255,0,0,.4);display:flex;align-items:center;justify-content:center;color:#ff6b6b;}
+/* Grid overlay */
+.grid{
+  position:absolute; inset:0;
+  background:
+    linear-gradient(rgba(255,59,59,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,59,59,.05) 1px, transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+  transform: scale(1);
+  transition: transform 0.05s ease;
+}
 
-.bottom{position:absolute;bottom:0;left:0;right:0;height:240px;background:rgba(0,0,0,.75);
-  border-top:3px solid red;padding:14px;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;}
+/* Digital rain */
+.rain{
+  position:absolute; inset:0;
+  color:#ff3b3b;
+  font-family:monospace;
+  font-weight:bold;
+  font-size:14px;
+  white-space:pre;
+  pointer-events:none;
+  opacity:0.2;
+}
 
-.row{color:#fff;font-size:14px;}
-.row b{color:#ff3b3b;}
-.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
-.action{padding:8px 16px;border-radius:999px;border:2px solid red;color:#fff;box-shadow:0 0 10px red;background:#111;font-size:14px;}
-.marquee{width:100%;overflow:hidden;white-space:nowrap;}
-.move{display:inline-block;padding-left:100%;animation:scrollLeft 12s linear infinite;color:#fff;font-size:14px;}
-@keyframes scrollLeft{from{transform:translateX(0);}to{transform:translateX(-100%);}}
+/* Particles */
+.particles{
+  position:absolute; inset:0;
+  pointer-events:none;
+}
+.particle{
+  position:absolute;
+  background: rgba(255,59,59,.15);
+  border-radius:50%;
+  filter: blur(2px);
+  will-change: transform, opacity;
+}
+
+/* HUD Corners */
+.corner{position:absolute;width:28px;height:28px;pointer-events:none;}
+.corner:before,.corner:after{
+  content:"";position:absolute;background:linear-gradient(90deg, transparent, var(--accent), transparent);
+  box-shadow:0 0 10px rgba(255,59,59,.6);
+}
+.tl{top:10px;left:10px;}
+.tr{top:10px;right:10px;transform:scaleX(-1);}
+.bl{bottom:10px;left:10px;transform:scaleY(-1);}
+.br{bottom:10px;right:10px;transform:scale(-1);}
+.corner:before{width:28px;height:2px;top:0;left:0;}
+.corner:after{width:2px;height:28px;top:0;left:0;}
+
+/* Neon border pulse */
+.neon-border{
+  position:absolute; inset:0;
+  border:2px solid var(--accent);
+  pointer-events:none;
+  box-shadow:0 0 calc(20px*var(--border-glow)) var(--accent);
+  transition: box-shadow 0.05s linear;
+}
+
+/* Marquee */
+.marquee-wrap{
+  position:absolute; top:50px; left:10px; right:10px;
+  overflow:hidden; padding:10px 0;
+  background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.35));
+  backdrop-filter: blur(8px);
+  border:1px solid rgba(255,59,59,.35);
+  border-radius:14px;
+  box-shadow:0 0 18px rgba(255,59,59,.25);
+}
+.lane{ position:relative; width:100%; height:28px; overflow:hidden; }
+.msg{
+  position:absolute; right:-100%;
+  white-space:nowrap; font-weight:800; letter-spacing:.8px; font-size:18px;
+  color:#f2f2f2; text-transform:uppercase;
+  text-shadow:0 0 6px rgba(255,59,59,.35);
+  will-change: transform;
+}
+.msg.accent{ color:var(--accent); }
+@keyframes slideRTL{ from{transform:translateX(0);} to{transform:translateX(-200vw);} }
+
+/* Glitch overlay */
+.glitch{
+  position:absolute; inset:0;
+  pointer-events:none;
+  background:transparent;
+  box-shadow:0 0 0 rgba(255,59,59,0);
+  animation: glitchFlash 6s infinite;
+  mix-blend-mode:overlay;
+}
+@keyframes glitchFlash{
+  0%, 92%,100%{ opacity:0; }
+  93%{ opacity:0.08; }
+  94%{ opacity:0; }
+  95%{ opacity:0.1; }
+  97%{ opacity:0.02; }
+}
+.start{
+  position:fixed; right:16px; bottom:16px;
+  padding:10px 14px; border-radius:10px; border:1px solid rgba(255,59,59,.4);
+  background:#0a0a0a; color:#fff; cursor:pointer;
+  box-shadow:0 0 14px rgba(255,59,59,.35);
+}
 </style>
 </head>
 <body>
-
 <div class="canvas">
-  <div class="top">
-    <div class="live">🔴 LIVE</div>
-    <div class="title">BGMI EXPERT LEAGUE</div>
+  <div class="grid" id="grid"></div>
+  <pre id="rain" class="rain"></pre>
+  <div class="particles" id="particles"></div>
+  <i class="corner tl"></i>
+  <i class="corner tr"></i>
+  <i class="corner bl"></i>
+  <i class="corner br"></i>
+  <div class="marquee-wrap">
+    <div class="lane"><span id="msg" class="msg"></span></div>
   </div>
-
-  <div class="game-area">GAME SCREEN YAHAN AAYEGA</div>
-
-  <div class="bottom">
-    <div class="row">Match: <b id="matchName">----</b></div>
-    <div class="row">Room ID: <b id="roomId">----</b></div>
-    <div class="row">Starts in: <b id="countdown">--:--</b></div>
-
-    <div class="actions">
-      <div class="action">👍 LIKE</div>
-      <div class="action">🔁 SHARE</div>
-      <div class="action">🔔 SUBSCRIBE</div>
-    </div>
-
-    <div class="marquee">
-      <div class="move">
-        👍 LIKE • 🔁 SHARE • 🔔 SUBSCRIBE • New ho? Subscribe karo • Room ID comment me milega • Winner ko shoutout • 
-        👍 LIKE • 🔁 SHARE • 🔔 SUBSCRIBE
-      </div>
-    </div>
-  </div>
+  <div class="neon-border" id="neonBorder"></div>
+  <div class="glitch"></div>
 </div>
 
+<button id="startAudio" class="start">🎵 Start Beat Reactive</button>
+
 <script>
-  // 🔐 PASTE YOUR REAL KEYS HERE
-  const firebaseConfig = {
-  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
-  authDomain: "incoinpaysliveearning.firebaseapp.com",
-  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
-  projectId: "incoinpaysliveearning",
-  storageBucket: "incoinpaysliveearning.firebasestorage.app",
-  messagingSenderId: "971873814750",
-  appId: "1:971873814750:web:7418c7da119e4725ed9a4f"
+// Messages
+const messages = [
+  { text: "WELCOME TO MY YOUTUBE CHANNEL", accent: false },
+  { text: "👍 LIKE • 🔁 SHARE • 🔔 SUBSCRIBE", accent: true },
+  { text: "NEW HO? SUBSCRIBE KRO • LIKE SHARE COMMENT KRO", accent: false }
+];
+const msgEl = document.getElementById("msg");
+let i=0;
+function playMessage(){
+  const m = messages[i];
+  msgEl.textContent = m.text;
+  msgEl.classList.toggle("accent", m.accent);
+  msgEl.style.animation = "none";
+  msgEl.style.right="-100%";
+  void msgEl.offsetWidth;
+  msgEl.style.animation = "slideRTL 10s linear";
+  setTimeout(()=>{ i=(i+1)%messages.length; playMessage(); }, 15000);
+}
+playMessage();
+
+// Digital rain
+const rainEl = document.getElementById('rain');
+const cols = Math.floor(window.innerWidth/14);
+const chars = '01';
+let rainArr = [];
+for(let c=0;c<cols;c++){ rainArr[c]=Math.floor(Math.random()*20); }
+function drawRain(){
+  let str = '';
+  for(let r=0;r<20;r++){
+    for(let c=0;c<cols;c++){
+      str += (rainArr[c] > r ? chars[Math.floor(Math.random()*chars.length)] : ' ') + ' ';
+    }
+    str+='\n';
+  }
+  rainEl.textContent = str;
+  for(let c=0;c<cols;c++){ rainArr[c] = (rainArr[c]+1)%20; }
+  requestAnimationFrame(drawRain);
+}
+drawRain();
+
+// Particles
+const particlesContainer = document.getElementById('particles');
+const particleCount = 60;
+const particles = [];
+for(let p=0;p<particleCount;p++){
+  const el = document.createElement('div');
+  el.className='particle';
+  const size = Math.random()*6+2;
+  el.style.width=size+'px';
+  el.style.height=size+'px';
+  el.style.top = Math.random()*100+'%';
+  el.style.left = Math.random()*100+'%';
+  particlesContainer.appendChild(el);
+  particles.push({el, x:Math.random()*window.innerWidth, y:Math.random()*window.innerHeight, dx:(Math.random()-0.5)*0.3, dy:(Math.random()-0.5)*0.3});
+}
+function animateParticles(){
+  particles.forEach(p=>{
+    p.x += p.dx; p.y += p.dy;
+    if(p.x>window.innerWidth)p.x=0;
+    if(p.x<0)p.x=window.innerWidth;
+    if(p.y>window.innerHeight)p.y=0;
+    if(p.y<0)p.y=window.innerHeight;
+    p.el.style.transform = `translate(${p.x}px,${p.y}px)`;
+  });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// Beat reactive audio
+const btn = document.getElementById('startAudio');
+let audioCtx, analyser, dataArray, src;
+
+btn.onclick = async () => {
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize=256;
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    src = audioCtx.createMediaStreamSource(stream);
+    src.connect(analyser);
+  }
+  audioCtx.resume();
+  animateBeat();
+  btn.style.display='none';
 };
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-
-  // Live bindings
-  db.ref("live/matchName").on("value", s => {
-    document.getElementById("matchName").textContent = s.val() || "----";
-  });
-
-  db.ref("live/roomId").on("value", s => {
-    document.getElementById("roomId").textContent = s.val() || "----";
-  });
-
-  db.ref("live/countdown").on("value", s => {
-    const sec = s.val();
-    if (typeof sec === "number") {
-      const m = String(Math.floor(sec/60)).padStart(2,"0");
-      const ss = String(sec%60).padStart(2,"0");
-      document.getElementById("countdown").textContent = `${m}:${ss}`;
-    }
-  });
+function animateBeat(){
+  analyser.getByteFrequencyData(dataArray);
+  let sum = 0;
+  for(let i=0;i<dataArray.length;i++) sum+=dataArray[i];
+  const avg = sum / dataArray.length;
+  const pulse = Math.min(1, avg/140);
+  document.documentElement.style.setProperty('--pulse', pulse.toFixed(2));
+  document.documentElement.style.setProperty('--border-glow', pulse.toFixed(2));
+  document.getElementById('grid').style.transform = `scale(${1 + pulse*0.05})`;
+  requestAnimationFrame(animateBeat);
+}
 </script>
-
 </body>
 </html>
