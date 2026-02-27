@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>BGMI Cinematic Overlay</title>
+<title>BGMI Grand Final Overlay</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 :root{
@@ -14,145 +14,73 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,system-ui;}
 html,body{width:100%;height:100%;overflow:hidden;background:#000;}
 
-/* Video background (optional, can comment out) */
-.bg-video{
-  position:fixed; inset:0; width:100%; height:100%;
-  object-fit:cover; z-index:-2;
-}
-
 /* Canvas overlay */
-.canvas{
-  position:fixed; inset:0; pointer-events:none;
-}
+.canvas{position:fixed; inset:0; pointer-events:none;}
 
 /* Grid overlay */
-.grid{
-  position:absolute; inset:0;
-  background:
-    linear-gradient(rgba(255,59,59,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,59,59,.05) 1px, transparent 1px);
+.grid{position:absolute; inset:0;
+  background: linear-gradient(rgba(255,59,59,.05) 1px, transparent 1px),
+             linear-gradient(90deg, rgba(255,59,59,.05) 1px, transparent 1px);
   background-size:40px 40px;
   pointer-events:none;
   animation: gridMove 25s linear infinite;
 }
-@keyframes gridMove{
-  0%{background-position:0 0;}
-  100%{background-position:200px 200px;}
-}
+@keyframes gridMove{0%{background-position:0 0;}100%{background-position:200px 200px;}}
 
 /* Neon corners */
 .corner{position:absolute;width:28px;height:28px;pointer-events:none;}
-.corner:before,.corner:after{
-  content:"";position:absolute;background:linear-gradient(90deg, transparent, var(--accent), transparent);
-  box-shadow:0 0 10px rgba(255,59,59,.6);
-}
-.tl{top:10px;left:10px;}
-.tr{top:10px;right:10px;transform:scaleX(-1);}
-.bl{bottom:10px;left:10px;transform:scaleY(-1);}
-.br{bottom:10px;right:10px;transform:scale(-1);}
-.corner:before{width:28px;height:2px;top:0;left:0;}
-.corner:after{width:2px;height:28px;top:0;left:0;}
+.corner:before,.corner:after{content:"";position:absolute;background:linear-gradient(90deg, transparent, var(--accent), transparent);box-shadow:0 0 10px rgba(255,59,59,.6);}
+.tl{top:10px;left:10px;} .tr{top:10px;right:10px;transform:scaleX(-1);}
+.bl{bottom:10px;left:10px;} .br{bottom:10px;right:10px;transform:scale(-1);}
+.corner:before{width:28px;height:2px;top:0;left:0;} .corner:after{width:2px;height:28px;top:0;left:0;}
 
 /* Neon border */
-.neon-border{
-  position:absolute; inset:0;
-  border:3px solid var(--gold);
-  pointer-events:none;
-  box-shadow:0 0 15px var(--gold), 0 0 30px var(--gold) inset;
-  animation: borderPulse 2s infinite alternate;
-}
-@keyframes borderPulse{
-  0%{box-shadow:0 0 15px var(--gold), 0 0 30px var(--gold) inset;}
-  100%{box-shadow:0 0 30px var(--gold), 0 0 60px var(--gold) inset;}
-}
+.neon-border{position:absolute; inset:0;border:3px solid var(--gold);pointer-events:none;box-shadow:0 0 15px var(--gold),0 0 30px var(--gold) inset;animation: borderPulse 2s infinite alternate;}
+@keyframes borderPulse{0%{box-shadow:0 0 15px var(--gold),0 0 30px var(--gold) inset;}100%{box-shadow:0 0 30px var(--gold),0 0 60px var(--gold) inset;}}
+
+/* Water-flow */
+.water-flow{position:absolute; top:0; left:0; width:100%; height:100%; background: repeating-linear-gradient(to bottom, rgba(255,0,0,0.05), rgba(255,0,0,0.15) 2px);pointer-events:none; animation: flowDown 5s linear infinite;}
+@keyframes flowDown{0%{background-position:0 -200px;}100%{background-position:0 200px;}}
+
+/* Lightning streaks */
+.lightning{position:absolute; top:0; width:2px; height:100%; background: linear-gradient(to bottom, #ff3b3b, transparent);opacity:0.3; animation: lightningMove linear infinite;}
+@keyframes lightningMove{0%{transform: translateY(-100%);}100%{transform: translateY(100%);}}
 
 /* Marquee messages */
-.marquee-wrap{
-  position:absolute; bottom:100px; left:10px; right:10px;
-  overflow:hidden; padding:10px 0;
-  border-radius:14px;
-  border:1px solid rgba(255,215,0,0.7);
-  background: linear-gradient(90deg, #FFD700, #FFC200, #FFD700, #FFE066);
-  background-size:400% 100%;
-  animation: goldShine 6s linear infinite;
-}
-@keyframes goldShine{
-  0%{background-position:0% 0%;}
-  50%{background-position:100% 0%;}
-  100%{background-position:0% 0%;}
-}
-.lane{ position:relative; width:100%; height:40px; overflow:hidden; }
-.msg{
-  position:absolute; right:-100%; white-space:nowrap; 
-  font-weight:900; letter-spacing:1px; font-size:28px; color: #fff;
-  text-shadow:0 1px 2px rgba(0,0,0,0.6),0 2px 4px rgba(0,0,0,0.4),0 0 6px rgba(255,255,255,0.2);
-  will-change: transform;
-}
-.msg.accent{
-  color:#fff;
-}
-.msg.accent .icon{
-  display:inline-block;
-  animation: bounce 1s infinite alternate, glow 2s infinite alternate;
-}
-@keyframes bounce{
-  0%{transform: scale(1);}
-  50%{transform: scale(1.3);}
-  100%{transform: scale(1);}
-}
-@keyframes glow{
-  0%{filter: drop-shadow(0 0 2px #fff);}
-  50%{filter: drop-shadow(0 0 8px #fff);}
-  100%{filter: drop-shadow(0 0 2px #fff);}
-}
+.marquee-wrap{position:absolute; top:5px; left:10px; right:10px; overflow:hidden; padding:8px 0; border-radius:14px; border:1px solid rgba(255,215,0,0.7); background: linear-gradient(90deg, #FFD700, #FFC200, #FFD700, #FFE066); background-size:400% 100%; animation: goldShine 6s linear infinite; z-index:5;}
+@keyframes goldShine{0%{background-position:0% 0%}50%{background-position:100% 0%}100%{background-position:0% 0%}}
+.lane{position:relative;width:100%;height:35px;overflow:hidden;}
+.msg{position:absolute;right:-100%;white-space:nowrap;font-weight:900;letter-spacing:1px;font-size:22px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.6),0 2px 4px rgba(0,0,0,0.4),0 0 6px rgba(255,255,255,0.2);will-change: transform;}
+.msg.accent{color:#fff;}
+.msg.accent .icon{display:inline-block;animation: bounce 1s infinite alternate, glow 2s infinite alternate;}
+@keyframes bounce{0%{transform: scale(1);}50%{transform: scale(1.3);}100%{transform: scale(1);}}
+@keyframes glow{0%{filter: drop-shadow(0 0 2px #fff);}50%{filter: drop-shadow(0 0 6px #fff);}100%{filter: drop-shadow(0 0 2px #fff);}}
 @keyframes slideRTL{ from{transform:translateX(0);} to{transform:translateX(-200vw);} }
 
 /* Glitch overlay */
-.glitch{
-  position:absolute; inset:0; pointer-events:none;
-  background:transparent;
-  animation: glitchFlash 6s infinite;
-  mix-blend-mode:overlay;
-}
-@keyframes glitchFlash{
-  0%,92%,100%{opacity:0;}
-  93%{opacity:0.08;}
-  94%{opacity:0;}
-  95%{opacity:0.1;}
-  97%{opacity:0.02;}
-}
+.glitch{position:absolute; inset:0; pointer-events:none; background:transparent; animation: glitchFlash 6s infinite; mix-blend-mode:overlay;}
 
-/* Lightning streaks */
-.lightning{
-  position:absolute; top:0; width:2px; height:100%;
-  background: linear-gradient(to bottom, #ff3b3b, transparent);
-  opacity:0.3;
-  animation: lightningMove linear infinite;
-}
-@keyframes lightningMove{
-  0%{transform: translateY(-100%);}
-  100%{transform: translateY(100%);}
-}
+/* Description text (floating, free) */
+.match-info{position:absolute; top:70px; left:10px; right:10px; color:#fff; font-size:13px; line-height:1.4; z-index:5; text-shadow:0 1px 2px rgba(0,0,0,0.6);}
+.match-info b{color:#FFD700;}
 
-/* Particle / water flow */
-.water-flow{
-  position:absolute; top:0; left:0; width:100%; height:100%;
-  background: repeating-linear-gradient(to bottom, rgba(255,0,0,0.05), rgba(255,0,0,0.15) 2px);
-  pointer-events:none;
-  animation: flowDown 5s linear infinite;
-}
-@keyframes flowDown{
-  0%{background-position:0 -200px;}
-  100%{background-position:0 200px;}
+/* Slot lists (floating, free) */
+.slot-list{position:absolute; width:45%; overflow-y:auto; color:#fff; font-weight:bold; font-size:14px; z-index:5;}
+.slot-list-left{left:10px; top:220px;}
+.slot-list-right{right:10px; top:220px;}
+.slot-item{display:flex; justify-content:space-between; padding:8px 2px; border-bottom:1px solid rgba(255,255,255,0.2);}
+.slot-item span:first-child{flex:1; background: linear-gradient(90deg,#FFD700,#FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:bold;}
+.slot-item span:last-child{margin-left:5px; color:lime;}
+.slot-item.reserved span:last-child{color:#ff3b3b;}
+
+@media(max-width:768px){
+  .marquee-wrap{top:5px;}
+  .match-info{top:60px; font-size:12px;}
+  .slot-list{width:45%; font-size:12px;}
 }
 </style>
 </head>
 <body>
-
-<!-- Optional background video -->
-<!-- <video autoplay muted loop class="bg-video">
-  <source src="bgmi-cyber.mp4" type="video/mp4">
-</video> -->
 
 <div class="canvas">
   <div class="overlay">
@@ -171,43 +99,91 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;}
   </div>
 </div>
 
+<!-- Floating Description -->
+<div class="match-info" id="matchInfo"></div>
+
+<!-- Floating Slot Lists -->
+<div class="slot-list slot-list-left" id="slotListLeft"></div>
+<div class="slot-list slot-list-right" id="slotListRight"></div>
+
 <script>
-// Messages
-const messages = [
-  { text: "WELCOME TO MY YOUTUBE CHANNEL", accent: false },
-  { text: `<span class="icon">👍</span> LIKE • <span class="icon">🔁</span> SHARE • <span class="icon">🔔</span> SUBSCRIBE`, accent: true },
-  { text: "NEW HO? SUBSCRIBE KRO • LIKE SHARE COMMENT KRO", accent: false },
-  { text: "FOR MORE INFORMATION JOIN OUR WHATSAPP GROUP 7970882743", accent: false }
+// Marquee messages
+const messages=[
+  {text:"🔥 GRAND FINAL ALERT 🔥", accent:true},
+  {text:"Be ready at your slot on time", accent:false}
 ];
-const msgEl = document.getElementById("msg");
+const msgEl=document.getElementById("msg");
 let i=0;
 function showNextMessage(){
-  const m = messages[i];
-  msgEl.innerHTML = m.text;
+  const m=messages[i];
+  msgEl.innerHTML=m.text;
   msgEl.classList.toggle("accent", m.accent);
-  msgEl.style.animation = "none";
-  msgEl.style.right = "-100%";
+  msgEl.style.animation="none";
+  msgEl.style.right="-100%";
   void msgEl.offsetWidth;
-  msgEl.style.animation = "slideRTL 18s linear";
-  i = (i+1)%messages.length;
-  setTimeout(showNextMessage, 18000);
+  msgEl.style.animation="slideRTL 18s linear";
+  i=(i+1)%messages.length;
+  setTimeout(showNextMessage,18000);
 }
 showNextMessage();
 
 // Lightning streaks
-const lightningContainer = document.getElementById('lightning-container');
+const lightningContainer=document.getElementById('lightning-container');
 function createLightning(){
-  const line = document.createElement('div');
-  line.className = 'lightning';
-  line.style.left = Math.random()*100 + '%';
-  line.style.animationDuration = 1 + Math.random()*1.5 + 's'; // slow to medium
-  line.style.opacity = 0.2 + Math.random()*0.3;
+  const line=document.createElement('div');
+  line.className='lightning';
+  line.style.left=Math.random()*100+'%';
+  line.style.animationDuration=1+Math.random()*1.5+'s';
+  line.style.opacity=0.2+Math.random()*0.3;
   lightningContainer.appendChild(line);
-  setTimeout(()=>line.remove(), 2500);
+  setTimeout(()=>line.remove(),2500);
 }
-setInterval(createLightning, 200);
+setInterval(createLightning,200);
 
-// Optional: more subtle particles
+// Slot lists
+const slotListLeft=document.getElementById('slotListLeft');
+const slotListRight=document.getElementById('slotListRight');
+const slots=[
+  {slot:"Slot 1", name:"Reserved", status:"Reserved"},
+  {slot:"Slot 2", name:"GODX", status:"✅"},
+  {slot:"Slot 3", name:"HACKER OR WOT", status:"✅"},
+  {slot:"Slot 4", name:"HURRICANE", status:"✅"},
+  {slot:"Slot 5", name:"MH11", status:"✅"},
+  {slot:"Slot 6", name:"BITM BOYS", status:"✅"},
+  {slot:"Slot 7", name:"ZIAESPORTS", status:"✅"},
+  {slot:"Slot 8", name:"RAIXULIVE", status:"✅"},
+  {slot:"Slot 9", name:"PuNGULKHUP ESPORTS", status:"✅"},
+  {slot:"Slot 10", name:"Team Candy", status:"✅"},
+  {slot:"Slot 11", name:"REAPER 7", status:"✅"},
+  {slot:"Slot 12", name:"TEAM_X_JOKER", status:"✅"},
+  {slot:"Slot 13", name:"VENOM", status:"✅"},
+  {slot:"Slot 14", name:"Reserved", status:"Reserved"},
+  {slot:"Slot 15", name:"KING'S乛NANU", status:"✅"},
+  {slot:"Slot 16", name:"ZRN ESPORTS", status:"✅"},
+  {slot:"Slot 17", name:"NNxDevil", status:"✅"},
+  {slot:"Slot 18", name:"TEAM 47", status:"✅"},
+  {slot:"Slot 19", name:"GYRO ESPORTS", status:"✅"}
+];
+function updateSlots(){
+  slotListLeft.innerHTML="";
+  slotListRight.innerHTML="";
+  slots.forEach((s,index)=>{
+    const div=document.createElement('div');
+    div.className='slot-item'+(s.status==="Reserved"?" reserved":"");
+    div.innerHTML=`<span>${s.slot} – ${s.name}</span><span>${s.status}</span>`;
+    if(index<10) slotListLeft.appendChild(div);
+    else slotListRight.appendChild(div);
+  });
+}
+updateSlots();
+
+// Floating Match Rules / Info
+const matchInfo=document.getElementById('matchInfo');
+matchInfo.innerHTML=`<b>Date:</b> 27 February Today Night<br>
+<b>⏰ ID & Password:</b> 8:25 PM<br>
+<b>⏱ Kick Request:</b> 8:30 PM<br>
+<b>🚀 Match Start:</b> 8:35 PM<br>
+🎉 <b>Highlights:</b> Death Screenshot required, POV recording 1–2 min during fights, Live entertainment, Official Grand Final match – don’t miss it!`;
 </script>
 
 </body>
