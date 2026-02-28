@@ -33,9 +33,14 @@ html,body{
   gap:14px;
 }
 
-/* Top Rules Button */
+/* Top Buttons Container */
+.top-buttons{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-bottom:6px;
+}
 .top-btn{
-  align-self:flex-end;
   background:linear-gradient(90deg,var(--gold2),var(--gold));
   color:#000;
   padding:10px 14px;
@@ -45,10 +50,9 @@ html,body{
   font-size:14px;
   cursor:pointer;
   box-shadow:0 6px 12px rgba(255,215,0,.5);
-  margin-bottom:6px;
 }
 
-/* Header / Brand */
+/* Brand */
 .brand{
   text-align:center;
   padding-top:8px;
@@ -111,7 +115,7 @@ html,body{
 .modal-bg{
   position:fixed;
   inset:0;
-  background:#121212; /* Opaque premium background */
+  background:#121212;
   display:none;
   justify-content:center;
   align-items:center;
@@ -171,8 +175,11 @@ html,body{
 
 <div class="app">
 
-  <!-- Rules Button -->
-  <button class="top-btn" onclick="location.href='rules.html'">📜 Rules</button>
+  <!-- Top Buttons -->
+  <div class="top-buttons">
+    <button class="top-btn" onclick="location.href='rules.html'">📜 Rules</button>
+    <button class="top-btn" onclick="location.href='results.html'">🏆 Results</button>
+  </div>
 
   <!-- Brand -->
   <div class="brand">
