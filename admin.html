@@ -1,183 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BGMI Admin Panel – Mobile Only</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>BGMI Admin App</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#05060a;
-  --panel:#0b0e17;
+  --bg1:#0b0f1a;
+  --bg2:#02030a;
+  --card:rgba(255,255,255,.08);
+  --stroke:rgba(255,215,0,.35);
   --gold:#FFD700;
   --gold2:#ff9f00;
-  --muted:#aeb3c2;
-  --radius:16px;
+  --muted:#9aa0b4;
+  --danger:#ff4d4d;
+  --ok:#22f5c3;
+  --radius:20px;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui;}
-html,body{width:100%;height:100%;background:var(--bg);color:#fff;}
-.app{max-width:430px;margin:0 auto;height:100dvh;display:flex;flex-direction:column;}
-.header{
-  position:sticky;top:0;z-index:10;
-  padding:12px 14px;
-  background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);
-  color:#000;font-weight:900;letter-spacing:.5px;
+html,body{width:100%;height:100%;background:
+  radial-gradient(120% 80% at 50% 0%, #151833 0%, #070816 55%, #02030a 100%);
+  color:#fff;overflow:hidden}
+.app{
+  max-width:430px;margin:0 auto;height:100dvh;
+  display:grid;grid-template-rows:auto 1fr auto;
 }
-.screen{flex:1;overflow:auto;padding:12px 12px 90px;}
+
+/* App Bar */
+.appbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;border-bottom:1px solid rgba(255,215,0,.25);
+  background:linear-gradient(180deg, rgba(0,0,0,.6), rgba(0,0,0,.2));
+  backdrop-filter: blur(10px);
+}
+.appbar .title{
+  font-weight:900;letter-spacing:.5px;
+  background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.appbar .chip{
+  font-size:11px;color:#000;font-weight:900;
+  background:linear-gradient(90deg,var(--gold2),var(--gold));
+  border-radius:999px;padding:4px 10px;
+}
+
+/* Views */
+.view{display:none;overflow:auto;padding:12px 12px 80px}
+.view.active{display:block}
+
+/* Cards */
 .card{
   background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
-  border:1px solid rgba(255,215,0,.35);
-  border-radius:var(--radius);
-  padding:12px;margin-bottom:12px;
-  box-shadow:0 12px 26px rgba(0,0,0,.7), inset 0 0 14px rgba(255,215,0,.05);
+  border:1px solid var(--stroke);
+  border-radius:22px;padding:14px;margin-bottom:10px;
+  box-shadow:0 16px 36px rgba(0,0,0,.75), inset 0 0 18px rgba(255,215,0,.06);
+  backdrop-filter: blur(10px);position:relative;overflow:hidden;
 }
-.h{font-weight:900;color:var(--gold);margin-bottom:8px;}
-.input{
-  width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,215,0,.3);
-  background:#06070c;color:#fff;margin-bottom:10px;
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(#FFD700,#ff9f00);box-shadow:0 0 12px rgba(255,215,0,.8);}
+.card h3{font-size:13px;color:#ffeaa7;margin-bottom:6px}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{
+  background:rgba(255,255,255,.06);border:1px solid var(--stroke);
+  border-radius:16px;padding:10px;text-align:center
+}
+.stat .n{font-size:20px;font-weight:900;color:var(--gold)}
+.stat .t{font-size:11px;color:var(--muted)}
+
+/* Inputs */
+input,select{
+  width:100%;padding:12px;border-radius:14px;border:1px solid var(--stroke);
+  background:rgba(255,255,255,.06);color:#fff;margin-top:6px
 }
 .btn{
-  width:100%;border:none;border-radius:14px;
-  padding:12px 14px;font-weight:900;letter-spacing:.6px;
-  color:#000;background:linear-gradient(90deg,var(--gold2),var(--gold),#fff1a8,var(--gold));
-  box-shadow:0 10px 24px rgba(255,215,0,.5), inset 0 1px 0 #fff;
+  width:100%;padding:12px;border-radius:14px;border:none;
+  font-weight:900;letter-spacing:.4px;color:#000;
+  background:linear-gradient(90deg,var(--gold2),var(--gold),#fff1a8,var(--gold));
+  box-shadow:0 10px 22px rgba(255,215,0,.55), inset 0 1px 0 #fff;
+  margin-top:8px;
 }
-.list-item{
-  border-bottom:1px dashed rgba(255,215,0,.3);
-  padding:8px 0;font-size:13px;
-  display:flex;justify-content:space-between;gap:8px;
+.btn.ghost{background:transparent;color:var(--gold);border:1px dashed rgba(255,215,0,.5);box-shadow:none}
+
+/* List */
+.list{display:grid;gap:8px}
+.player{
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--stroke);
+  border-radius:16px;padding:10px;font-size:12px;
 }
-.small{color:var(--muted);font-size:11px}
-.del{
-  background:#ff3b3b;border:none;color:#fff;
-  padding:4px 8px;border-radius:8px;font-size:11px;
+.row{display:flex;justify-content:space-between;gap:6px}
+.badge{background:radial-gradient(circle at top,#FFD700,#ff9f00);color:#000;font-weight:900;border-radius:999px;padding:2px 8px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+.actions button{padding:8px;border-radius:12px;border:none;font-weight:800}
+.actions .wa{background:#25D366;color:#002}
+.actions .del{background:#ff4d4d;color:#000}
+
+/* Bottom Nav */
+.nav{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:6px;padding:8px 10px;border-top:1px solid rgba(255,215,0,.25);
+  background:linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.6));
+  backdrop-filter: blur(10px);
 }
-.hidden{display:none}
-.footer{
-  position:sticky;bottom:0;padding:10px 12px;background:#06070c;
+.nav .item{
+  text-align:center;font-size:11px;color:var(--muted);
+  padding:8px 0;border-radius:12px
+}
+.nav .item.active{
+  color:#000;background:linear-gradient(90deg,var(--gold2),var(--gold));
+  box-shadow:0 10px 20px rgba(255,215,0,.5);
+}
+
+/* FAB */
+.fab{
+  position:fixed;right:16px;bottom:72px;
+  width:56px;height:56px;border-radius:50%;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:#000;font-size:28px;font-weight:900;
+  box-shadow:0 18px 36px rgba(255,215,0,.6);
 }
 </style>
 </head>
 <body>
 
 <div class="app">
+  <!-- App Bar -->
+  <div class="appbar">
+    <div class="title">Admin App</div>
+    <div class="chip">LIVE</div>
+  </div>
 
-  <div class="header">ADMIN PANEL • BGMI SLOT</div>
-
-  <!-- LOGIN -->
-  <div class="screen" id="loginScreen">
+  <!-- Views -->
+  <div id="view-home" class="view active">
     <div class="card">
-      <div class="h">🔐 Admin Login</div>
-      <input id="pin" class="input" type="password" placeholder="Enter Admin PIN" />
-      <button class="btn" onclick="login()">Login</button>
-      <div id="loginErr" class="small" style="color:#ff7676;margin-top:6px;"></div>
+      <h3>OVERVIEW</h3>
+      <div class="stats">
+        <div class="stat"><div class="n" id="statUsers">0</div><div class="t">Users</div></div>
+        <div class="stat"><div class="n" id="statSlots">0</div><div class="t">Slots Filled</div></div>
+        <div class="stat"><div class="n" id="statRevenue">₹0</div><div class="t">Revenue</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>RECENT USERS</h3>
+      <div id="recent" class="list"></div>
     </div>
   </div>
 
-  <!-- DASHBOARD -->
-  <div class="screen hidden" id="dashScreen">
-
+  <div id="view-add" class="view">
     <div class="card">
-      <div class="h">➕ Add Player to Slot</div>
-      <input id="slot" class="input" type="number" placeholder="Slot No (1–25)" />
-      <input id="name" class="input" placeholder="Player Name" />
-      <input id="bgmi" class="input" placeholder="BGMI ID" />
-      <input id="phone" class="input" placeholder="Mobile No (10 digits)" />
-      <button class="btn" onclick="addUser()">Add Player</button>
-      <div id="addErr" class="small" style="color:#ff7676;margin-top:6px;"></div>
+      <h3>ADD USER</h3>
+      <input id="name" placeholder="Player Name">
+      <input id="bgmi" placeholder="BGMI ID">
+      <input id="phone" placeholder="Mobile (91XXXXXXXXXX)">
+      <input id="txn" placeholder="Txn ID (unique)">
+      <select id="group">
+        <option>Group A • 2:00 PM</option>
+        <option>Group B • 8:40 PM</option>
+      </select>
+      <input id="slot" placeholder="Slot No (1-25)">
+      <input id="room" placeholder="Room ID">
+      <input id="pass" placeholder="Room Password">
+      <button class="btn" onclick="addUser()">Save User</button>
     </div>
-
-    <div class="card">
-      <div class="h">📋 Current Slot List</div>
-      <div id="list"></div>
-    </div>
-
   </div>
 
-  <div class="footer hidden" id="footer">
-    <button class="btn" onclick="logout()">Logout</button>
+  <div id="view-users" class="view">
+    <div class="card">
+      <h3>SEARCH</h3>
+      <input id="search" placeholder="Search name / BGMI ID" oninput="render()">
+      <button class="btn ghost" onclick="exportCSV()">Export CSV</button>
+    </div>
+    <div class="card">
+      <h3>ALL USERS</h3>
+      <div id="list" class="list"></div>
+    </div>
   </div>
 
+  <div id="view-settings" class="view">
+    <div class="card">
+      <h3>SETTINGS</h3>
+      <button class="btn ghost" onclick="clearAll()">Clear All Data</button>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="nav">
+    <div class="item active" onclick="navTo('home',this)">🏠 Home</div>
+    <div class="item" onclick="navTo('add',this)">➕ Add</div>
+    <div class="item" onclick="navTo('users',this)">👥 Users</div>
+    <div class="item" onclick="navTo('settings',this)">⚙️ Settings</div>
+  </div>
 </div>
 
-<script>
-const ADMIN_PIN = "7372874327";
-let users = JSON.parse(localStorage.getItem("bgmi_users") || "[]");
+<!-- FAB -->
+<div class="fab" onclick="navTo('add', document.querySelectorAll('.nav .item')[1])">+</div>
 
-function login(){
-  const pin = document.getElementById("pin").value.trim();
-  if(pin !== ADMIN_PIN){
-    document.getElementById("loginErr").innerText = "Wrong PIN!";
-    return;
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
+import { getDatabase, ref, set, get, remove, child } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+  authDomain: "incoinpaysliveearning.firebaseapp.com",
+  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+  projectId: "incoinpaysliveearning",
+  storageBucket: "incoinpaysliveearning.firebasestorage.app",
+  messagingSenderId: "971873814750",
+  appId: "1:971873814750:web:7418c7da119e4725ed9a4f",
+  measurementId: "G-5QXM87ZRH2"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let users = JSON.parse(localStorage.getItem("users")||"[]");
+
+// Load Firebase Users
+async function loadFirebase(){
+  const dbRef = ref(db);
+  const snapshot = await get(child(dbRef, `users`));
+  if(snapshot.exists()){
+    users = Object.values(snapshot.val());
+    localStorage.setItem("users", JSON.stringify(users));
   }
-  document.getElementById("loginScreen").classList.add("hidden");
-  document.getElementById("dashScreen").classList.remove("hidden");
-  document.getElementById("footer").classList.remove("hidden");
+  render();
+}
+loadFirebase();
+
+function navTo(name,el){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  document.querySelectorAll('.nav .item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
   render();
 }
 
-function logout(){
-  location.reload();
-}
-
-function maskPhone(p){
-  return p.slice(0,4) + "XX XX" + p.slice(-2);
-}
-
-function addUser(){
-  const slot = document.getElementById("slot").value.trim();
+async function addUser(){
   const name = document.getElementById("name").value.trim();
   const bgmi = document.getElementById("bgmi").value.trim();
   const phone = document.getElementById("phone").value.trim();
+  const txn = document.getElementById("txn").value.trim();
+  const group = document.getElementById("group").value;
+  const slot = document.getElementById("slot").value.trim();
+  const room = document.getElementById("room").value.trim();
+  const pass = document.getElementById("pass").value.trim();
+  if(!name||!bgmi||!phone||!txn||!group||!slot){ alert("Fill all required"); return; }
+  if(users.some(u=>u.txn===txn)){ alert("Duplicate Txn ID!"); return; }
 
-  if(!slot || !name || !bgmi || phone.length !== 10){
-    document.getElementById("addErr").innerText = "Fill all fields correctly!";
-    return;
-  }
-  if(users.find(u => u.slot == slot)){
-    document.getElementById("addErr").innerText = "This slot is already filled!";
-    return;
-  }
+  const user = {id:Date.now(),name,bgmi,phone,txn,group,slot,room,pass};
+  users.push(user);
+  localStorage.setItem("users", JSON.stringify(users));
 
-  users.push({slot,name,bgmi,phone});
-  users.sort((a,b)=>a.slot-b.slot);
-  localStorage.setItem("bgmi_users", JSON.stringify(users));
-  document.getElementById("addErr").innerText = "Added successfully!";
-  render();
+  // Save to Firebase
+  await set(ref(db, 'users/' + user.id), user);
 
-  document.getElementById("slot").value="";
-  document.getElementById("name").value="";
-  document.getElementById("bgmi").value="";
-  document.getElementById("phone").value="";
-}
-
-function del(i){
-  users.splice(i,1);
-  localStorage.setItem("bgmi_users", JSON.stringify(users));
-  render();
+  document.querySelectorAll('#view-add input').forEach(i=>i.value="");
+  navTo('home', document.querySelectorAll('.nav .item')[0]);
 }
 
 function render(){
-  const list = document.getElementById("list");
-  list.innerHTML="";
-  if(!users.length){
-    list.innerHTML = `<div class="small">No players added yet.</div>`;
-    return;
-  }
-  users.forEach((u,i)=>{
-    const div = document.createElement("div");
-    div.className="list-item";
-    div.innerHTML = `
-      <div>
-        <b style="color:var(--gold)">Slot ${u.slot}</b> • ${u.name}<br/>
-        <span class="small">BGMI: ${u.bgmi} • Mob: ${maskPhone(u.phone)}</span>
-      </div>
-      <button class="del" onclick="del(${i})">X</button>
-    `;
-    list.appendChild(div);
-  });
-}
-</script>
+  document.getElementById("statUsers").textContent = users.length;
+  document.getElementById("statSlots").textContent = users.length;
+  document.getElementById("statRevenue").textContent = "₹" + (users.length*20);
 
+  const recent = document.getElementById("recent");
+  const list = document.getElementById("list");
+  recent.innerHTML=""; list.innerHTML="";
+  const q = (document.getElementById("search")?.value||"").toLowerCase();
+
+  users.slice(-5).reverse().forEach(u=>{ recent.appendChild(card(u)); });
+  users.filter(u=>(u.name+u.bgmi).toLowerCase().includes(q)).forEach(u=>{ list.appendChild(card(u,true)); });
+}
+
+function card(u,full){
+  const d=document.createElement("div");
+  d.className="player";
+  d.innerHTML=`
+    <div class="row"><b>${u.name}</b><span class="badge">#${u.slot}</span></div>
+    <div class="row"><span>BGMI</span><span>${u.bgmi}</span></div>
+    <div class="row"><span>Group</span><span>${u.group}</span></div>
+    ${full?`<div class="actions">
+      <button class="wa" onclick="wa('${u.phone}','${u.name}','${u.group}','${u.room}','${u.pass}')">WA</button>
+      <button class="del" onclick="delUser(${u.id})">DEL</button>
+    </div>`:""}
+  `;
+  return d;
+}
+
+function wa(phone,name,group,room,pass){
+  const t = encodeURIComponent(`Hi ${name}! 🎯\n${group}\nRoom ID: ${room||'TBA'}\nPass: ${pass||'TBA'}`);
+  window.open(`https://wa.me/${phone}?text=${t}`,"_blank");
+}
+
+async function delUser(id){
+  users = users.filter(u=>u.id!==id);
+  localStorage.setItem("users", JSON.stringify(users));
+  await remove(ref(db, 'users/' + id));
+  render();
+}
+
+async function clearAll(){
+  if(confirm("Clear all data?")){
+    users=[];
+    localStorage.setItem("users","[]");
+    const dbRef = ref(db, 'users');
+    await remove(dbRef);
+    render();
+  }
+}
+
+function exportCSV(){
+  const rows=[["Name","BGMI","Phone","Txn","Group","Slot","Room","Pass"]];
+  users.forEach(u=>rows.push([u.name,u.bgmi,u.phone,u.txn,u.group,u.slot,u.room,u.pass]));
+  const csv = rows.map(r=>r.join(",")).join("\n");
+  const blob=new Blob([csv],{type:"text/csv"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);a.download="bgmi_users.csv";a.click();
+}
+
+render();
+</script>
 </body>
 </html>
