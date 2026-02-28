@@ -1,201 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>BGMI Tournament Rules</title>
+<title>BGMI Tournament • Leaderboard</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg:#0A0A0C;
-  --card-bg:#0f172a;
+  --bg:#0b0f1a;
+  --card:#1b1b2a;
   --gold:#FFD700;
   --gold2:#ff9f00;
   --muted:#9aa0b4;
-  --radius:16px;
+  --radius:18px;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui;}
 html,body{
   width:100%;height:100%;
-  background:radial-gradient(120% 80% at 50% 0%, #121421 0%, #050508 60%, #020204 100%);
+  background:#0b0f1a;
   color:#fff;
   overflow-x:hidden;
 }
-.container{
+.app{
   max-width:430px;
-  margin:20px auto;
-  background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
-  border:1px solid rgba(255,215,0,.35);
-  border-radius:22px;
-  padding:20px;
-  box-shadow:0 16px 36px rgba(0,0,0,.75), inset 0 0 18px rgba(255,215,0,.06);
-  overflow:hidden;
+  margin:0 auto;
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
 }
-h1{
+
+/* Header */
+.header{
   text-align:center;
-  margin-bottom:20px;
+  padding:6px 0;
+}
+.header h1{
+  font-size:18px;
   font-weight:900;
-  font-size:20px;
+  letter-spacing:.6px;
   background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);
   -webkit-background-clip:text;
   color:transparent;
 }
-h2{
-  color:#38bdf8;
-  margin-top:20px;
-  font-size:16px;
+
+/* Card */
+.card{
+  background:var(--card);
+  border:1px solid rgba(255,215,0,.35);
+  border-radius:22px;
+  padding:14px;
+  box-shadow:0 16px 36px rgba(0,0,0,.75), inset 0 0 18px rgba(255,215,0,.06);
+  overflow-x:auto;
 }
-p, li{
-  color:#e5e7eb;
-  line-height:1.6;
-  font-size:14px;
+.card::-webkit-scrollbar{
+  display:none;
 }
-ul{
-  padding-left:20px;
-}
+
+/* Table */
 table{
   width:100%;
   border-collapse:collapse;
   margin-top:10px;
+  table-layout: fixed;
 }
 th, td{
-  border:1px solid #334155;
-  padding:8px;
+  padding:10px 6px;
   text-align:center;
+  border-bottom:1px solid rgba(255,255,255,.1);
   font-size:13px;
+  word-break: break-word;
 }
 th{
-  background:#1e293b;
+  background:linear-gradient(90deg,var(--gold2),var(--gold));
+  color:#000;
+  font-weight:900;
+  border-radius:12px;
+}
+td{
+  font-weight:600;
   color:#fff;
 }
-.notice{
-  background:#1e293b;
-  padding:12px;
-  border-radius:12px;
-  margin-top:20px;
-  border-left:4px solid #ef4444;
-  font-size:13px;
+
+/* Notes */
+.note{
+  font-size:12px;
+  color:var(--muted);
+  text-align:center;
+  margin-top:6px;
+}
+
+/* Responsive */
+@media(max-width:400px){
+  th, td{
+    font-size:12px;
+    padding:8px 4px;
+  }
 }
 </style>
 </head>
-
 <body>
-<div class="container">
-  <h1>📜 BGMI Tournament Rules</h1>
 
-  <h2>1. General Rules</h2>
-  <ul>
-    <li>Tournament <b>Battlegrounds Mobile India (BGMI)</b> par conduct hoga</li>
-    <li>Match <b>custom room</b> me hoga</li>
-    <li>Admin ka decision <b>final</b> hoga</li>
-    <li>Galat details dene par <b>direct disqualification</b></li>
-  </ul>
+<div class="app">
+  <!-- Header -->
+  <div class="header">
+    <h1>Leaderboard</h1>
+  </div>
 
-  <h2>2. Team Rules</h2>
-  <ul>
-    <li>Allowed modes: <b>Solo / Duo / Squad</b></li>
-    <li>Squad me maximum <b>4 players</b></li>
-    <li>Extra/substitute player allowed nahi</li>
-    <li>BGMI ID & player name change allowed nahi</li>
-  </ul>
-
-  <h2>3. Slot & Entry Rules</h2>
-  <ul>
-    <li>Har slot me <b>limited players</b> honge</li>
-    <li>Slot full hone ke baad entry close</li>
-    <li>Entry fee <b>non-refundable</b></li>
-    <li>Payment ke baad hi slot confirm hoga</li>
-  </ul>
-
-  <h2>4. Match Rules</h2>
-  <ul>
-    <li>Room ID & Password <b>match se 10 minutes pehle</b> milega</li>
-    <li>Late join karne par re-match nahi milega</li>
-    <li>Emulator / iPad <b>not allowed</b></li>
-    <li>Hacks / cheats use karne par <b>lifetime ban</b></li>
-  </ul>
-
-  <h2>5. Point System</h2>
-  <table>
-    <tr>
-      <th>Action</th>
-      <th>Points</th>
-    </tr>
-    <tr>
-      <td>Per Kill</td>
-      <td>+1</td>
-    </tr>
-    <tr>
-      <td>Chicken Dinner</td>
-      <td>+10</td>
-    </tr>
-    <tr>
-      <td>2nd Position</td>
-      <td>+6</td>
-    </tr>
-    <tr>
-      <td>3rd Position</td>
-      <td>+5</td>
-    </tr>
-    <tr>
-      <td>4th Position</td>
-      <td>+4</td>
-    </tr>
-    <tr>
-      <td>5th Position</td>
-      <td>+3</td>
-    </tr>
-    <tr>
-      <td>6th Position</td>
-      <td>+2</td>
-    </tr>
-    <tr>
-      <td>7th or 8th Position</td>
-      <td>+1</td>
-    </tr>
-    <tr>
-      <td>9th to 16th Position</td>
-      <td>+0</td>
-    </tr>
-  </table>
-
-  <h2>6. Disqualification Rules</h2>
-  <ul>
-    <li>Hacking / Mod APK</li>
-    <li>Teaming with enemies</li>
-    <li>Abusive or toxic behavior</li>
-    <li>Fake screenshots / fake claims</li>
-  </ul>
-
-  <h2>7. Room Rules</h2>
-  <ul>
-    <li>Spawn island par fight allowed nahi</li>
-    <li>Glitches ka misuse strictly banned</li>
-    <li>Spectator mode allowed nahi</li>
-    <li>Match ke beech exit = disqualification</li>
-  </ul>
-
-  <h2>8. Result & Leaderboard</h2>
-  <ul>
-    <li>Result kills + placement points par based hoga</li>
-    <li>Leaderboard admin ke decision ke baad final hogi</li>
-    <li>Tie hone par higher kills ko preference milegi</li>
-  </ul>
-
-  <h2>9. Prize Distribution</h2>
-  <ul>
-    <li>Prize sirf verified winners ko milega</li>
-    <li>Payment <b>UPI / Bank Transfer</b> se hoga</li>
-    <li>Fake claim par prize cancel kar diya jayega</li>
-  </ul>
-
-  <div class="notice">
-    <b>⚠️ Important Notice:</b><br>
-    Tournament join karte hi aap in sabhi rules se agree karte ho.  
-    Admin kisi bhi time rules update kar sakta hai.
+  <!-- Leaderboard Card -->
+  <div class="card">
+    <h2>Top Teams</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Team Name</th>
+          <th>Kill Points</th>
+          <th>Position Points</th>
+          <th>Total Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Team X Jocker</td>
+          <td>35</td>
+          <td>24</td>
+          <td>59</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>The Big Bull</td>
+          <td>30</td>
+          <td>25</td>
+          <td>55</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Reaper</td>
+          <td>20</td>
+          <td>14</td>
+          <td>34</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Zia Esports</td>
+          <td>22</td>
+          <td>12</td>
+          <td>34</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>King Nanu</td>
+          <td>15</td>
+          <td>10</td>
+          <td>25</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Hurricane</td>
+          <td>10</td>
+          <td>6</td>
+          <td>16</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Team 47</td>
+          <td>7</td>
+          <td>6</td>
+          <td>13</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>Gyro Esports</td>
+          <td>4</td>
+          <td>4</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>ZRN Esports</td>
+          <td>3</td>
+          <td>4</td>
+          <td>7</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>NNX Devil</td>
+          <td>2</td>
+          <td>4</td>
+          <td>6</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note">Total Points = Kill Points + Position Points</div>
   </div>
 </div>
+
 </body>
 </html>
