@@ -209,27 +209,61 @@ html,body{
   </div>
 </div>
 
-<script>
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
+import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-database.js";
+
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+  authDomain: "incoinpaysliveearning.firebaseapp.com",
+  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+  projectId: "incoinpaysliveearning",
+  storageBucket: "incoinpaysliveearning.firebasestorage.app",
+  messagingSenderId: "971873814750",
+  appId: "1:971873814750:web:7418c7da119e4725ed9a4f",
+  measurementId: "G-5QXM87ZRH2"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
 const modalBg = document.getElementById('modalBg');
 function openLogin(){ modalBg.style.display='flex'; }
 function closeLogin(){ modalBg.style.display='none'; }
 modalBg.addEventListener('click', e => { if(e.target===modalBg) closeLogin(); });
-function loginUser(){
+
+async function loginUser(){
   const bgmi = document.getElementById('bgmiIdModal').value.trim();
   const mob = document.getElementById('mobileModal').value.trim();
   if(bgmi === "" || mob === "") { alert("❌ Enter BGMI ID and Mobile Number"); return; }
   if(!/^\d{10}$/.test(mob)) { alert("❌ Mobile must be 10 digits"); return; }
-  alert(`✅ Login successful!\nBGMI ID: ${bgmi}\nMobile: ${mob}`);
-  closeLogin();
-  window.location.href='dashboard.html';
+
+  // Firebase check
+  const userRef = ref(db, 'users/' + mob);
+  const snapshot = await get(userRef);
+  if(snapshot.exists()){
+    const data = snapshot.val();
+    if(data.bgmi === bgmi){
+      alert(`✅ Login successful!\nBGMI ID: ${bgmi}\nMobile: ${mob}`);
+      closeLogin();
+      window.location.href='dashboard.html';
+    } else {
+      alert("❌ BGMI ID does not match with this mobile number");
+    }
+  } else {
+    alert("❌ User not registered yet!");
+  }
 }
 
 // Scrolling announcements logic
 const announcements = [
-  "🎉 Registration Successful!",
+  "🎉 team x jocker Registration Successful!",
   "🏆 Team X Jocker wins last match!",
   "🔥 New Match Starting Soon!",
-  "💰 Top-up Wallet for Bonus Points!",
+  "💰 Top-up Wallet for extra bonus!",
   "🎯 Slots filling fast, hurry!"
 ];
 let annIndex = 0;
