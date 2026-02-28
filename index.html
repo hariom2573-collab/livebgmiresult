@@ -4,9 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>BGMI Tournament • Home</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-
 <style>
 :root{
   --bg:#0A0A0C;
@@ -30,31 +28,29 @@ html,body{
   flex-direction:column;
   justify-content:flex-start;
   padding:16px;
-  gap:10px;
+  gap:12px;
 }
-
 /* Scrolling Announcements */
 .announcement-bar{
   width:100%;
   overflow:hidden;
-  border:1px solid rgba(255,215,0,.35);
-  border-radius:14px;
+  border:2px solid rgba(255,215,0,.7);
+  border-radius:18px;
   background:linear-gradient(90deg,#111,#222);
-  padding:8px;
-  margin-bottom:10px;
+  padding:12px 8px;
+  margin-bottom:14px;
   position:relative;
-  height:24px;
+  height:40px;
 }
 .announcement-text{
   display:inline-block;
   white-space:nowrap;
   position:absolute;
   will-change:transform;
-  font-size:13px;
+  font-size:16px;
   color:#ffd700;
-  font-weight:700;
+  font-weight:800;
 }
-
 /* Brand */
 .brand{
   text-align:center;
@@ -68,13 +64,11 @@ html,body{
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
-  font-size:20px;
 }
 .brand .sub{
   color:var(--muted);
   font-size:12px;
 }
-
 /* Hero card */
 .hero{
   margin-top:6px;
@@ -87,7 +81,6 @@ html,body{
   flex-direction:column;
   gap:10px;
 }
-
 /* Buttons */
 .btn{
   width:100%;
@@ -102,24 +95,28 @@ html,body{
   font-size:16px;
   cursor:pointer;
 }
+.btn.secondary{
+  background:transparent;
+  color:var(--gold);
+  border:1px dashed rgba(255,215,0,.5);
+  box-shadow:none;
+}
 .note{
   color:var(--muted);
   font-size:12px;
   text-align:center;
   margin-top:10px;
 }
-
 /* Modal Background */
 .modal-bg{
   position:fixed;
   inset:0;
-  background:#121212;
+  background:rgba(18,18,18,0.95);
   display:none;
   justify-content:center;
   align-items:center;
   z-index:100;
 }
-
 /* Modal Box */
 .modal{
   background:#1b1b2a;
@@ -134,7 +131,6 @@ html,body{
   gap:12px;
   position:relative;
 }
-
 /* Input fields */
 .input-field{
   width:100%;
@@ -147,7 +143,6 @@ html,body{
   outline:none;
 }
 .input-field::placeholder{color:var(--muted)}
-
 .modal h2{
   text-align:center;
   font-size:18px;
@@ -157,7 +152,6 @@ html,body{
   -webkit-background-clip:text;
   color:transparent;
 }
-
 .close-btn{
   position:absolute;
   top:12px;
@@ -170,34 +164,24 @@ html,body{
 </style>
 </head>
 <body>
-
 <div class="app">
-
   <!-- Scrolling Announcement -->
   <div class="announcement-bar">
     <div class="announcement-text" id="announcementText">Welcome to BGMI Tournament!</div>
   </div>
-
   <!-- Brand -->
   <div class="brand">
     <h1>BGMI TOURNAMENT</h1>
     <div class="sub">Mobile-only Premium Experience</div>
   </div>
-
   <!-- Hero Card -->
   <div class="hero">
-    <button class="btn" onclick="location.href='register.html'">
-      🎯 Register Now
-    </button>
-
-    <button class="btn" onclick="openLogin()">
-      🔐 Login Now
-    </button>
-
+    <button class="btn" onclick="location.href='register.html'">🎯 Register Now</button>
+    <button class="btn" onclick="openLogin()">🔐 Login Now</button>
+    <button class="btn secondary" onclick="location.href='slots.html'">📋 Check Slot List</button>
     <div class="note">Limited slots • Instant confirmation</div>
   </div>
 </div>
-
 <!-- Login Modal -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
@@ -208,86 +192,70 @@ html,body{
     <button class="btn" onclick="loginUser()">Login</button>
   </div>
 </div>
-
-<!-- Firebase -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
-import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-database.js";
-
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
-  authDomain: "incoinpaysliveearning.firebaseapp.com",
-  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
-  projectId: "incoinpaysliveearning",
-  storageBucket: "incoinpaysliveearning.firebasestorage.app",
-  messagingSenderId: "971873814750",
-  appId: "1:971873814750:web:7418c7da119e4725ed9a4f",
-  measurementId: "G-5QXM87ZRH2"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-const modalBg = document.getElementById('modalBg');
-function openLogin(){ modalBg.style.display='flex'; }
-function closeLogin(){ modalBg.style.display='none'; }
-modalBg.addEventListener('click', e => { if(e.target===modalBg) closeLogin(); });
-
-async function loginUser(){
-  const bgmi = document.getElementById('bgmiIdModal').value.trim();
-  const mob = document.getElementById('mobileModal').value.trim();
-  if(bgmi === "" || mob === "") { alert("❌ Enter BGMI ID and Mobile Number"); return; }
-  if(!/^\d{10}$/.test(mob)) { alert("❌ Mobile must be 10 digits"); return; }
-
-  // Firebase check
-  const userRef = ref(db, 'users/' + mob);
-  const snapshot = await get(userRef);
-  if(snapshot.exists()){
-    const data = snapshot.val();
-    if(data.bgmi === bgmi){
-      alert(`✅ Login successful!\nBGMI ID: ${bgmi}\nMobile: ${mob}`);
-      closeLogin();
-      window.location.href='dashboard.html';
-    } else {
-      alert("❌ BGMI ID does not match with this mobile number");
-    }
-  } else {
-    alert("❌ User not registered yet!");
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modalBg = document.getElementById('modalBg');
+  window.openLogin = () => { modalBg.style.display = 'flex'; }
+  window.closeLogin = () => { modalBg.style.display = 'none'; }
+  modalBg.addEventListener('click', e => { if(e.target===modalBg) closeLogin(); });
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+    authDomain: "incoinpaysliveearning.firebaseapp.com",
+    databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+    projectId: "incoinpaysliveearning",
+    storageBucket: "incoinpaysliveearning.appspot.com",
+    messagingSenderId: "971873814750",
+    appId: "1:971873814750:web:7418c7da119e4725ed9a4f",
+    measurementId: "G-5QXM87ZRH2"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+  // Login function
+  window.loginUser = () => {
+    const bgmi = document.getElementById('bgmiIdModal').value.trim();
+    const mob = document.getElementById('mobileModal').value.trim();
+    if(bgmi === "" || mob === "") { alert("❌ Enter BGMI ID and Mobile Number"); return; }
+    if(!/^\d{10}$/.test(mob)) { alert("❌ Mobile must be 10 digits"); return; }
+    db.ref('players').orderByChild('bgmi').equalTo(bgmi).once('value', snapshot => {
+      if(snapshot.exists()){
+        const user = Object.values(snapshot.val())[0];
+        if(user.mobile === mob){
+          alert(`✅ Login successful!\nWelcome ${user.name || bgmi}`);
+          closeLogin();
+          window.location.href='dashboard.html';
+        } else { alert("❌ Mobile number does not match"); }
+      } else { alert("❌ BGMI ID not found"); }
+    }, error => { console.error(error); alert("❌ Database error, try again later"); });
   }
-}
-
-// Scrolling announcements logic
-const announcements = [
-  "🎉 team x jocker Registration Successful!",
-  "🏆 Team X Jocker wins last match!",
-  "🔥 New Match Starting Soon!",
-  "💰 Top-up Wallet for extra bonus!",
-  "🎯 Slots filling fast, hurry!"
-];
-let annIndex = 0;
-const annText = document.getElementById('announcementText');
-let scrollPos = 0;
-
-function showAnnouncement(){
-  annText.textContent = announcements[annIndex];
-  scrollPos = annText.parentElement.offsetWidth;
-  annText.style.transform = `translateX(${scrollPos}px)`;
-  const step = () => {
-    scrollPos -= 1;
+  // Scrolling announcements
+  const announcements = [
+    "🎉 Registration Successful!",
+    "🏆 Team X Jocker wins last match!",
+    "🔥 New Match Starting Soon!",
+    "💰 Top-up Wallet for Bonus Points!",
+    "🎯 Slots filling fast, hurry!"
+  ];
+  let annIndex = 0;
+  const annText = document.getElementById('announcementText');
+  let scrollPos = 0;
+  function showAnnouncement(){
+    annText.textContent = announcements[annIndex];
+    scrollPos = annText.parentElement.offsetWidth;
     annText.style.transform = `translateX(${scrollPos}px)`;
-    if(scrollPos + annText.offsetWidth > 0){
-      requestAnimationFrame(step);
-    } else {
-      annIndex = (annIndex+1) % announcements.length;
-      setTimeout(showAnnouncement, 500); // next announcement after 0.5s
+    const step = () => {
+      scrollPos -= 1;
+      annText.style.transform = `translateX(${scrollPos}px)`;
+      if(scrollPos + annText.offsetWidth > 0){ requestAnimationFrame(step); }
+      else { annIndex = (annIndex+1) % announcements.length; setTimeout(showAnnouncement, 500); }
     }
+    step();
   }
-  step();
-}
-showAnnouncement();
+  showAnnouncement();
+});
 </script>
-
 </body>
 </html>
