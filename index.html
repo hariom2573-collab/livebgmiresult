@@ -20,7 +20,7 @@ html,body{
   width:100%;height:100%;
   background:radial-gradient(120% 80% at 50% 0%, #121421 0%, #050508 60%, #020204 100%);
   color:#fff;
-  overflow:hidden; /* no scroll */
+  overflow:hidden;
 }
 .app{
   max-width:430px;
@@ -28,12 +28,27 @@ html,body{
   height:100dvh;
   display:flex;
   flex-direction:column;
-  justify-content:flex-start; /* TOP aligned */
+  justify-content:flex-start;
   padding:16px;
   gap:14px;
 }
 
-/* Header / Brand fixed at top */
+/* Top Rules Button */
+.top-btn{
+  align-self:flex-end;
+  background:linear-gradient(90deg,var(--gold2),var(--gold));
+  color:#000;
+  padding:10px 14px;
+  border:none;
+  border-radius:16px;
+  font-weight:800;
+  font-size:14px;
+  cursor:pointer;
+  box-shadow:0 6px 12px rgba(255,215,0,.5);
+  margin-bottom:6px;
+}
+
+/* Header / Brand */
 .brand{
   text-align:center;
   padding-top:8px;
@@ -54,12 +69,15 @@ html,body{
 
 /* Hero card */
 .hero{
-  margin-top:10px;
+  margin-top:6px;
   background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
   border:1px solid rgba(255,215,0,.35);
   border-radius:22px;
   padding:18px;
   box-shadow:0 16px 36px rgba(0,0,0,.75), inset 0 0 18px rgba(255,215,0,.06);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
 
 /* Buttons */
@@ -73,8 +91,8 @@ html,body{
   color:#000;
   background:linear-gradient(90deg,var(--gold2),var(--gold),#fff1a8,var(--gold));
   box-shadow:0 14px 30px rgba(255,215,0,.55), inset 0 1px 0 #fff;
-  margin-top:10px;
   font-size:16px;
+  cursor:pointer;
 }
 .btn.secondary{
   background:transparent;
@@ -88,19 +106,88 @@ html,body{
   text-align:center;
   margin-top:10px;
 }
+
+/* Modal Background */
+.modal-bg{
+  position:fixed;
+  inset:0;
+  background:#121212; /* Opaque premium background */
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:100;
+}
+
+/* Modal Box */
+.modal{
+  background:#1b1b2a;
+  border:1px solid rgba(255,215,0,.35);
+  border-radius:22px;
+  padding:20px;
+  width:90%;
+  max-width:360px;
+  box-shadow:0 16px 36px rgba(0,0,0,.85), inset 0 0 18px rgba(255,215,0,.06);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  position:relative;
+}
+
+/* Input fields */
+.input-field{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #0b1220;
+  background:#020617;
+  color:#fff;
+  font-size:14px;
+  outline:none;
+}
+.input-field::placeholder{color:var(--muted)}
+
+.modal h2{
+  text-align:center;
+  font-size:18px;
+  font-weight:900;
+  margin-bottom:6px;
+  background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.close-btn{
+  position:absolute;
+  top:12px;
+  right:12px;
+  font-size:22px;
+  font-weight:900;
+  color:var(--gold);
+  cursor:pointer;
+}
 </style>
 </head>
 <body>
 
 <div class="app">
+
+  <!-- Rules Button -->
+  <button class="top-btn" onclick="location.href='rules.html'">📜 Rules</button>
+
+  <!-- Brand -->
   <div class="brand">
     <h1>BGMI TOURNAMENT</h1>
     <div class="sub">Mobile-only Premium Experience</div>
   </div>
 
+  <!-- Hero Card -->
   <div class="hero">
     <button class="btn" onclick="location.href='register.html'">
       🎯 Register Now
+    </button>
+
+    <button class="btn" onclick="openLogin()">
+      🔐 Login Now
     </button>
 
     <button class="btn secondary" onclick="location.href='slots.html'">
@@ -110,6 +197,51 @@ html,body{
     <div class="note">Limited slots • Instant confirmation</div>
   </div>
 </div>
+
+<!-- Login Modal -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <span class="close-btn" onclick="closeLogin()">×</span>
+    <h2>Login</h2>
+    <input type="text" id="bgmiIdModal" class="input-field" placeholder="Enter BGMI ID">
+    <input type="text" id="mobileModal" class="input-field" placeholder="Enter Mobile Number">
+    <button class="btn" onclick="loginUser()">Login</button>
+  </div>
+</div>
+
+<script>
+const modalBg = document.getElementById('modalBg');
+
+function openLogin(){
+  modalBg.style.display='flex';
+}
+function closeLogin(){
+  modalBg.style.display='none';
+}
+
+// Close modal when clicking outside
+modalBg.addEventListener('click', (e)=>{
+  if(e.target===modalBg) closeLogin();
+});
+
+function loginUser(){
+  const bgmi = document.getElementById('bgmiIdModal').value.trim();
+  const mob = document.getElementById('mobileModal').value.trim();
+
+  if(bgmi === "" || mob === ""){
+    alert("❌ Please enter BGMI ID and Mobile Number");
+    return;
+  }
+  if(!/^\d{10}$/.test(mob)){
+    alert("❌ Mobile number must be 10 digits");
+    return;
+  }
+
+  alert(`✅ Login successful!\nBGMI ID: ${bgmi}\nMobile: ${mob}`);
+  closeLogin();
+  window.location.href='hbord.html';
+}
+</script>
 
 </body>
 </html>
