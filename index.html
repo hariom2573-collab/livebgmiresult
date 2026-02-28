@@ -30,26 +30,29 @@ html,body{
   flex-direction:column;
   justify-content:flex-start;
   padding:16px;
-  gap:14px;
+  gap:10px;
 }
 
-/* Top Buttons Container */
-.top-buttons{
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
-  margin-bottom:6px;
+/* Scrolling Announcements */
+.announcement-bar{
+  width:100%;
+  overflow:hidden;
+  border:1px solid rgba(255,215,0,.35);
+  border-radius:14px;
+  background:linear-gradient(90deg,#111,#222);
+  padding:8px;
+  margin-bottom:10px;
+  position:relative;
+  height:24px;
 }
-.top-btn{
-  background:linear-gradient(90deg,var(--gold2),var(--gold));
-  color:#000;
-  padding:10px 14px;
-  border:none;
-  border-radius:16px;
-  font-weight:800;
-  font-size:14px;
-  cursor:pointer;
-  box-shadow:0 6px 12px rgba(255,215,0,.5);
+.announcement-text{
+  display:inline-block;
+  white-space:nowrap;
+  position:absolute;
+  will-change:transform;
+  font-size:13px;
+  color:#ffd700;
+  font-weight:700;
 }
 
 /* Brand */
@@ -65,6 +68,7 @@ html,body{
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
+  font-size:20px;
 }
 .brand .sub{
   color:var(--muted);
@@ -97,12 +101,6 @@ html,body{
   box-shadow:0 14px 30px rgba(255,215,0,.55), inset 0 1px 0 #fff;
   font-size:16px;
   cursor:pointer;
-}
-.btn.secondary{
-  background:transparent;
-  color:var(--gold);
-  border:1px dashed rgba(255,215,0,.5);
-  box-shadow:none;
 }
 .note{
   color:var(--muted);
@@ -175,10 +173,9 @@ html,body{
 
 <div class="app">
 
-  <!-- Top Buttons -->
-  <div class="top-buttons">
-    <button class="top-btn" onclick="location.href='rules.html'">📜 Rules</button>
-    <button class="top-btn" onclick="location.href='results.html'">🏆 Results</button>
+  <!-- Scrolling Announcement -->
+  <div class="announcement-bar">
+    <div class="announcement-text" id="announcementText">Welcome to BGMI Tournament!</div>
   </div>
 
   <!-- Brand -->
@@ -195,10 +192,6 @@ html,body{
 
     <button class="btn" onclick="openLogin()">
       🔐 Login Now
-    </button>
-
-    <button class="btn secondary" onclick="location.href='slots.html'">
-      📋 Check Slot List
     </button>
 
     <div class="note">Limited slots • Instant confirmation</div>
@@ -218,38 +211,49 @@ html,body{
 
 <script>
 const modalBg = document.getElementById('modalBg');
-
-function openLogin(){
-  modalBg.style.display='flex';
-}
-function closeLogin(){
-  modalBg.style.display='none';
-}
-
-// Close modal when clicking outside
-modalBg.addEventListener('click', (e)=>{
-  if(e.target===modalBg) closeLogin();
-});
-
+function openLogin(){ modalBg.style.display='flex'; }
+function closeLogin(){ modalBg.style.display='none'; }
+modalBg.addEventListener('click', e => { if(e.target===modalBg) closeLogin(); });
 function loginUser(){
   const bgmi = document.getElementById('bgmiIdModal').value.trim();
   const mob = document.getElementById('mobileModal').value.trim();
-
-  if(bgmi === "" || mob === ""){
-    alert("❌ Please enter BGMI ID and Mobile Number");
-    return;
-  }
-  if(!/^\d{10}$/.test(mob)){
-    alert("❌ Mobile number must be 10 digits");
-    return;
-  }
-
+  if(bgmi === "" || mob === "") { alert("❌ Enter BGMI ID and Mobile Number"); return; }
+  if(!/^\d{10}$/.test(mob)) { alert("❌ Mobile must be 10 digits"); return; }
   alert(`✅ Login successful!\nBGMI ID: ${bgmi}\nMobile: ${mob}`);
   closeLogin();
   window.location.href='dashboard.html';
 }
+
+// Scrolling announcements logic
+const announcements = [
+  "🎉 Registration Successful!",
+  "🏆 Team X Jocker wins last match!",
+  "🔥 New Match Starting Soon!",
+  "💰 Top-up Wallet for Bonus Points!",
+  "🎯 Slots filling fast, hurry!"
+];
+let annIndex = 0;
+const annText = document.getElementById('announcementText');
+let scrollPos = 0;
+
+function showAnnouncement(){
+  annText.textContent = announcements[annIndex];
+  scrollPos = annText.parentElement.offsetWidth;
+  annText.style.transform = `translateX(${scrollPos}px)`;
+  const step = () => {
+    scrollPos -= 1;
+    annText.style.transform = `translateX(${scrollPos}px)`;
+    if(scrollPos + annText.offsetWidth > 0){
+      requestAnimationFrame(step);
+    } else {
+      annIndex = (annIndex+1) % announcements.length;
+      setTimeout(showAnnouncement, 500); // next announcement after 0.5s
+    }
+  }
+  step();
+}
+showAnnouncement();
 </script>
 
 </body>
 </html>
-
