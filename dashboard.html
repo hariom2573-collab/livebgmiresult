@@ -50,63 +50,28 @@ html,body{width:100%;height:100%;background:#05060b;color:#fff;overflow:hidden;}
 /* Announcement */
 .notice{font-size:12px;color:#c7d2fe;background:#0f1220;border:1px solid rgba(73,198,255,.35);border-radius:12px;padding:10px}
 
-/* Sidebar */
-.drawer-wrap{position:fixed; inset:0; pointer-events:none;}
-.drawer-wrap.show{pointer-events:auto;}
-.overlay{position:absolute; inset:0; background:rgba(0,0,0,.65); opacity:0; transition:.25s ease;}
-.drawer-wrap.show .overlay{opacity:1}
-.sidebar{position:absolute; top:0; left:0; height:100%; width:78%; max-width:300px;background:#0b0f1a;border-right:2px solid var(--gold);transform:translateX(-100%); transition:.28s ease;padding:16px;display:flex;flex-direction:column;gap:14px;}
-.drawer-wrap.show .sidebar{transform:translateX(0)}
-
-.side-header{display:flex;gap:12px;align-items:center;padding-bottom:10px;border-bottom:1px solid rgba(255,215,0,.35)}
-.side-avatar{width:44px;height:44px;border-radius:12px;background:#0f1220;border:1px solid var(--stroke);display:grid;place-items:center;font-weight:900;color:var(--gold)}
-.side-name{font-weight:900}
-.side-sub{font-size:12px;color:var(--muted)}
-.side-nav a{display:flex;gap:10px;align-items:center;padding:12px;border-radius:12px;text-decoration:none;color:#fff;background:#0f1220;border:1px solid var(--stroke);}
-.side-nav a.active{color:#000;background:linear-gradient(90deg,var(--gold2),var(--gold));}
-.side-footer{margin-top:auto;font-size:12px;color:var(--muted);border-top:1px dashed rgba(255,215,0,.35);padding-top:10px}
-
+/* Firebase Loader */
+.loading{font-size:12px;color:var(--gold);text-align:center;margin-top:6px;}
 </style>
 </head>
 <body>
 
-<!-- Sidebar -->
-<div id="drawer" class="drawer-wrap">
-  <div class="overlay" onclick="toggleMenu(false)"></div>
-  <aside class="sidebar">
-    <div class="side-header">
-      <div class="side-avatar">A</div>
-      <div>
-        <div class="side-name">Aman Gamer</div>
-        <div class="side-sub">BGMI ID • 785412369</div>
-      </div>
-    </div>
-    <nav class="side-nav">
-      <a class="active" href="#">🏠 Home</a>
-      <a href="#">🎯 My Slot</a>
-      <a href="#">🏆 Results</a>
-      <a href="#">👤 Profile</a>
-    </nav>
-    <div class="side-footer">© BGMI Tournaments</div>
-  </aside>
-</div>
-
 <div class="app">
   <div class="header">
-    <div class="menu-btn" onclick="toggleMenu(true)">☰</div>
-    <div class="brand">BGMI HOME</div>
+    <div class="menu-btn">☰</div>
+    <div class="brand">BGMI DASHBOARD</div>
     <div class="bell">🔔</div>
   </div>
 
   <!-- Player Card -->
-  <div class="card">
+  <div class="card" id="playerCard">
     <h2>PLAYER</h2>
     <div class="profile">
-      <div class="avatar">A</div>
+      <div class="avatar" id="playerAvatar">A</div>
       <div>
-        <div style="font-weight:800">Aman Gamer</div>
-        <div class="meta">BGMI ID: 785412369</div>
-        <div class="meta">Mobile: 9876XXXX12</div>
+        <div style="font-weight:800" id="playerName">Aman Gamer</div>
+        <div class="meta" id="playerBGMI">BGMI ID: 785412369</div>
+        <div class="meta" id="playerMobile">Mobile: 9876XXXX12</div>
       </div>
     </div>
   </div>
@@ -124,59 +89,110 @@ html,body{width:100%;height:100%;background:#05060b;color:#fff;overflow:hidden;}
   </div>
 
   <!-- Announcement -->
-  <div class="notice">📢 Room ID & Password will be shared 10 minutes before match start.</div>
+  <div class="notice" id="announcement">📢 Room ID & Password will be shared 10 minutes before match start.</div>
 
   <!-- Upcoming Matches -->
   <div class="card">
     <h2>UPCOMING MATCHES</h2>
     <div class="upcoming">
-      <div class="match">
+      <div class="match" data-match="Solo Group A">
         <div class="title">Solo • Group A</div>
         <div class="time">Today • 2:00 PM</div>
         <div class="fee">Entry ₹20</div>
-        <button class="reg" onclick="registerMatch(this,20)">Register</button>
+        <button class="reg" onclick="registerMatch(this,20,'Solo Group A')">Register</button>
       </div>
-      <div class="match">
+      <div class="match" data-match="Solo Group B">
         <div class="title">Solo • Group B</div>
         <div class="time">Today • 8:40 PM</div>
         <div class="fee">Entry ₹20</div>
-        <button class="reg" onclick="registerMatch(this,20)">Register</button>
+        <button class="reg" onclick="registerMatch(this,20,'Solo Group B')">Register</button>
       </div>
     </div>
   </div>
+  <div class="loading" id="loading">Loading player data...</div>
 </div>
 
-<script>
-let walletBalance = 50; // Initial wallet balance
-const walletEl = document.getElementById('walletBalance');
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
+import { getDatabase, ref, push, set, get, child, update } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-database.js";
 
-function toggleMenu(open){
-  const wrap = document.getElementById('drawer');
-  if(open) wrap.classList.add('show'); else wrap.classList.remove('show');
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+  authDomain: "incoinpaysliveearning.firebaseapp.com",
+  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+  projectId: "incoinpaysliveearning",
+  storageBucket: "incoinpaysliveearning.firebasestorage.app",
+  messagingSenderId: "971873814750",
+  appId: "1:971873814750:web:7418c7da119e4725ed9a4f",
+  measurementId: "G-5QXM87ZRH2"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// Mock logged in player info (replace with actual login)
+const currentPlayer = {
+  name: "Aman Gamer",
+  bgmi: "785412369",
+  mobile: "9876543210",
+  wallet: 50
+};
+
+// Load player info
+function loadPlayerData(){
+  document.getElementById("playerName").textContent = currentPlayer.name;
+  document.getElementById("playerBGMI").textContent = "BGMI ID: " + currentPlayer.bgmi;
+  document.getElementById("playerMobile").textContent = "Mobile: " + currentPlayer.mobile;
+  document.getElementById("walletBalance").textContent = "₹" + currentPlayer.wallet;
+  document.getElementById("playerAvatar").textContent = currentPlayer.name[0].toUpperCase();
+  document.getElementById("loading").style.display="none";
 }
+loadPlayerData();
 
+// Add money to wallet
 function addMoney(){
   let amt = prompt("Enter amount to add:", "20");
   amt = parseInt(amt);
   if(!isNaN(amt) && amt>0){
-    walletBalance += amt;
-    walletEl.textContent = `₹${walletBalance}`;
-    alert(`₹${amt} added to wallet`);
+    currentPlayer.wallet += amt;
+    document.getElementById("walletBalance").textContent = "₹" + currentPlayer.wallet;
+
+    // Save to Firebase
+    const playerRef = ref(db, 'players/' + currentPlayer.mobile);
+    update(playerRef, {wallet: currentPlayer.wallet}).then(()=>{
+      alert(`₹${amt} added to wallet`);
+    }).catch(err=>alert("Firebase error: "+err));
   }else{
     alert("Invalid amount");
   }
 }
 
-function registerMatch(btn, fee){
-  if(walletBalance < fee){
-    alert("❌ Insufficient balance! Minimum ₹20 required");
+// Register match
+function registerMatch(btn, fee, matchName){
+  if(currentPlayer.wallet < fee){
+    alert("❌ Insufficient balance!");
     return;
   }
-  walletBalance -= fee;
-  walletEl.textContent = `₹${walletBalance}`;
+  currentPlayer.wallet -= fee;
+  document.getElementById("walletBalance").textContent = "₹" + currentPlayer.wallet;
+
   btn.textContent = "Registered ✅";
   btn.disabled = true;
-  alert(`🎉 Registration successful! ₹${fee} deducted`);
+
+  // Save registration in Firebase
+  const matchRef = ref(db, 'registrations/' + matchName.replace(/\s/g,'_') + '/' + currentPlayer.mobile);
+  set(matchRef, {
+    name: currentPlayer.name,
+    bgmi: currentPlayer.bgmi,
+    mobile: currentPlayer.mobile,
+    fee: fee,
+    timestamp: Date.now()
+  }).then(()=>console.log("Registered in Firebase"))
+  .catch(err=>alert("Firebase error: "+err));
+  alert(`🎉 Registration successful for ${matchName}! ₹${fee} deducted`);
 }
 </script>
 
