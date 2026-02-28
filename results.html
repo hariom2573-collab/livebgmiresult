@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>BGMI Tournament • Leaderboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0b0f1a;
+  --card:#1b1b2a;
+  --gold:#FFD700;
+  --gold2:#ff9f00;
+  --muted:#9aa0b4;
+  --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui;}
+html,body{
+  width:100%;height:100%;
+  background:#0b0f1a;
+  color:#fff;
+  overflow-x:hidden;
+}
+.app{
+  max-width:430px;
+  margin:0 auto;
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+/* Header */
+.header{
+  text-align:center;
+  padding:6px 0;
+}
+.header h1{
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:.6px;
+  background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+/* Card */
+.card{
+  background:var(--card);
+  border:1px solid rgba(255,215,0,.35);
+  border-radius:22px;
+  padding:14px;
+  box-shadow:0 16px 36px rgba(0,0,0,.75), inset 0 0 18px rgba(255,215,0,.06);
+  overflow-x:auto;
+}
+.card::-webkit-scrollbar{
+  display:none;
+}
+
+/* Table */
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+  table-layout: fixed;
+}
+th, td{
+  padding:10px 6px;
+  text-align:center;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  font-size:13px;
+  word-break: break-word;
+}
+th{
+  background:linear-gradient(90deg,var(--gold2),var(--gold));
+  color:#000;
+  font-weight:900;
+  border-radius:12px;
+}
+td{
+  font-weight:600;
+  color:#fff;
+}
+
+/* Notes */
+.note{
+  font-size:12px;
+  color:var(--muted);
+  text-align:center;
+  margin-top:6px;
+}
+
+/* Responsive */
+@media(max-width:400px){
+  th, td{
+    font-size:12px;
+    padding:8px 4px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Header -->
+  <div class="header">
+    <h1>Leaderboard</h1>
+  </div>
+
+  <!-- Leaderboard Card -->
+  <div class="card">
+    <h2>Top Teams</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Team Name</th>
+          <th>Kill Points</th>
+          <th>Position Points</th>
+          <th>Total Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Team X Jocker</td>
+          <td>35</td>
+          <td>24</td>
+          <td>59</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>The Big Bull</td>
+          <td>30</td>
+          <td>25</td>
+          <td>55</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Reaper</td>
+          <td>20</td>
+          <td>14</td>
+          <td>34</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Zia Esports</td>
+          <td>22</td>
+          <td>12</td>
+          <td>34</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>King Nanu</td>
+          <td>15</td>
+          <td>10</td>
+          <td>25</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Hurricane</td>
+          <td>10</td>
+          <td>6</td>
+          <td>16</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Team 47</td>
+          <td>7</td>
+          <td>6</td>
+          <td>13</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>Gyro Esports</td>
+          <td>4</td>
+          <td>4</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>ZRN Esports</td>
+          <td>3</td>
+          <td>4</td>
+          <td>7</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>NNX Devil</td>
+          <td>2</td>
+          <td>4</td>
+          <td>6</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note">Total Points = Kill Points + Position Points</div>
+  </div>
+</div>
+
+</body>
+</html>
