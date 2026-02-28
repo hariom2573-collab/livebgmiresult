@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BGMI Slot List – Ultra Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+<style>
+/* ========== ROOT THEME ========== */
+:root{
+  --bg:#05060a;
+  --panel:#0b0e17;
+  --gold:#FFD700;
+  --gold2:#ff9f00;
+  --neon:#00ffe1;
+  --muted:#aeb3c2;
+  --radius:18px;
+}
+
+/* ========== RESET ========== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui;}
+html,body{width:100%;height:100%;background:var(--bg);color:#fff;overflow:hidden;}
+
+/* ========== APP WRAPPER (MOBILE ONLY) ========== */
+.app{
+  max-width:430px;
+  margin:0 auto;
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
+  background:
+    radial-gradient(120% 40% at 50% -10%, #12162b, transparent 60%),
+    radial-gradient(80% 30% at 20% 10%, #0f1222, transparent 60%),
+    var(--bg);
+  border-left:1px solid rgba(255,215,0,.15);
+  border-right:1px solid rgba(255,215,0,.15);
+  position:relative;
+}
+
+/* ========== HEADER ========== */
+.header{
+  position:sticky;top:0;z-index:20;
+  padding:12px 14px 10px;
+  background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);
+  border-bottom:2px solid rgba(255,215,0,.9);
+  box-shadow:0 6px 24px rgba(0,0,0,.6);
+}
+.brand{
+  display:flex;align-items:center;gap:10px;
+  color:#000;font-weight:900;font-size:15px;letter-spacing:.5px;
+}
+.logo{
+  width:34px;height:34px;border-radius:10px;
+  background:radial-gradient(circle at top,#fff, #FFD700 60%, #8a6b00);
+  box-shadow:0 0 14px rgba(255,215,0,.9), inset 0 2px 0 #fff;
+}
+.marquee{
+  overflow:hidden;white-space:nowrap;margin-top:6px;font-weight:800;color:#000;
+}
+.marquee span{
+  display:inline-block;padding-left:100%;
+  animation: slide 12s linear infinite;
+}
+@keyframes slide{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-200%)}
+}
+
+/* ========== ROOM INFO + PROGRESS ========== */
+.room{
+  padding:10px 12px 6px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.room .title{
+  font-weight:900;color:var(--gold);letter-spacing:.4px;font-size:13px;
+}
+.progress{
+  --size:42px;
+  width:var(--size);height:var(--size);
+  border-radius:50%;
+  background:
+    conic-gradient(var(--gold) calc(var(--p)*1%), rgba(255,255,255,.12) 0);
+  display:grid;place-items:center;
+  box-shadow:0 0 14px rgba(255,215,0,.6);
+}
+.progress span{
+  width:30px;height:30px;border-radius:50%;
+  background:#06070c;display:grid;place-items:center;
+  font-size:10px;font-weight:900;color:var(--gold);
+}
+
+/* ========== SCROLL AREA ========== */
+.list{
+  flex:1;overflow-y:auto;padding:10px 12px 86px;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* ========== PLAYER CARD ========== */
+.card{
+  position:relative;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
+  border:1px solid rgba(255,215,0,.35);
+  border-radius:var(--radius);
+  padding:14px 14px 12px 12px;
+  margin-bottom:14px;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 14px 34px rgba(0,0,0,.7),
+    inset 0 0 18px rgba(255,215,0,.06);
+  overflow:hidden;
+  transform:translateY(10px) scale(.98);
+  opacity:0;
+  animation: enter .5s ease forwards;
+}
+.card:nth-child(odd){animation-delay:.05s}
+.card:nth-child(even){animation-delay:.1s}
+@keyframes enter{
+  to{transform:none;opacity:1}
+}
+
+/* Neon strip */
+.card::before{
+  content:"";
+  position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:linear-gradient(var(--gold),var(--gold2));
+  box-shadow:0 0 12px rgba(255,215,0,.9);
+}
+
+/* VIP */
+.card.vip{
+  border-color:var(--gold);
+  box-shadow:
+    0 0 0 1px rgba(255,215,0,.4),
+    0 18px 40px rgba(255,215,0,.25),
+    inset 0 0 22px rgba(255,215,0,.1);
+}
+.crown{
+  position:absolute;top:-10px;right:-10px;
+  background:radial-gradient(circle at top,#fff,#FFD700 60%,#8a6b00);
+  color:#000;font-weight:900;font-size:12px;
+  padding:8px 10px;border-radius:999px;
+  box-shadow:0 0 16px rgba(255,215,0,.9);
+}
+
+/* Card content */
+.row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;font-size:13px}
+.label{color:var(--muted)}
+.value{color:var(--gold);font-weight:800}
+
+/* Slot badge */
+.slot{
+  background:radial-gradient(circle at top,var(--gold),var(--gold2));
+  color:#000;font-weight:900;border-radius:999px;
+  padding:6px 12px;min-width:36px;text-align:center;
+  box-shadow:0 6px 14px rgba(0,0,0,.7), inset 0 1px 0 #fff;
+  position:relative;overflow:hidden;
+}
+.slot::after{
+  content:"";position:absolute;inset:-40% auto auto -60%;
+  width:40px;height:200%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);
+  transform:rotate(25deg);
+  animation: shine 2.5s linear infinite;
+}
+@keyframes shine{
+  0%{transform:translateX(-120%) rotate(25deg)}
+  100%{transform:translateX(220%) rotate(25deg)}
+}
+
+/* Ripple tap */
+.card:active{transform:scale(.985)}
+
+/* ========== FOOTER CTA ========== */
+.footer{
+  position:sticky;bottom:0;z-index:20;
+  background:linear-gradient(180deg, transparent, #06070c 30%, #06070c);
+  padding:10px 12px 12px;
+}
+.cta{
+  width:100%;border:none;border-radius:14px;
+  padding:14px 16px;font-weight:900;letter-spacing:.6px;
+  color:#000;background:linear-gradient(90deg,var(--gold2),var(--gold),#fff1a8,var(--gold));
+  box-shadow:0 10px 26px rgba(255,215,0,.5), inset 0 1px 0 #fff;
+}
+.cta:active{transform:scale(.98)}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="header">
+    <div class="brand">
+      <div class="logo"></div>
+      BGMI TOURNAMENT • SLOT LIST
+    </div>
+    <div class="marquee">
+      <span>🔥 ROOM ID & PASSWORD WHATSAPP PE MILEGA • LIMITED SLOTS • FAST JOIN 🔥</span>
+    </div>
+  </div>
+
+  <div class="room">
+    <div class="title">ROOM 1 • 6:00 PM</div>
+    <div class="progress" id="progress" style="--p:72">
+      <span id="ptext">18/25</span>
+    </div>
+  </div>
+
+  <div class="list" id="list"></div>
+
+  <div class="footer">
+    <button class="cta">JOIN WHATSAPP GROUP</button>
+  </div>
+</div>
+
+<script>
+const demo = [
+ {name:"Aman",bgmi:"5566778899",phone:"9876543210"},
+ {name:"Rohit",bgmi:"9988776655",phone:"9123456789"},
+ {name:"Sahil",bgmi:"7788996655",phone:"9812345678"},
+ {name:"Neeraj",bgmi:"6677889900",phone:"9012345678"},
+ {name:"Pawan",bgmi:"4455667788",phone:"9098765432"},
+ {name:"Vicky",bgmi:"2233445566",phone:"9345678901"},
+ {name:"Rakesh",bgmi:"1122334455",phone:"9871203456"},
+ {name:"Arjun",bgmi:"3344556677",phone:"9988776655"},
+ {name:"Deepak",bgmi:"8899001122",phone:"9123098765"},
+ {name:"Kunal",bgmi:"7766554433",phone:"9870012345"},
+ {name:"Sumit",bgmi:"9900112233",phone:"9011223344"},
+ {name:"Ankit",bgmi:"5566001122",phone:"9811122233"},
+ {name:"Ravi",bgmi:"4433221100",phone:"9345612345"},
+ {name:"Mohit",bgmi:"6677008899",phone:"9090123456"},
+ {name:"Suraj",bgmi:"2211334455",phone:"9876540099"}
+];
+
+const list = document.getElementById("list");
+
+function maskPhone(p){
+  return p.slice(0,4) + "XX XX" + p.slice(-2);
+}
+
+function render(){
+  list.innerHTML="";
+  demo.forEach((u,i)=>{
+    const c=document.createElement("div");
+    c.className="card"+(i<3?" vip":"");
+    c.innerHTML=`
+      ${i<3?'<div class="crown">👑 VIP</div>':""}
+      <div class="row"><span class="label">Slot No</span><span class="slot">${i+1}</span></div>
+      <div class="row"><span class="label">Player</span><span class="value">${u.name}</span></div>
+      <div class="row"><span class="label">BGMI ID</span><span class="value">${u.bgmi}</span></div>
+      <div class="row"><span class="label">Mobile</span><span class="value">${maskPhone(u.phone)}</span></div>
+    `;
+    list.appendChild(c);
+  });
+}
+
+render();
+
+// Auto-refresh demo effect (shuffle every 5s)
+setInterval(()=>{
+  demo.sort(()=>Math.random()-0.5);
+  render();
+},5000);
+</script>
+
+</body>
+</html>

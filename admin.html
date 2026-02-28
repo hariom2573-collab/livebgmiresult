@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BGMI Admin Panel – Mobile Only</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060a;
+  --panel:#0b0e17;
+  --gold:#FFD700;
+  --gold2:#ff9f00;
+  --muted:#aeb3c2;
+  --radius:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui;}
+html,body{width:100%;height:100%;background:var(--bg);color:#fff;}
+.app{max-width:430px;margin:0 auto;height:100dvh;display:flex;flex-direction:column;}
+.header{
+  position:sticky;top:0;z-index:10;
+  padding:12px 14px;
+  background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);
+  color:#000;font-weight:900;letter-spacing:.5px;
+}
+.screen{flex:1;overflow:auto;padding:12px 12px 90px;}
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
+  border:1px solid rgba(255,215,0,.35);
+  border-radius:var(--radius);
+  padding:12px;margin-bottom:12px;
+  box-shadow:0 12px 26px rgba(0,0,0,.7), inset 0 0 14px rgba(255,215,0,.05);
+}
+.h{font-weight:900;color:var(--gold);margin-bottom:8px;}
+.input{
+  width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,215,0,.3);
+  background:#06070c;color:#fff;margin-bottom:10px;
+}
+.btn{
+  width:100%;border:none;border-radius:14px;
+  padding:12px 14px;font-weight:900;letter-spacing:.6px;
+  color:#000;background:linear-gradient(90deg,var(--gold2),var(--gold),#fff1a8,var(--gold));
+  box-shadow:0 10px 24px rgba(255,215,0,.5), inset 0 1px 0 #fff;
+}
+.list-item{
+  border-bottom:1px dashed rgba(255,215,0,.3);
+  padding:8px 0;font-size:13px;
+  display:flex;justify-content:space-between;gap:8px;
+}
+.small{color:var(--muted);font-size:11px}
+.del{
+  background:#ff3b3b;border:none;color:#fff;
+  padding:4px 8px;border-radius:8px;font-size:11px;
+}
+.hidden{display:none}
+.footer{
+  position:sticky;bottom:0;padding:10px 12px;background:#06070c;
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div class="header">ADMIN PANEL • BGMI SLOT</div>
+
+  <!-- LOGIN -->
+  <div class="screen" id="loginScreen">
+    <div class="card">
+      <div class="h">🔐 Admin Login</div>
+      <input id="pin" class="input" type="password" placeholder="Enter Admin PIN" />
+      <button class="btn" onclick="login()">Login</button>
+      <div id="loginErr" class="small" style="color:#ff7676;margin-top:6px;"></div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="screen hidden" id="dashScreen">
+
+    <div class="card">
+      <div class="h">➕ Add Player to Slot</div>
+      <input id="slot" class="input" type="number" placeholder="Slot No (1–25)" />
+      <input id="name" class="input" placeholder="Player Name" />
+      <input id="bgmi" class="input" placeholder="BGMI ID" />
+      <input id="phone" class="input" placeholder="Mobile No (10 digits)" />
+      <button class="btn" onclick="addUser()">Add Player</button>
+      <div id="addErr" class="small" style="color:#ff7676;margin-top:6px;"></div>
+    </div>
+
+    <div class="card">
+      <div class="h">📋 Current Slot List</div>
+      <div id="list"></div>
+    </div>
+
+  </div>
+
+  <div class="footer hidden" id="footer">
+    <button class="btn" onclick="logout()">Logout</button>
+  </div>
+
+</div>
+
+<script>
+const ADMIN_PIN = "7372874327";
+let users = JSON.parse(localStorage.getItem("bgmi_users") || "[]");
+
+function login(){
+  const pin = document.getElementById("pin").value.trim();
+  if(pin !== ADMIN_PIN){
+    document.getElementById("loginErr").innerText = "Wrong PIN!";
+    return;
+  }
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("dashScreen").classList.remove("hidden");
+  document.getElementById("footer").classList.remove("hidden");
+  render();
+}
+
+function logout(){
+  location.reload();
+}
+
+function maskPhone(p){
+  return p.slice(0,4) + "XX XX" + p.slice(-2);
+}
+
+function addUser(){
+  const slot = document.getElementById("slot").value.trim();
+  const name = document.getElementById("name").value.trim();
+  const bgmi = document.getElementById("bgmi").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+
+  if(!slot || !name || !bgmi || phone.length !== 10){
+    document.getElementById("addErr").innerText = "Fill all fields correctly!";
+    return;
+  }
+  if(users.find(u => u.slot == slot)){
+    document.getElementById("addErr").innerText = "This slot is already filled!";
+    return;
+  }
+
+  users.push({slot,name,bgmi,phone});
+  users.sort((a,b)=>a.slot-b.slot);
+  localStorage.setItem("bgmi_users", JSON.stringify(users));
+  document.getElementById("addErr").innerText = "Added successfully!";
+  render();
+
+  document.getElementById("slot").value="";
+  document.getElementById("name").value="";
+  document.getElementById("bgmi").value="";
+  document.getElementById("phone").value="";
+}
+
+function del(i){
+  users.splice(i,1);
+  localStorage.setItem("bgmi_users", JSON.stringify(users));
+  render();
+}
+
+function render(){
+  const list = document.getElementById("list");
+  list.innerHTML="";
+  if(!users.length){
+    list.innerHTML = `<div class="small">No players added yet.</div>`;
+    return;
+  }
+  users.forEach((u,i)=>{
+    const div = document.createElement("div");
+    div.className="list-item";
+    div.innerHTML = `
+      <div>
+        <b style="color:var(--gold)">Slot ${u.slot}</b> • ${u.name}<br/>
+        <span class="small">BGMI: ${u.bgmi} • Mob: ${maskPhone(u.phone)}</span>
+      </div>
+      <button class="del" onclick="del(${i})">X</button>
+    `;
+    list.appendChild(div);
+  });
+}
+</script>
+
+</body>
+</html>

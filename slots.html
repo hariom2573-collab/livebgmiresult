@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>BGMI Slot List</title>
+<style>
+:root{ --bg:#0b1220; --card:#0f172a; --neon:#22f5c3; --txt:#e5e7eb; --muted:#94a3b8;}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,Arial}
+.app{max-width:420px;margin:0 auto;min-height:100vh;padding:12px}
+.card{background:linear-gradient(180deg,#0f172a,#020617);border:1px solid #0b2540;border-radius:16px;padding:12px}
+h1{font-size:1.1rem;margin:6px 0 10px}
+.tabs{display:flex;gap:6px;margin-bottom:8px}
+.tab{flex:1;padding:8px;border-radius:999px;border:1px solid #0b2540;background:#020617;color:#e5e7eb}
+.tab.active{background:linear-gradient(135deg,#22f5c3,#2bd2ff);color:#022;font-weight:900;border:none}
+.list{display:grid;gap:6px}
+.item{background:#020617;border:1px solid #0b2540;border-radius:12px;padding:10px}
+.name{font-weight:800}
+.sub{color:var(--muted);font-size:.85rem}
+.badge{display:inline-block;background:#22f5c3;color:#022;border-radius:999px;padding:2px 8px;font-size:.75rem;font-weight:800}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="card">
+    <h1>Registered Players (Slot List)</h1>
+    <div class="tabs">
+      <button class="tab active" id="t1" onclick="showRoom('Room 1')">Room 1</button>
+      <button class="tab" id="t2" onclick="showRoom('Room 2')">Room 2</button>
+    </div>
+    <div class="list" id="list"></div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+  // 🔁 Paste your Firebase config here
+  const firebaseConfig = { apiKey:"PASTE", authDomain:"PASTE", projectId:"PASTE" };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  let currentRoom = "Room 1";
+
+  async function showRoom(room){
+    currentRoom = room;
+    t1.classList.toggle("active", room === "Room 1");
+    t2.classList.toggle("active", room === "Room 2");
+
+    list.innerHTML = "Loading...";
+    const snap = await db.collection("bookings").where("slot","array-contains-any",[`${room} - 6 PM`, `${room} - 7 PM`, room]).get().catch(async()=>{
+      // fallback if your slot string is exact match
+      return await db.collection("bookings").where("slot","==",`${room} - 6 PM`).get();
+    });
+
+    if (snap.empty){
+      list.innerHTML = "<div class='sub'>No registrations yet.</div>";
+      return;
+    }
+
+    let html = "";
+    let i = 1;
+    snap.forEach(doc=>{
+      const d = doc.data();
+      html += `
+        <div class="item">
+          <div class="name">${i++}. ${d.name}</div>
+          <div class="sub">BGMI ID: ${d.bgmiId}</div>
+          <span class="badge">${d.slot}</span>
+        </div>
+      `;
+    });
+    list.innerHTML = html;
+  }
+
+  // Load default
+  showRoom("Room 1");
+</script>
+</body>
+</html>

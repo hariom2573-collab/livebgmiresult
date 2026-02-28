@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>BGMI Tournament • Register</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0A0A0C;
+  --panel:#0b0e17;
+  --gold:#FFD700;
+  --gold2:#ff9f00;
+  --muted:#9aa0b4;
+  --glass:rgba(255,255,255,.06);
+  --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui;}
+html,body{width:100%;height:100%;background:radial-gradient(120% 80% at 50% 0%, #121421 0%, #050508 60%, #020204 100%);color:#fff;overflow:hidden;}
+.app{max-width:430px;margin:0 auto;height:100dvh;display:flex;flex-direction:column;position:relative;}
+
+/* Header */
+.header{
+  position:sticky;top:0;z-index:10;
+  padding:10px 12px;
+  background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);
+  color:#000;font-weight:900;letter-spacing:.6px;
+  box-shadow:0 10px 24px rgba(0,0,0,.6);
+  display:flex;align-items:center;gap:8px;
+}
+.menu-btn{
+  background:#00000022;border:none;border-radius:10px;padding:6px 10px;font-weight:900;
+}
+.header .title{flex:1;text-align:center;font-size:14px}
+.mini-btn{
+  padding:6px 10px;border-radius:999px;border:none;
+  font-weight:900;font-size:11px;color:#000;background:#00000022;
+}
+
+/* Sidebar */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);
+  z-index:50;display:none;
+}
+.sidebar{
+  position:fixed;top:0;left:0;height:100%;width:260px;
+  background:linear-gradient(180deg,#0b0e17,#020204);
+  border-right:1px solid rgba(255,215,0,.35);
+  box-shadow:10px 0 30px rgba(0,0,0,.7);
+  z-index:60;transform:translateX(-100%);
+  transition:.3s ease;
+  padding:14px;
+}
+.sidebar.open{transform:translateX(0);}
+.overlay.show{display:block;}
+.side-title{font-weight:900;color:var(--gold);margin-bottom:10px}
+.side-card{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,215,0,.25);
+  border-radius:14px;padding:10px;margin-bottom:10px;
+}
+.side-card b{color:var(--gold)}
+.side-link{
+  display:block;margin-top:6px;color:#fff;text-decoration:none;
+  font-weight:700;
+}
+
+/* Content */
+.content{flex:1;overflow:auto;padding:10px 12px 90px;}
+.card{
+  background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
+  border:1px solid rgba(255,215,0,.35);
+  border-radius:22px;padding:14px;margin-bottom:12px;
+  box-shadow:0 14px 32px rgba(0,0,0,.75), inset 0 0 18px rgba(255,215,0,.06);
+  backdrop-filter: blur(6px);
+}
+.h{font-weight:900;color:var(--gold);margin-bottom:8px;}
+.sub{color:var(--muted);font-size:12px;margin-bottom:10px}
+
+/* Inputs */
+.input,.select{
+  width:100%;padding:12px;border-radius:14px;
+  border:1px solid rgba(255,215,0,.35);
+  background:#06070c;color:#fff;outline:none;margin-bottom:10px;
+}
+
+/* Buttons */
+.btn{
+  width:100%;border:none;border-radius:16px;padding:14px 16px;
+  font-weight:900;letter-spacing:.6px;color:#000;
+  background:linear-gradient(90deg,var(--gold2),var(--gold),#fff1a8,var(--gold));
+  box-shadow:0 12px 26px rgba(255,215,0,.55), inset 0 1px 0 #fff;
+}
+.btn.secondary{
+  background:transparent;color:var(--gold);
+  border:1px dashed rgba(255,215,0,.5);
+  box-shadow:none;
+}
+
+/* QR */
+.qr{display:none;margin-top:10px;text-align:center;border:1px dashed rgba(255,215,0,.5);border-radius:16px;padding:12px;}
+.qr img{width:170px;height:170px;border-radius:14px;background:#fff}
+.note{color:var(--muted);font-size:11px;margin-top:6px}
+
+/* Status */
+.ok{color:#22f5c3;font-weight:800}
+.err{color:#ff6b6b;font-weight:800}
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeSide()"></div>
+
+<div class="sidebar" id="sidebar">
+  <div class="side-title">🎮 Tournament Info</div>
+  <div class="side-card"><b>About:</b><br>Daily BGMI Premium Custom Room</div>
+  <div class="side-card"><b>Prize:</b><br>🥇 ₹300 • 🥈 ₹150 • 🥉 ₹50</div>
+  <div class="side-card"><b>Entry Fee:</b><br>₹20 per slot</div>
+  <div class="side-card"><b>Instagram:</b><br>
+    <a class="side-link" href="https://instagram.com/yourpage" target="_blank">@yourpage</a>
+  </div>
+</div>
+
+<div class="app" onclick="autoCloseSide(event)">
+  <div class="header">
+    <button class="menu-btn" onclick="openSide()">☰</button>
+    <div class="title">BGMI • Register</div>
+    <button class="mini-btn" onclick="location.href='slots.html'">Slots</button>
+    <button class="mini-btn" onclick="location.href='rules.html'">Rules</button>
+  </div>
+
+  <div class="content">
+    <div class="card">
+      <div class="h">🎯 Player Details</div>
+      <input id="name" class="input" placeholder="Player Name" />
+      <input id="bgmi" class="input" placeholder="BGMI ID" />
+      <input id="phone" class="input" placeholder="Mobile No (10 digits)" />
+      <select id="room" class="select">
+        <option value="Group A • 2:00 PM">Group A • 2:00 PM</option>
+        <option value="Group B • 8:40 PM">Group B • 8:40 PM</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <div class="h">💳 Payment (UPI)</div>
+      <div class="sub">Scan & pay ₹20, then enter Txn ID</div>
+      <div class="qr" id="qrBox">
+        <img id="qrImg" />
+        <input id="txn" class="input" placeholder="UPI Transaction ID" style="margin-top:10px"/>
+        <div class="note" id="upiNote"></div>
+      </div>
+      <button class="btn" id="payBtn" onclick="showQR()">Pay ₹20 & Continue</button>
+    </div>
+
+    <div class="card">
+      <div class="h">✅ Confirm</div>
+      <button class="btn secondary" onclick="confirmBooking()">Confirm Booking</button>
+      <div id="msg" style="margin-top:8px"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const MAX_PER_ROOM = 25;
+const ADMIN_UPI = localStorage.getItem("admin_upi") || "yourupi@bank";
+
+function openSide(){
+  document.getElementById("sidebar").classList.add("open");
+  document.getElementById("overlay").classList.add("show");
+}
+function closeSide(){
+  document.getElementById("sidebar").classList.remove("open");
+  document.getElementById("overlay").classList.remove("show");
+}
+function autoCloseSide(e){
+  if(document.getElementById("sidebar").classList.contains("open")){
+    if(!e.target.closest("#sidebar") && !e.target.closest(".menu-btn")){
+      closeSide();
+    }
+  }
+}
+
+function showQR(){
+  const data = `upi://pay?pa=${encodeURIComponent(ADMIN_UPI)}&pn=BGMI%20Tournament&am=20&cu=INR`;
+  document.getElementById("qrImg").src =
+   `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(data)}`;
+  document.getElementById("upiNote").innerText = "Pay to: " + ADMIN_UPI;
+  document.getElementById("qrBox").style.display = "block";
+  document.getElementById("payBtn").style.display = "none";
+}
+
+function getUsers(){ return JSON.parse(localStorage.getItem("bgmi_users")||"[]"); }
+function getTxns(){ return JSON.parse(localStorage.getItem("bgmi_txns")||"[]"); }
+function setUsers(u){ localStorage.setItem("bgmi_users", JSON.stringify(u)); }
+function setTxns(t){ localStorage.setItem("bgmi_txns", JSON.stringify(t)); }
+
+function confirmBooking(){
+  const name=name.value.trim(), bgmi=bgmi.value.trim(), phone=phone.value.trim(), room=room.value, txn=txn.value.trim();
+  const msg=document.getElementById("msg");
+  if(!name||!bgmi||phone.length!==10||!txn){ msg.innerHTML="<span class='err'>❌ Fill all fields</span>"; return;}
+  if(getTxns().includes(txn)){ msg.innerHTML="<span class='err'>❌ Txn ID already used</span>"; return;}
+  const users=getUsers();
+  if(users.filter(u=>u.room===room).length>=MAX_PER_ROOM){ msg.innerHTML="<span class='err'>❌ Group Full</span>"; return;}
+  users.push({slot:users.length+1,name,bgmi,phone,room});
+  setUsers(users);
+  const txns=getTxns(); txns.push(txn); setTxns(txns);
+  msg.innerHTML="<span class='ok'>✅ Booking Successful</span>";
+}
+</script>
+
+</body>
+</html>

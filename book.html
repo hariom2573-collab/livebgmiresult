@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>BGMI Tournament Slot Booking</title>
+<style>
+:root{ --bg:#0b1220; --card:#0f172a; --neon:#22f5c3; --txt:#e5e7eb; --muted:#94a3b8;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--txt);font-family:system-ui,Arial}
+.app{max-width:420px;margin:0 auto;min-height:100vh;padding:12px}
+.card{background:linear-gradient(180deg,#0f172a,#020617);border:1px solid #0b2540;border-radius:16px;padding:14px}
+.badge{display:inline-block;background:var(--neon);color:#022;font-weight:800;border-radius:999px;padding:4px 10px}
+h1{font-size:1.1rem;margin:8px 0}
+.sub{color:var(--muted);font-size:.85rem;margin-bottom:8px}
+.timer{display:flex;gap:6px;align-items:center;font-weight:700;font-size:.9rem}
+.pill{padding:6px 10px;border-radius:999px;background:#020617;border:1px solid #0b2540}
+.grid{display:grid;gap:8px;margin-top:10px}
+input,select,button{width:100%;padding:12px;border-radius:12px;border:1px solid #0b2540;background:#020617;color:var(--txt)}
+button.primary{background:linear-gradient(135deg,#22f5c3,#2bd2ff);color:#022;font-weight:900;border:none}
+.qr{display:none;margin-top:10px;border:1px dashed #0b2540;border-radius:12px;padding:10px;text-align:center}
+.qr img{max-width:180px;border-radius:12px}
+.ok{color:#22f5c3;font-weight:700}
+.err{color:#ff6b6b;font-weight:700}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="card">
+    <span class="badge">TOURNAMENT</span>
+    <h1>BGMI Slot Booking</h1>
+    <div class="sub">Entry ₹20 • Limited slots • Instant WhatsApp confirmation</div>
+
+    <div class="timer">
+      ⏳ Closes in:
+      <span class="pill" id="dd">00</span>
+      <span class="pill" id="hh">00</span>
+      <span class="pill" id="mm">00</span>
+      <span class="pill" id="ss">00</span>
+    </div>
+
+    <div class="grid">
+      <input id="name" placeholder="Player Name" />
+      <input id="bgmiId" placeholder="BGMI ID" />
+      <input id="phone" placeholder="WhatsApp Number (91XXXXXXXXXX)" />
+      <select id="slot">
+        <option value="Room 1 - 6 PM">Room 1 • 6 PM (25 max)</option>
+        <option value="Room 2 - 7 PM">Room 2 • 7 PM (25 max)</option>
+      </select>
+
+      <button class="primary" onclick="showQR()">Pay ₹20 & Book Slot</button>
+
+      <div class="qr" id="qrBox">
+        <p>Scan & Pay (UPI)</p>
+        <img src="PASTE_UPI_QR_IMAGE_URL">
+        <input id="txn" placeholder="UPI Transaction ID" style="margin-top:6px">
+        <button onclick="confirmBooking()" style="margin-top:6px">Confirm Booking</button>
+      </div>
+
+      <div id="msg"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = { apiKey:"PASTE", authDomain:"PASTE", projectId:"PASTE" };
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const CLOSE_AT = new Date("2026-03-05T18:00:00").getTime(); // change date/time
+const MAX = 25;
+
+function tick(){
+  const d = CLOSE_AT - Date.now();
+  if(d<=0){
+    document.querySelector(".primary").disabled = true;
+    document.getElementById("msg").innerHTML="<span class='err'>❌ Registration closed</span>";
+    return;
+  }
+  dd.textContent = String(Math.floor(d/86400000)).padStart(2,"0");
+  hh.textContent = String(Math.floor(d%86400000/3600000)).padStart(2,"0");
+  mm.textContent = String(Math.floor(d%3600000/60000)).padStart(2,"0");
+  ss.textContent = String(Math.floor(d%60000/1000)).padStart(2,"0");
+}
+setInterval(tick,1000); tick();
+
+function showQR(){ qrBox.style.display="block"; }
+
+async function txnExists(txn){
+  const q = await db.collection("bookings").where("txn","==",txn).get();
+  return !q.empty;
+}
+
+async function roomIsFull(room){
+  const s = await db.collection("bookings").where("slot","==",room).get();
+  return s.size >= MAX;
+}
+
+async function confirmBooking(){
+  const nameV = name.value?.trim();
+  const bgmiV = bgmiId.value?.trim();
+  const phoneV = phone.value?.trim();
+  const slotV = slot.value;
+  const txnV = txn.value?.trim();
+
+  if(!nameV||!bgmiV||!phoneV||!txnV){
+    msg.innerHTML="<span class='err'>❌ Fill all fields</span>"; return;
+  }
+  if(await txnExists(txnV)){
+    msg.innerHTML="<span class='err'>❌ This Txn ID already used</span>"; return;
+  }
+  if(await roomIsFull(slotV)){
+    msg.innerHTML="<span class='err'>❌ Room full, choose another</span>"; return;
+  }
+
+  await db.collection("bookings").add({
+    name:nameV, bgmiId:bgmiV, phone:phoneV,
+    slot:slotV, txn:txnV, paid:true, at:new Date()
+  });
+
+  msg.innerHTML="<span class='ok'>✅ Booking confirmed! WhatsApp opening…</span>";
+  const text = encodeURIComponent(`Hi ${nameV}! ✅ Your BGMI slot is confirmed.\nSlot: ${slotV}\nTxn: ${txnV}`);
+  window.open(`https://wa.me/${phoneV}?text=${text}`,"_blank");
+}
+</script>
+</body>
+</html>
