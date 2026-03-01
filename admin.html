@@ -2,99 +2,50 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>BGMI Admin Panel – Live Slots</title>
+<title>BGMI Admin Panel – Live Slots Pro</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  padding:10px;
-  background:#0a0a12;
-  color:#fff;
-  font-family:system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-}
-h2{color:#00f5ff;margin:4px 0 6px}
-small{opacity:.75;display:block;margin-bottom:6px}
-
-#loginBox, #adminPanel{
-  max-width:720px;
-  margin:0 auto;
-}
-
-.card{
-  background:#121226;
-  border-radius:14px;
-  padding:10px;
-  margin-bottom:10px;
-  box-shadow:0 0 10px rgba(0,245,255,.12)
-}
-
-.row{
-  display:flex;
-  gap:8px;
-  margin-top:6px;
-  flex-wrap:wrap;
-}
-
-input, select, button{
-  width:100%;
-  padding:12px 10px;
-  border-radius:10px;
-  border:none;
-  outline:none;
-  font-size:15px;
-}
-
-select{appearance:none}
-
-button{
-  background:linear-gradient(135deg,#7b3fe4,#00f5ff,#ffd86b);
-  font-weight:900;
-  color:#000;
-  cursor:pointer;
-}
-
-#pushBtn{
-  position:sticky;
-  bottom:10px;
-  margin-top:12px;
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  z-index:9;
-}
-
-#loginBox{
-  margin-top:20vh;
-  padding:16px;
-  border-radius:14px;
-  background:#121226;
-  box-shadow:0 0 16px rgba(0,245,255,.2)
-}
-
-.hidden{display:none}
-
-@media (min-width: 640px){
-  .row{flex-wrap:nowrap}
-  input, select{width:50%}
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui, -apple-system, Segoe UI, Roboto, sans-serif;}
+body{background:#0a0a12;color:#fff;padding:12px;}
+h2{color:#00f5ff;margin:6px 0;}
+small{opacity:.75;display:block;margin-bottom:6px;}
+#loginBox,#adminPanel{max-width:720px;margin:0 auto;}
+.card{background:#121226;border-radius:14px;padding:10px;margin-bottom:10px;box-shadow:0 0 10px rgba(0,245,255,.12);transition:box-shadow .3s;}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+input,select,button{padding:10px;border-radius:10px;border:none;outline:none;font-size:15px;width:100%;}
+select{appearance:none;}
+button{background:linear-gradient(135deg,#7b3fe4,#00f5ff,#ffd86b);font-weight:900;color:#000;cursor:pointer;}
+#pushBtn,#bulkActions{position:sticky;bottom:10px;margin-top:10px;width:100%;padding:14px;border-radius:14px;z-index:9;}
+.hidden{display:none;}
+.flash{box-shadow:0 0 14px rgba(0,255,0,.8)!important;}
+@media(min-width:640px){.row{flex-wrap:nowrap}input,select{width:50%;}}
+#searchBox{margin-bottom:8px;padding:10px;border-radius:10px;border:none;width:100%;font-size:14px;}
+.slotCard span:first-child{word-break:break-word;white-space:normal;max-width:70%;font-weight:800;font-size:13px;color:#02030a;}
+.slotCard span:last-child{font-weight:900;font-size:13px;color:#00ffb3;}
+.slotCard.reserved span:last-child{color:#ff5a5a;}
 </style>
 </head>
 <body>
 
-<!-- 🔐 LOGIN -->
+<!-- LOGIN -->
 <div id="loginBox">
   <h2>🔐 Admin Login</h2>
   <input id="passInput" type="password" placeholder="Enter Admin Password">
   <button id="loginBtn">Login</button>
-  <small id="err" style="color:#ff5a5a;display:none">❌ Wrong password</small>
+  <small id="err" style="color:#ff5a5a;display:none;">❌ Wrong password</small>
 </div>
 
-<!-- 🛠 ADMIN PANEL -->
+<!-- ADMIN PANEL -->
 <div id="adminPanel" class="hidden">
   <h2>🎮 BGMI Live Slot Admin</h2>
-  <small>Yahan se slots update karo — sab logon ke overlay pe live reflect hoga.</small>
+  <small>Update slots — live overlay me reflect hoga.</small>
+
+  <input id="searchBox" type="text" placeholder="🔍 Search by team or slot name">
+  <div id="bulkActions" class="row">
+    <button data-action="available">Mark All Available ✅</button>
+    <button data-action="reserved">Mark All Reserved ❌</button>
+    <button data-action="empty">Mark All Empty</button>
+  </div>
 
   <div id="adminWrap"></div>
   <button id="pushBtn">🚀 Push Live</button>
@@ -104,7 +55,7 @@ button{
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-// 🔥 TERA FIREBASE CONFIG
+// FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
   authDomain: "incoinpaysliveearning.firebaseapp.com",
@@ -115,13 +66,11 @@ const firebaseConfig = {
   appId: "1:971873814750:web:7418c7da119e4725ed9a4f",
   measurementId: "G-5QXM87ZRH2"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// 🔐 Password
+// ADMIN PASSWORD
 const ADMIN_PASS = "Rajnish@1234";
-
 const loginBox = document.getElementById("loginBox");
 const adminPanel = document.getElementById("adminPanel");
 const err = document.getElementById("err");
@@ -130,18 +79,16 @@ document.getElementById("loginBtn").onclick = ()=>{
   if(document.getElementById("passInput").value === ADMIN_PASS){
     loginBox.classList.add("hidden");
     adminPanel.classList.remove("hidden");
-  } else {
-    err.style.display = "block";
-  }
+  } else { err.style.display="block"; }
 };
 
-// 🧩 Slots Data
-const defaultSlots=[
+// DEFAULT SLOTS
+const defaultSlots = [
   {slot:"Slot 1", name:"Big Bull", status:"R"},
   {slot:"Slot 2", name:"ZIA ESPORTS", status:""},
   {slot:"Slot 3", name:"PHRM", status:""},
   {slot:"Slot 4", name:"Angry.eSports", status:""},
-  {slot:"Slot 5", name:"deltin Esports", status:""},
+  {slot:"Slot 5", name:"DELTIN ESPORTS", status:""},
   {slot:"Slot 6", name:"AVAILABLE", status:""},
   {slot:"Slot 7", name:"AVAILABLE", status:""},
   {slot:"Slot 8", name:"AVAILABLE", status:""},
@@ -160,12 +107,14 @@ const defaultSlots=[
 
 let slots = defaultSlots;
 const wrap = document.getElementById("adminWrap");
+const searchBox = document.getElementById("searchBox");
 
-function renderAdmin(){
+function renderAdmin(filter=""){
   wrap.innerHTML="";
   slots.forEach((s,i)=>{
+    if(filter && !s.name.toLowerCase().includes(filter.toLowerCase()) && !s.slot.toLowerCase().includes(filter.toLowerCase())) return;
     const d=document.createElement("div");
-    d.className="card";
+    d.className="card slotCard"+(s.status==="Reserved"?" reserved":"");
     d.innerHTML=`
       <b>${s.slot}</b>
       <div class="row">
@@ -179,29 +128,57 @@ function renderAdmin(){
       </div>
     `;
     wrap.appendChild(d);
-  });
 
-  document.querySelectorAll(".nameInput").forEach(inp=>{
-    inp.oninput = e => {
-      slots[e.target.dataset.i].name = e.target.value.toUpperCase();
-      e.target.value = e.target.value.toUpperCase();
+    // Status highlight
+    const sel = d.querySelector(".statusSel");
+    sel.onchange = e=>{
+      slots[i].status = e.target.value;
+      d.classList.add("flash");
+      setTimeout(()=>d.classList.remove("flash"),800);
+      pushLive();
     };
-  });
-  document.querySelectorAll(".statusSel").forEach(sel=>{
-    sel.onchange = e => slots[e.target.dataset.i].status = e.target.value;
+
+    // Name input
+    const inp = d.querySelector(".nameInput");
+    inp.oninput = e=>{
+      slots[i].name = e.target.value.toUpperCase();
+      e.target.value = e.target.value.toUpperCase();
+      pushLive();
+    };
   });
 }
 
-document.getElementById("pushBtn").onclick = ()=>{
-  set(ref(db, "slots"), slots);
-  alert("✅ Live push ho gaya! Sab logon ke overlay pe update aa gaya.");
+// PUSH LIVE FUNCTION
+function pushLive(){
+  set(ref(db,"slots"),slots);
+}
+
+// INIT RENDER
+onValue(ref(db,"slots"),snap=>{
+  if(snap.exists()) slots = snap.val();
+  renderAdmin(searchBox.value);
+});
+
+// SEARCH FILTER
+searchBox.oninput = e=>{
+  renderAdmin(e.target.value);
 };
 
-onValue(ref(db,"slots"), (snap)=>{
-  if(snap.exists()){
-    slots = snap.val();
-  }
-  renderAdmin();
+// PUSH BUTTON
+document.getElementById("pushBtn").onclick = ()=>pushLive();
+
+// BULK ACTIONS
+document.querySelectorAll("#bulkActions button").forEach(btn=>{
+  btn.onclick = ()=>{
+    const action = btn.dataset.action;
+    slots.forEach(s=>{
+      if(action==="available") s.status="✅";
+      else if(action==="reserved") s.status="Reserved";
+      else if(action==="empty") s.status="";
+    });
+    renderAdmin(searchBox.value);
+    pushLive();
+  };
 });
 </script>
 
