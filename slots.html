@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>BGMI SLOT BOOKING </title>
+<title>BGMI VIP PRO Mobile Overlay – Touch FX FULL</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
@@ -104,6 +104,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 .slot-item.available{
   background: var(--available-gradient);
   color:#fff;
+  cursor:pointer;
 }
 .slot-item.vip{
   background: linear-gradient(135deg, #7b3fe4, #ffd86b, #00f5ff);
@@ -287,7 +288,11 @@ db.ref("slots").on("value",(snap)=>{
     const isVip = s.status==="Reserved";
     const d=document.createElement("div");
     d.className="slot-item "+(isVip?"vip reserved":"available");
-    d.innerHTML=`<span>${s.slot} – ${s.name}</span><span>${isVip?"Booked":"Available"}</span>`;
+
+    // Available slot shows "Book Now"
+    const displayName = isVip ? `${s.slot} – ${s.name}` : "Book Now";
+    const statusText = isVip ? "Booked" : "Available";
+    d.innerHTML=`<span>${displayName}</span><span>${statusText}</span>`;
 
     // VIP Tag
     if(isVip){
@@ -300,7 +305,6 @@ db.ref("slots").on("value",(snap)=>{
     wrap.appendChild(d);
 
     d.addEventListener("pointerup",(e)=>{
-      // Only trigger if clicked directly on the slot-item (not children)
       if(e.target !== d) return;
 
       const rect=d.getBoundingClientRect();
@@ -327,13 +331,8 @@ db.ref("slots").on("value",(snap)=>{
         setTimeout(()=>pulse.remove(),600);
       } 
       else {
-        // Available slots only
-        if(confirm("Do you want to book this slot?")){
-          const phone = "7970882743";
-          const text = encodeURIComponent(`Please book my slot: ${s.slot}`);
-          const url = `https://wa.me/${phone}?text=${text}`;
-          window.open(url,"_blank");
-        }
+        // Available slots -> open register.html
+        window.location.href = "register.html";
       }
 
       if(navigator.vibrate) navigator.vibrate(30);
