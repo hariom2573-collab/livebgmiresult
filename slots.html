@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>BGMI VIP PRO Mobile Overlay – Touch FX FULL</title>
+<title>BGMI SLOT BOOKING </title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
@@ -156,6 +156,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   border-radius:8px;
   text-shadow: 0 0 5px #fff;
   animation: shimmer 2s linear infinite alternate;
+  pointer-events:none; /* ignore touches */
 }
 @keyframes shimmer{
   0%{background-position:0% 50%;}
@@ -298,7 +299,10 @@ db.ref("slots").on("value",(snap)=>{
 
     wrap.appendChild(d);
 
-    d.addEventListener("pointerdown",(e)=>{
+    d.addEventListener("pointerup",(e)=>{
+      // Only trigger if clicked directly on the slot-item (not children)
+      if(e.target !== d) return;
+
       const rect=d.getBoundingClientRect();
       // Ripple effect
       const r=document.createElement("span");
@@ -326,7 +330,7 @@ db.ref("slots").on("value",(snap)=>{
         // Available slots only
         if(confirm("Do you want to book this slot?")){
           const phone = "7970882743";
-          const text = encodeURIComponent("Please book my slot");
+          const text = encodeURIComponent(`Please book my slot: ${s.slot}`);
           const url = `https://wa.me/${phone}?text=${text}`;
           window.open(url,"_blank");
         }
