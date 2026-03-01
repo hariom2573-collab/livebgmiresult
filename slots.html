@@ -18,6 +18,25 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,system-ui;}
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 
+/* Loader */
+#loader{
+  position:fixed;
+  inset:0;
+  background:rgba(6,6,11,0.95);
+  z-index:9999;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+#loader .ring{
+  width:60px; height:60px;
+  border:5px solid rgba(255,255,255,.15);
+  border-top-color:var(--neon);
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
 /* Canvas */
 .canvas{position:fixed; inset:0; pointer-events:none;}
 .grid{
@@ -50,7 +69,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   background: var(--glass);
   backdrop-filter: blur(12px) saturate(140%);
   border:1px solid rgba(255,255,255,0.12);
-  box-shadow:0 0 20px rgba(0,0,0,0.8), inset 0 0 10px rgba(255,255,255,0.05);
+  box-shadow:0 0 20px rgba(0,0,0,0.8), inset 0 0 10px rgba(255,255,255,.05);
 }
 
 /* Marquee */
@@ -107,14 +126,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 .slot-item{
   position:relative;
   overflow:hidden;
-  display:flex; justify-content:space-between; align-items:center;
+  display:flex; 
+  justify-content:space-between; 
+  align-items:flex-start;
+  gap:6px;
   padding:7px 8px; 
   border-radius:12px;
   background: var(--vip-gradient);
   border:2px solid rgba(255,216,107,.9);
   box-shadow: 0 0 8px rgba(123,63,228,.5), inset 0 0 6px rgba(255,255,255,.2);
   transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
-  will-change: transform;
 }
 .slot-item:active{
   transform: scale(.96);
@@ -155,16 +176,21 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   font-weight:800;
   font-size:11px;
   color:#02030a;
-  max-width:70%;
-  white-space:normal;        /* 👈 text wrap */
-  overflow:visible;         /* 👈 no cut */
+  max-width:100%;
+  white-space:normal;
+  overflow:visible;
   line-height:1.2;
-  word-break:break-word;    /* 👈 long names break ho jayenge */
+  word-break:break-word;
+}
+.slot-item span:last-child{
+  white-space:nowrap;
+  flex-shrink:0;
 }
 
-/* Desktop pe still single line rahe */
+/* Desktop single line */
 @media (min-width: 520px){
   .slot-item span:first-child{
+    max-width:75%;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
@@ -174,6 +200,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 </head>
 
 <body>
+
+<!-- Loader -->
+<div id="loader"><div class="ring"></div></div>
 
 <div class="canvas">
   <div class="grid"></div>
@@ -198,12 +227,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 
 <div class="slot-wrap" id="slotWrap"></div>
 
-<!-- 🔥 Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <script>
-// ================= FIREBASE CONFIG =================
+// Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
   authDomain: "incoinpaysliveearning.firebaseapp.com",
@@ -217,7 +245,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ================= MARQUEE =================
+// Marquee
 const messages=[
   "🔥 Team X Jocker – ₹510 via GPay 🔥",
   "🔥 Big Bull – ₹300 Winner 🔥",
@@ -231,14 +259,13 @@ const msgEl=document.getElementById("msg");
 let i=0;
 (function loop(){
   msgEl.textContent=messages[i];
-  msgEl.style.animation="none";
-  void msgEl.offsetWidth;
+  msgEl.style.animation="none"; void msgEl.offsetWidth;
   msgEl.style.animation="slideRTL 14s linear";
   i=(i+1)%messages.length;
   setTimeout(loop,14000);
 })();
 
-// ================= TIME =================
+// Time
 function updateTime(){
   const now=new Date();
   const d=now.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
@@ -248,8 +275,9 @@ function updateTime(){
 updateTime();
 setInterval(updateTime,60000);
 
-// ================= LIVE SLOT FETCH =================
+// Live slots
 const wrap=document.getElementById("slotWrap");
+const loader=document.getElementById("loader");
 
 db.ref("slots").on("value",(snap)=>{
   const slots = snap.val() || {};
@@ -261,6 +289,7 @@ db.ref("slots").on("value",(snap)=>{
     d.innerHTML=`<span>${s.slot} – ${s.name}</span><span>${s.status||""}</span>`;
     wrap.appendChild(d);
 
+    // Ripple effect
     d.addEventListener("pointerdown",(e)=>{
       const r=document.createElement("span");
       r.className="ripple";
@@ -272,6 +301,7 @@ db.ref("slots").on("value",(snap)=>{
       if(navigator.vibrate) navigator.vibrate(30);
     });
   });
+  loader.style.display="none"; // hide loader
 });
 </script>
 
