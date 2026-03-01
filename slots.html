@@ -286,14 +286,13 @@ db.ref("slots").on("value",(snap)=>{
     const isVip = s.status==="Reserved";
     const d=document.createElement("div");
     d.className="slot-item "+(isVip?"vip reserved":"available");
-    // Show "Booked" for VIP
     d.innerHTML=`<span>${s.slot} – ${s.name}</span><span>${isVip?"Booked":"Available"}</span>`;
 
     // VIP Tag
     if(isVip){
       const vipTag = document.createElement("div");
       vipTag.className="vip-tag";
-      vipTag.textContent="🔥 MYTHIC VIP 🔥";
+      vipTag.textContent="🔥 Esports 🔥";
       d.appendChild(vipTag);
     }
 
@@ -301,7 +300,7 @@ db.ref("slots").on("value",(snap)=>{
 
     d.addEventListener("pointerdown",(e)=>{
       const rect=d.getBoundingClientRect();
-      // Ripple
+      // Ripple effect
       const r=document.createElement("span");
       r.className="ripple";
       r.style.left=(e.clientX-rect.left)+"px";
@@ -310,7 +309,7 @@ db.ref("slots").on("value",(snap)=>{
       setTimeout(()=>r.remove(),600);
 
       if(isVip){
-        // Fire effect
+        // Fire effect + pulse
         const f=document.createElement("span");
         f.className="fire";
         f.style.left=(e.clientX-rect.left)+"px";
@@ -318,13 +317,13 @@ db.ref("slots").on("value",(snap)=>{
         d.appendChild(f);
         setTimeout(()=>f.remove(),500);
 
-        // VIP Pulse effect
         const pulse = document.createElement("div");
         pulse.className="vip-pulse";
         d.appendChild(pulse);
         setTimeout(()=>pulse.remove(),600);
-      }else{
-        // Available book
+      } 
+      else {
+        // Available slots only
         if(confirm("Do you want to book this slot?")){
           const phone = "7970882743";
           const text = encodeURIComponent("Please book my slot");
