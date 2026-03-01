@@ -111,7 +111,7 @@ html,body{width:100%;height:100%;background:radial-gradient(120% 80% at 50% 0%, 
       <div class="h">💳 Payment (UPI)</div>
       <div class="sub">Scan & pay ₹20, then enter Txn ID</div>
       <div class="qr" id="qrBox">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=upi://pay?pa=YOURUPI@bank&pn=BGMI%20Tournament&am=20&cu=INR" alt="UPI QR"/>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=upi://pay?pa=9142192847@jio&pn=BGMI%20Tournament&am=20&cu=INR" alt="UPI QR"/>
         <input id="txn" class="input" placeholder="UPI Transaction ID" style="margin-top:10px"/>
         <div class="note">Make sure Txn ID is unique</div>
       </div>
@@ -130,7 +130,27 @@ html,body{width:100%;height:100%;background:radial-gradient(120% 80% at 50% 0%, 
   </div>
 </div>
 
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 <script>
+// TODO: Replace with your Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+  authDomain: "incoinpaysliveearning.firebaseapp.com",
+  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+  projectId: "incoinpaysliveearning",
+  storageBucket: "incoinpaysliveearning.appspot.com",
+  messagingSenderId: "971873814750",
+  appId: "1:971873814750:web:7418c7da119e4725ed9a4f",
+  measurementId: "G-5QXM87ZRH2"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
 const MAX_PER_ROOM = 25;
 
 function showQR(){
@@ -138,24 +158,19 @@ function showQR(){
   document.getElementById("payBtn").style.display = "none";
 }
 
-function getUsers(){
-  try{ return JSON.parse(localStorage.getItem("bgmi_users") || "[]"); }
-  catch(e){ return []; }
+// Check room count from Firebase
+async function countRoom(room){
+  const snapshot = await db.ref('users').orderByChild('room').equalTo(room).once('value');
+  return snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
 }
 
-function getTxns(){
-  try{ return JSON.parse(localStorage.getItem("bgmi_txns") || "[]"); }
-  catch(e){ return []; }
+// Check if Txn ID already exists
+async function txnExists(txn){
+  const snapshot = await db.ref('txns/' + txn).once('value');
+  return snapshot.exists();
 }
 
-function setUsers(u){ localStorage.setItem("bgmi_users", JSON.stringify(u)); }
-function setTxns(t){ localStorage.setItem("bgmi_txns", JSON.stringify(t)); }
-
-function countRoom(room){
-  return getUsers().filter(u => u.room === room).length;
-}
-
-function confirmBooking(){
+async function confirmBooking(){
   const name = document.getElementById("name").value.trim();
   const bgmi = document.getElementById("bgmi").value.trim();
   const phone = document.getElementById("phone").value.trim();
@@ -168,23 +183,25 @@ function confirmBooking(){
     return;
   }
 
-  if(getTxns().includes(txn)){
+  if(await txnExists(txn)){
     msg.innerHTML = "<span class='err'>❌ This Txn ID already used</span>";
     return;
   }
 
-  if(countRoom(room) >= MAX_PER_ROOM){
+  const roomCount = await countRoom(room);
+  if(roomCount >= MAX_PER_ROOM){
     msg.innerHTML = "<span class='err'>❌ Room full</span>";
     return;
   }
 
-  const users = getUsers();
-  users.push({ slot: users.length + 1, name, bgmi, phone, room });
-  setUsers(users);
+  // Add user to Firebase
+  const newUserRef = db.ref('users').push();
+  await newUserRef.set({
+    name, bgmi, phone, room, slot: roomCount + 1
+  });
 
-  const txns = getTxns();
-  txns.push(txn);
-  setTxns(txns);
+  // Save txn
+  await db.ref('txns/' + txn).set({usedBy: phone, timestamp: Date.now()});
 
   msg.innerHTML = "<span class='ok'>✅ Booking successful! Opening WhatsApp…</span>";
 
