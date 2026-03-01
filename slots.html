@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>BGMI VIP PRO Mobile Overlay (Clean + Top 3 Animation)</title>
+<title>BGMI VIP PRO Mobile Overlay (Fixed Fit)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
 :root{
@@ -52,9 +52,19 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   box-shadow:0 0 20px rgba(0,0,0,0.8), inset 0 0 10px rgba(255,255,255,0.05);
 }
 
+/* Clickable links */
+a.tap-link{
+  color: var(--neon);
+  font-weight:700;
+  text-decoration:none;
+}
+a.tap-link:active{opacity:.7;}
+a.tap-link:hover{text-decoration:underline;}
+
 /* Marquee */
 .marquee-wrap{
-  position:fixed; top:10px; left:8px; right:8px;
+  position:fixed; 
+  top:10px; left:8px; right:8px;
   padding:6px 0; border-radius:14px;
   border:1px solid rgba(255,216,107,.7);
   background: linear-gradient(90deg, rgba(123,63,228,.95), rgba(0,245,255,.95), rgba(255,216,107,.95));
@@ -90,31 +100,38 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 .info-left span{color:var(--gold); font-weight:700;}
 .info-right b{color:var(--neon);}
 
-/* Slots (smaller card + slightly bigger text) */
+/* Slots FIXED */
 .slot-wrap{
   position:fixed;
   left:8px; right:8px;
-  top:104px; bottom:8px;
-  display:grid; grid-template-columns:1fr 1fr; gap:4px;
-  overflow:auto; padding-bottom:4px;
+  top:136px;      /* ⬅️ increased so Slot 1 & 2 are visible */
+  bottom:12px;   /* ⬅️ thoda extra safe space */
+  display:grid; 
+  grid-template-columns:1fr 1fr; 
+  gap:6px;
+  overflow:auto; 
+  padding-bottom:12px;
 }
+
+/* Slot cards */
 .slot-item{
   display:flex; justify-content:space-between; align-items:center;
-  padding:3px 5px; border-radius:9px;
+  padding:5px 6px; 
+  border-radius:10px;
   background: var(--vip-gradient);
   border:2px solid rgba(255,216,107,.9);
   box-shadow: 0 0 8px rgba(123,63,228,.5), inset 0 0 6px rgba(255,255,255,.2);
 }
 .slot-item span:first-child{
-  font-weight:800; font-size:10px; color:#02030a;
+  font-weight:800; font-size:11px; color:#02030a;
   max-width:75%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 }
-.slot-item span:last-child{font-weight:900; font-size:10px; color:#00ffb3;}
+.slot-item span:last-child{font-weight:900; font-size:11px; color:#00ffb3;}
 .slot-item.reserved{background: linear-gradient(135deg, #3b2a6f, #24344a); border-color:#ff5a5a;}
 .slot-item.reserved span:last-child{color:#ff5a5a;}
 
-/* Top 3 Entry */
-.top1, .top2, .top3{
+/* Animations */
+.top1,.top2,.top3{
   animation: popIn .6s ease forwards;
   box-shadow:0 0 10px rgba(255,216,107,.9),0 0 14px rgba(0,245,255,.7), inset 0 0 10px rgba(255,255,255,.3);
 }
@@ -124,8 +141,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   from{opacity:0; transform:translateX(-30px) scale(.9);}
   to{opacity:1; transform:translateX(0) scale(1);}
 }
-
-/* Gun entry */
 .gun-entry{
   animation: gunShot 0.9s cubic-bezier(.2,.8,.2,1) forwards, recoil .15s .9s ease-in-out;
   position:relative; overflow:hidden;
@@ -161,8 +176,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
     🎮 Match Start: <b>8:40 PM</b>
   </div>
   <div class="info-right">
-    📸 Insta: <b>@bgmi_expertleague</b><br>
-    ☎️ 7970882743 / 7979894204 / 9693425477
+    📸 Insta: 
+    <a class="tap-link" href="https://www.instagram.com/bgmi_expertleague" target="_blank">
+      @bgmi_expertleague
+    </a><br>
+    ☎️ 
+    <a class="tap-link" href="tel:7970882743">7970882743</a> / 
+    <a class="tap-link" href="tel:7979894204">7979894204</a> / 
+    <a class="tap-link" href="tel:9693425477">9693425477</a>
   </div>
 </div>
 
