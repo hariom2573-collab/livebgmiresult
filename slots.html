@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>BGMI VIP PRO Mobile Overlay (Fixed Fit)</title>
+<title>BGMI VIP PRO Mobile Overlay – Touch FX FULL</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <style>
 :root{
   --bg:#06060b;
@@ -44,7 +45,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   100%{background-position:0% 50%}
 }
 
-/* Glass panels */
+/* Glass */
 .glass{
   background: var(--glass);
   backdrop-filter: blur(12px) saturate(140%);
@@ -52,19 +53,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   box-shadow:0 0 20px rgba(0,0,0,0.8), inset 0 0 10px rgba(255,255,255,0.05);
 }
 
-/* Clickable links */
-a.tap-link{
-  color: var(--neon);
-  font-weight:700;
-  text-decoration:none;
-}
-a.tap-link:active{opacity:.7;}
-a.tap-link:hover{text-decoration:underline;}
-
 /* Marquee */
 .marquee-wrap{
-  position:fixed; 
-  top:10px; left:8px; right:8px;
+  position:fixed; top:10px; left:8px; right:8px;
   padding:6px 0; border-radius:14px;
   border:1px solid rgba(255,216,107,.7);
   background: linear-gradient(90deg, rgba(123,63,228,.95), rgba(0,245,255,.95), rgba(255,216,107,.95));
@@ -100,12 +91,11 @@ a.tap-link:hover{text-decoration:underline;}
 .info-left span{color:var(--gold); font-weight:700;}
 .info-right b{color:var(--neon);}
 
-/* Slots FIXED */
+/* Slot wrap */
 .slot-wrap{
   position:fixed;
   left:8px; right:8px;
-  top:136px;      /* ⬅️ increased so Slot 1 & 2 are visible */
-  bottom:12px;   /* ⬅️ thoda extra safe space */
+  top:136px; bottom:12px;
   display:grid; 
   grid-template-columns:1fr 1fr; 
   gap:6px;
@@ -113,52 +103,63 @@ a.tap-link:hover{text-decoration:underline;}
   padding-bottom:12px;
 }
 
-/* Slot cards */
+/* Slot card */
 .slot-item{
+  position:relative;
+  overflow:hidden;
   display:flex; justify-content:space-between; align-items:center;
-  padding:5px 6px; 
-  border-radius:10px;
+  padding:7px 8px; 
+  border-radius:12px;
   background: var(--vip-gradient);
   border:2px solid rgba(255,216,107,.9);
   box-shadow: 0 0 8px rgba(123,63,228,.5), inset 0 0 6px rgba(255,255,255,.2);
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+  will-change: transform;
 }
+.slot-item:active{
+  transform: scale(.96);
+  filter: brightness(1.2);
+  box-shadow: 0 0 14px rgba(0,245,255,.9), inset 0 0 10px rgba(255,255,255,.4);
+}
+
+/* Ripple FX */
+.ripple{
+  position:absolute;
+  width:20px; height:20px;
+  border-radius:50%;
+  pointer-events:none;
+  background: radial-gradient(circle, rgba(255,255,255,.9) 0%, rgba(0,245,255,.6) 40%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple .6s ease-out forwards;
+}
+@keyframes ripple{
+  to{ transform: translate(-50%, -50%) scale(14); opacity:0; }
+}
+
+/* Reserved */
+.slot-item.reserved{
+  background: linear-gradient(135deg, #3b2a6f, #24344a);
+  border-color:#ff5a5a;
+}
+.slot-item.reserved:active{
+  animation: shake .2s linear;
+}
+@keyframes shake{
+  0%{transform:translateX(0) scale(.96)}
+  50%{transform:translateX(-4px) scale(.96)}
+  100%{transform:translateX(0) scale(.96)}
+}
+
+/* Text */
 .slot-item span:first-child{
   font-weight:800; font-size:11px; color:#02030a;
   max-width:75%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 }
 .slot-item span:last-child{font-weight:900; font-size:11px; color:#00ffb3;}
-.slot-item.reserved{background: linear-gradient(135deg, #3b2a6f, #24344a); border-color:#ff5a5a;}
 .slot-item.reserved span:last-child{color:#ff5a5a;}
-
-/* Animations */
-.top1,.top2,.top3{
-  animation: popIn .6s ease forwards;
-  box-shadow:0 0 10px rgba(255,216,107,.9),0 0 14px rgba(0,245,255,.7), inset 0 0 10px rgba(255,255,255,.3);
-}
-.top2{animation-delay:.5s}
-.top3{animation-delay:1s}
-@keyframes popIn{
-  from{opacity:0; transform:translateX(-30px) scale(.9);}
-  to{opacity:1; transform:translateX(0) scale(1);}
-}
-.gun-entry{
-  animation: gunShot 0.9s cubic-bezier(.2,.8,.2,1) forwards, recoil .15s .9s ease-in-out;
-  position:relative; overflow:hidden;
-}
-.gun-entry::before{
-  content:""; position:absolute; left:-30%; top:0; bottom:0; width:30%;
-  background:linear-gradient(90deg, transparent, rgba(255,216,107,.9), transparent);
-  filter:blur(6px); animation:muzzle 0.25s ease-out forwards;
-}
-@keyframes gunShot{
-  0%{opacity:0; transform:translateX(-120px) scale(.85);}
-  60%{opacity:1; transform:translateX(8px) scale(1.05);}
-  100%{opacity:1; transform:translateX(0) scale(1);}
-}
-@keyframes recoil{0%{transform:translateX(0);}50%{transform:translateX(-4px);}100%{transform:translateX(0);}}
-@keyframes muzzle{from{left:-30%; opacity:1;}to{left:120%; opacity:0;}}
 </style>
 </head>
+
 <body>
 
 <div class="canvas">
@@ -176,20 +177,34 @@ a.tap-link:hover{text-decoration:underline;}
     🎮 Match Start: <b>8:40 PM</b>
   </div>
   <div class="info-right">
-    📸 Insta: 
-    <a class="tap-link" href="https://www.instagram.com/bgmi_expertleague" target="_blank">
-      @bgmi_expertleague
-    </a><br>
-    ☎️ 
-    <a class="tap-link" href="tel:7970882743">7970882743</a> / 
-    <a class="tap-link" href="tel:7979894204">7979894204</a> / 
-    <a class="tap-link" href="tel:9693425477">9693425477</a>
+    📸 Insta:
+    <a class="tap-link" href="https://www.instagram.com/bgmi_expertleague" target="_blank">@bgmi</a><br>
+    ☎️ 7970882743 / 7979894204 / 9693425477
   </div>
 </div>
 
 <div class="slot-wrap" id="slotWrap"></div>
 
+<!-- 🔥 Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
 <script>
+// ================= FIREBASE CONFIG =================
+const firebaseConfig = {
+  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+  authDomain: "incoinpaysliveearning.firebaseapp.com",
+  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+  projectId: "incoinpaysliveearning",
+  storageBucket: "incoinpaysliveearning.appspot.com",
+  messagingSenderId: "971873814750",
+  appId: "1:971873814750:web:7418c7da119e4725ed9a4f",
+  measurementId: "G-5QXM87ZRH2"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// ================= MARQUEE =================
 const messages=[
   "🔥 Team X Jocker – ₹510 via GPay 🔥",
   "🔥 Big Bull – ₹300 Winner 🔥",
@@ -210,6 +225,7 @@ let i=0;
   setTimeout(loop,14000);
 })();
 
+// ================= TIME =================
 function updateTime(){
   const now=new Date();
   const d=now.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
@@ -219,38 +235,30 @@ function updateTime(){
 updateTime();
 setInterval(updateTime,60000);
 
-const slots=[
-  {slot:"Slot 1", name:"Big Bull", status:"R", gun:true},
-  {slot:"Slot 2", name:"ZIA ESPORTS", status:"", top:1},
-  {slot:"Slot 3", name:"PHRM", status:"", top:2},
-  {slot:"Slot 4", name:"Angry.eSports", status:"", top:3},
-  {slot:"Slot 5", name:"AVAILABLE", status:""},
-  {slot:"Slot 6", name:"AVAILABLE", status:""},
-  {slot:"Slot 7", name:"AVAILABLE", status:""},
-  {slot:"Slot 8", name:"AVAILABLE", status:""},
-  {slot:"Slot 9", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 10", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 11", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 12", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 13", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 14", name:"Reserved", status:"Reserved"},
-  {slot:"Slot 15", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 16", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 17", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 18", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 19", name:"AVAILABLE", status:"✅"}
-];
+// ================= LIVE SLOT FETCH =================
 const wrap=document.getElementById("slotWrap");
-wrap.innerHTML="";
-slots.forEach((s)=>{
-  const d=document.createElement("div");
-  d.className="slot-item"+(s.status==="Reserved"?" reserved":"");
-  if(s.top===1) d.classList.add("top1");
-  if(s.top===2) d.classList.add("top2");
-  if(s.top===3) d.classList.add("top3");
-  if(s.gun) d.classList.add("gun-entry");
-  d.innerHTML=`<span>${s.slot} – ${s.name}</span><span>${s.status}</span>`;
-  wrap.appendChild(d);
+
+db.ref("slots").on("value",(snap)=>{
+  const slots = snap.val() || {};
+  wrap.innerHTML="";
+  Object.keys(slots).forEach((key)=>{
+    const s = slots[key];
+    const d=document.createElement("div");
+    d.className="slot-item"+(s.status==="Reserved"?" reserved":"");
+    d.innerHTML=`<span>${s.slot} – ${s.name}</span><span>${s.status||""}</span>`;
+    wrap.appendChild(d);
+
+    d.addEventListener("pointerdown",(e)=>{
+      const r=document.createElement("span");
+      r.className="ripple";
+      const rect=d.getBoundingClientRect();
+      r.style.left=(e.clientX-rect.left)+"px";
+      r.style.top=(e.clientY-rect.top)+"px";
+      d.appendChild(r);
+      setTimeout(()=>r.remove(),600);
+      if(navigator.vibrate) navigator.vibrate(30);
+    });
+  });
 });
 </script>
 
