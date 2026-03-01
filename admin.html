@@ -2,47 +2,81 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>BGMI Admin Panel – Live Slots Pro</title>
+<title>BGMI Admin Panel – Live Slots Pro (Secure)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui, -apple-system, Segoe UI, Roboto, sans-serif;}
-body{background:#0a0a12;color:#fff;padding:12px;}
+body{background:#0a0a12;color:#fff;padding:12px; min-height:100vh; overflow-y:auto; -webkit-overflow-scrolling:touch;}
 h2{color:#00f5ff;margin:6px 0;}
 small{opacity:.75;display:block;margin-bottom:6px;}
-#loginBox,#adminPanel{max-width:720px;margin:0 auto;}
+#adminPanel{max-width:720px;margin:0 auto;}
 .card{background:#121226;border-radius:14px;padding:10px;margin-bottom:10px;box-shadow:0 0 10px rgba(0,245,255,.12);transition:box-shadow .3s;}
 .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
 input,select,button{padding:10px;border-radius:10px;border:none;outline:none;font-size:15px;width:100%;}
 select{appearance:none;}
 button{background:linear-gradient(135deg,#7b3fe4,#00f5ff,#ffd86b);font-weight:900;color:#000;cursor:pointer;}
-#pushBtn,#bulkActions{position:sticky;bottom:10px;margin-top:10px;width:100%;padding:14px;border-radius:14px;z-index:9;}
+#pushBtn,#bulkActions{margin-top:10px;width:100%;padding:14px;border-radius:14px;z-index:9; display:block;}
 .hidden{display:none;}
 .flash{box-shadow:0 0 14px rgba(0,255,0,.8)!important;}
 @media(min-width:640px){.row{flex-wrap:nowrap}input,select{width:50%;}}
 #searchBox{margin-bottom:8px;padding:10px;border-radius:10px;border:none;width:100%;font-size:14px;}
-.slotCard span:first-child{word-break:break-word;white-space:normal;max-width:70%;font-weight:800;font-size:13px;color:#02030a;}
+
+/* Slot cards */
+.slotCard span:first-child{word-break:break-word;white-space:normal;max-width:70%;font-weight:800;font-size:13px;color:#00f5ff;}
 .slotCard span:last-child{font-weight:900;font-size:13px;color:#00ffb3;}
 .slotCard.reserved span:last-child{color:#ff5a5a;}
+
+/* Mobile input fixes */
+input:focus, select:focus { 
+  outline:none; 
+  border:1px solid #00f5ff; 
+  box-shadow:0 0 6px rgba(0,245,255,.6);
+}
+input, select { 
+  -webkit-user-select:text; 
+  -webkit-touch-callout:default; 
+}
+body:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* SECURITY POPUP */
+#securityOverlay{
+  position:fixed; inset:0;
+  background:#0a0a12;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  flex-direction:column;
+  padding:20px;
+}
+#securityOverlay h2{color:#ffd86b;margin-bottom:10px;text-align:center;}
+#securityOverlay input{width:80%; max-width:300px; font-size:18px; margin-bottom:12px;}
+#securityOverlay button{width:80%; max-width:300px; padding:12px; font-size:16px;}
+#errorMsg{color:#ff5a5a; margin-top:8px; font-size:14px; opacity:0; transition:opacity .3s;}
+#errorMsg.show{opacity:1;}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="loginBox">
-  <h2>🔐 Admin Login</h2>
-  <input id="passInput" type="password" placeholder="Enter Admin Password">
-  <button id="loginBtn">Login</button>
-  <small id="err" style="color:#ff5a5a;display:none;">❌ Wrong password</small>
+<!-- SECURITY POPUP -->
+<div id="securityOverlay">
+  <h2>Enter Security Code 🔒</h2>
+  <input type="password" id="secCodeInput" placeholder="Enter code" autofocus>
+  <button id="secCodeBtn">Unlock</button>
+  <div id="errorMsg">❌ Wrong code!</div>
 </div>
 
 <!-- ADMIN PANEL -->
 <div id="adminPanel" class="hidden">
   <h2>🎮 BGMI Live Slot Admin</h2>
-  <small>Update slots — live overlay me reflect hoga.</small>
+  <small>Update slots — “Push Live” saves to database.</small>
 
   <input id="searchBox" type="text" placeholder="🔍 Search by team or slot name">
+  
   <div id="bulkActions" class="row">
-    <button data-action="available">Mark All Available ✅</button>
+    <button data-action="available">Mark All Available ✅ (Clears Names)</button>
     <button data-action="reserved">Mark All Reserved ❌</button>
     <button data-action="empty">Mark All Empty</button>
   </div>
@@ -69,22 +103,31 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// ADMIN PASSWORD
-const ADMIN_PASS = "Rajnish@1234";
-const loginBox = document.getElementById("loginBox");
-const adminPanel = document.getElementById("adminPanel");
-const err = document.getElementById("err");
+// SECURITY CODE LOGIC
+const overlay = document.getElementById("securityOverlay");
+const input = document.getElementById("secCodeInput");
+const btn = document.getElementById("secCodeBtn");
+const errorMsg = document.getElementById("errorMsg");
+const ADMIN_CODE = "7372874327";
 
-document.getElementById("loginBtn").onclick = ()=>{
-  if(document.getElementById("passInput").value === ADMIN_PASS){
-    loginBox.classList.add("hidden");
-    adminPanel.classList.remove("hidden");
-  } else { err.style.display="block"; }
-};
+btn.onclick = unlockAdmin;
+input.addEventListener("keypress", e => { if(e.key==="Enter") unlockAdmin(); });
+
+function unlockAdmin(){
+  if(input.value === ADMIN_CODE){
+    overlay.style.display = "none";
+    document.getElementById("adminPanel").classList.remove("hidden");
+  } else {
+    errorMsg.classList.add("show");
+    input.value="";
+    input.focus();
+    setTimeout(()=>errorMsg.classList.remove("show"),1500);
+  }
+}
 
 // DEFAULT SLOTS
 const defaultSlots = [
-  {slot:"Slot 1", name:"Big Bull", status:"R"},
+  {slot:"Slot 1", name:"Big Bull", status:"Reserved"},
   {slot:"Slot 2", name:"ZIA ESPORTS", status:""},
   {slot:"Slot 3", name:"PHRM", status:""},
   {slot:"Slot 4", name:"Angry.eSports", status:""},
@@ -92,23 +135,15 @@ const defaultSlots = [
   {slot:"Slot 6", name:"AVAILABLE", status:""},
   {slot:"Slot 7", name:"AVAILABLE", status:""},
   {slot:"Slot 8", name:"AVAILABLE", status:""},
-  {slot:"Slot 9", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 10", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 11", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 12", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 13", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 14", name:"Reserved", status:"Reserved"},
-  {slot:"Slot 15", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 16", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 17", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 18", name:"AVAILABLE", status:"✅"},
-  {slot:"Slot 19", name:"AVAILABLE", status:"✅"}
+  {slot:"Slot 9", name:"AVAILABLE", status:""},
+  {slot:"Slot 10", name:"AVAILABLE", status:""}
 ];
 
-let slots = defaultSlots;
+let slots = defaultSlots.slice();
 const wrap = document.getElementById("adminWrap");
 const searchBox = document.getElementById("searchBox");
 
+// RENDER PANEL
 function renderAdmin(filter=""){
   wrap.innerHTML="";
   slots.forEach((s,i)=>{
@@ -120,51 +155,32 @@ function renderAdmin(filter=""){
       <div class="row">
         <input value="${s.name}" placeholder="Team name" data-i="${i}" class="nameInput">
         <select data-i="${i}" class="statusSel">
-          <option value="">Empty</option>
-          <option value="R" ${s.status==="R"?"selected":""}>R</option>
-          <option value="✅" ${s.status==="✅"?"selected":""}>Available</option>
+          <option value="Available" ${s.status==="Available"?"selected":""}>Available</option>
           <option value="Reserved" ${s.status==="Reserved"?"selected":""}>Reserved</option>
+          <option value="" ${s.status===""?"selected":""}>Empty</option>
         </select>
       </div>
     `;
     wrap.appendChild(d);
 
-    // Status highlight
     const sel = d.querySelector(".statusSel");
-    sel.onchange = e=>{
-      slots[i].status = e.target.value;
-      d.classList.add("flash");
-      setTimeout(()=>d.classList.remove("flash"),800);
-      pushLive();
-    };
+    sel.onchange = e=>{ slots[i].status = e.target.value; d.classList.add("flash"); setTimeout(()=>d.classList.remove("flash"),800); };
 
-    // Name input
     const inp = d.querySelector(".nameInput");
-    inp.oninput = e=>{
-      slots[i].name = e.target.value.toUpperCase();
-      e.target.value = e.target.value.toUpperCase();
-      pushLive();
-    };
+    inp.oninput = e=>{ slots[i].name = e.target.value.toUpperCase(); e.target.value = e.target.value.toUpperCase(); };
   });
 }
 
-// PUSH LIVE FUNCTION
-function pushLive(){
-  set(ref(db,"slots"),slots);
-}
+// PUSH LIVE TO FIREBASE
+function pushLive(){ set(ref(db,"slots"),slots); alert("✅ Slots pushed live!"); }
 
-// INIT RENDER
-onValue(ref(db,"slots"),snap=>{
-  if(snap.exists()) slots = snap.val();
-  renderAdmin(searchBox.value);
-});
+// INITIAL LOAD
+onValue(ref(db,"slots"),snap=>{ if(snap.exists()) slots = snap.val(); renderAdmin(searchBox.value); });
 
 // SEARCH FILTER
-searchBox.oninput = e=>{
-  renderAdmin(e.target.value);
-};
+searchBox.oninput = e=>{ renderAdmin(e.target.value); };
 
-// PUSH BUTTON
+// PUSH LIVE BUTTON
 document.getElementById("pushBtn").onclick = ()=>pushLive();
 
 // BULK ACTIONS
@@ -172,15 +188,13 @@ document.querySelectorAll("#bulkActions button").forEach(btn=>{
   btn.onclick = ()=>{
     const action = btn.dataset.action;
     slots.forEach(s=>{
-      if(action==="available") s.status="✅";
+      if(action==="available") { s.status="Available"; s.name=""; }
       else if(action==="reserved") s.status="Reserved";
       else if(action==="empty") s.status="";
     });
     renderAdmin(searchBox.value);
-    pushLive();
   };
 });
 </script>
-
 </body>
 </html>
