@@ -152,11 +152,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 
 /* Text */
 .slot-item span:first-child{
-  font-weight:800; font-size:11px; color:#02030a;
-  max-width:75%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-weight:800;
+  font-size:11px;
+  color:#02030a;
+  max-width:70%;
+  white-space:normal;        /* 👈 text wrap */
+  overflow:visible;         /* 👈 no cut */
+  line-height:1.2;
+  word-break:break-word;    /* 👈 long names break ho jayenge */
 }
-.slot-item span:last-child{font-weight:900; font-size:11px; color:#00ffb3;}
-.slot-item.reserved span:last-child{color:#ff5a5a;}
+
+/* Desktop pe still single line rahe */
+@media (min-width: 520px){
+  .slot-item span:first-child{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+}
 </style>
 </head>
 
