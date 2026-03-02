@@ -29,8 +29,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   align-items:center;
 }
 #loader .ring{
-  width:60px; height:60px;
-  border:5px solid rgba(255,255,255,.15);
+  width:50px; height:50px;
+  border:4px solid rgba(255,255,255,.15);
   border-top-color:var(--neon);
   border-radius:50%;
   animation:spin 1s linear infinite;
@@ -95,11 +95,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   justify-content:space-between; 
   align-items:flex-start;
   gap:6px;
-  padding:7px 8px; 
-  border-radius:12px;
+  padding:6px 6px; 
+  border-radius:10px;
   border:2px solid rgba(255,216,107,.9);
-  box-shadow: 0 0 8px rgba(123,63,228,.5), inset 0 0 6px rgba(255,255,255,.2);
+  box-shadow: 0 0 6px rgba(123,63,228,.5), inset 0 0 4px rgba(255,255,255,.2);
   transition: transform .12s ease, box-shadow .12s ease, filter .12s ease, background .3s ease, border .3s ease;
+  min-height:50px;
+  font-size:12px;
+  background-clip: padding-box;
 }
 .slot-item.available{
   background: var(--available-gradient);
@@ -109,22 +112,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 .slot-item.vip{
   background: linear-gradient(135deg, #7b3fe4, #ffd86b, #00f5ff);
   color:#02030a;
-  font-weight:800;
-  border:3px solid gold;
+  font-weight:700;
+  border:2px solid gold;
   animation: vipGlow 2.5s ease-in-out infinite alternate;
-  box-shadow: 0 0 12px rgba(255,215,0,.8), inset 0 0 8px rgba(255,255,255,.3);
+  box-shadow: 0 0 10px rgba(255,215,0,.8), inset 0 0 6px rgba(255,255,255,.2);
 }
 
 /* VIP glow */
 @keyframes vipGlow{
-  0%{box-shadow: 0 0 8px rgba(255,215,0,.5), inset 0 0 5px rgba(255,255,255,.2);}
-  50%{box-shadow: 0 0 18px rgba(255,215,0,.9), inset 0 0 10px rgba(255,255,255,.3);}
-  100%{box-shadow: 0 0 12px rgba(255,215,0,.8), inset 0 0 8px rgba(255,255,255,.3);}
+  0%{box-shadow: 0 0 6px rgba(255,215,0,.5), inset 0 0 4px rgba(255,255,255,.2);}
+  50%{box-shadow: 0 0 14px rgba(255,215,0,.9), inset 0 0 8px rgba(255,255,255,.3);}
+  100%{box-shadow: 0 0 10px rgba(255,215,0,.8), inset 0 0 6px rgba(255,255,255,.3);}
 }
 
 /* Text */
 .slot-item span:first-child{
-  font-weight:800;
+  font-weight:700;
   font-size:11px;
   max-width:100%;
   white-space:normal;
@@ -138,36 +141,33 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   color:#000;
   font-weight:bold;
   background: gold;
-  padding:2px 4px;
-  border-radius:4px;
+  padding:1px 3px;
+  border-radius:3px;
   text-align:center;
 }
 
-/* VIP Tag */
+/* VIP Watermark Mohar */
 .vip-tag{
   position:absolute;
-  top:-8px;
-  right:-8px;
-  background: linear-gradient(45deg,#ffd700,#ff8c00,#ff0000,#ff8c00,#ffd700);
-  background-size:200% 200%;
-  color: #000;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%) rotate(-25deg);
+  background: rgba(255,215,0,0.25);
+  color: rgba(0,0,0,0.7);
   font-weight:bold;
-  padding:4px 8px;
-  font-size:10px;
+  font-size:14px;
+  padding:6px 12px;
   border-radius:8px;
-  text-shadow: 0 0 5px #fff;
-  animation: shimmer 2s linear infinite alternate;
   pointer-events:none;
-}
-@keyframes shimmer{
-  0%{background-position:0% 50%;}
-  100%{background-position:100% 50%;}
+  text-align:center;
+  letter-spacing:1px;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
 }
 
 /* Ripple FX */
 .ripple{
   position:absolute;
-  width:20px; height:20px;
+  width:16px; height:16px;
   border-radius:50%;
   pointer-events:none;
   background: radial-gradient(circle, rgba(255,255,255,.9) 0%, rgba(0,245,255,.6) 40%, transparent 70%);
@@ -178,7 +178,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 /* Fire effect */
 .fire{
   position:absolute;
-  width:40px; height:40px;
+  width:30px; height:30px;
   pointer-events:none;
   border-radius:50%;
   background: radial-gradient(circle, rgba(255,150,0,.8) 0%, rgba(255,50,0,0.6) 50%, transparent 80%);
@@ -194,8 +194,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 .vip-pulse{
   position:absolute;
   inset:0;
-  border-radius:12px;
-  background: rgba(255,215,0,0.25);
+  border-radius:10px;
+  background: rgba(255,215,0,0.2);
   pointer-events:none;
   transform: scale(0);
   animation: pulse 0.6s ease-out forwards;
@@ -298,13 +298,13 @@ db.ref("slots").on("value",(snap)=>{
     d.className="slot-item "+(isVip?"vip reserved":"available");
 
     const displayName = isVip ? `${s.slot} – ${s.name}` : "Book Now";
-    const statusText = isVip ? "Booked" : "Available";
+    const statusText = isVip ? "BGMI" : "Available";
     d.innerHTML=`<span>${displayName}</span><span>${statusText}</span>`;
 
     if(isVip){
       const vipTag = document.createElement("div");
       vipTag.className="vip-tag";
-      vipTag.textContent="🔥 Esports 🔥";
+      vipTag.textContent="BOOKED";
       d.appendChild(vipTag);
     }
 
