@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>BGMI Tournament • Register</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
@@ -14,219 +14,368 @@
   --gold:#FFD700;
   --gold2:#ff9f00;
   --muted:#9aa0b4;
-  --glass:rgba(255,255,255,.06);
-  --radius:18px;
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui;}
-html,body{width:100%;height:100%;background:radial-gradient(120% 80% at 50% 0%, #121421 0%, #050508 60%, #020204 100%);color:#fff;overflow:hidden;}
-.app{max-width:430px;margin:0 auto;height:100dvh;display:flex;flex-direction:column;}
 
-/* Header */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Inter,system-ui;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  background:radial-gradient(120% 80% at 50% 0%, #121421 0%, #050508 60%, #020204 100%);
+  color:#fff;
+  overflow:hidden;
+}
+
+.app{
+  max-width:430px;
+  margin:0 auto;
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ===== LIVE BAR ===== */
+
+.live-bar{
+  width:100%;
+  height:40px;
+  background:#0b0e17;
+  border-bottom:1px solid rgba(255,215,0,.4);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+}
+
+.badge{
+  background:#22f5c3;
+  color:#000;
+  font-weight:800;
+  padding:4px 8px;
+  border-radius:4px;
+  font-size:12px;
+  margin-left:8px;
+}
+
+.live-track{
+  position:absolute;
+  white-space:nowrap;
+  font-weight:800;
+  font-size:14px;
+  left:100%;
+  background:linear-gradient(90deg,#FFD700,#fff,#ff9f00,#FFD700);
+  background-size:300%;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:shine 3s linear infinite;
+}
+
+@keyframes shine{
+  0%{background-position:0%}
+  100%{background-position:300%}
+}
+
+/* ===== HEADER ===== */
+
 .header{
-  position:sticky;top:0;z-index:10;
-  padding:14px 14px 12px;
+  padding:14px;
   background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);
-  color:#000;font-weight:900;letter-spacing:.6px;
-  box-shadow:0 10px 24px rgba(0,0,0,.6);
+  color:#000;
+  font-weight:900;
+  text-align:center;
 }
-.header .sub{font-size:11px;font-weight:700;opacity:.9}
 
-/* Content */
+/* ===== CONTENT ===== */
+
 .content{
-  flex:1;overflow:auto;padding:12px 12px 90px;
+  flex:1;
+  overflow:auto;
+  padding:12px 12px 90px;
 }
+
 .card{
   background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
   border:1px solid rgba(255,215,0,.35);
   border-radius:22px;
-  padding:14px;margin-bottom:12px;
-  box-shadow:0 14px 32px rgba(0,0,0,.75), inset 0 0 18px rgba(255,215,0,.06);
-  backdrop-filter: blur(6px);
+  padding:16px;
+  margin-bottom:14px;
 }
-.h{font-weight:900;color:var(--gold);margin-bottom:8px;letter-spacing:.3px}
-.sub{color:var(--muted);font-size:12px;margin-bottom:10px}
 
-/* Inputs */
-.input, .select{
-  width:100%;padding:12px;border-radius:14px;
+.h{
+  font-weight:900;
+  color:var(--gold);
+  margin-bottom:8px;
+}
+
+.sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:10px;
+}
+
+.input,.select{
+  width:100%;
+  padding:12px;
+  border-radius:14px;
   border:1px solid rgba(255,215,0,.35);
-  background:#06070c;color:#fff;outline:none;margin-bottom:10px;
+  background:#06070c;
+  color:#fff;
+  margin-bottom:10px;
+  outline:none;
 }
-.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 
-/* Buttons */
 .btn{
-  width:100%;border:none;border-radius:16px;padding:14px 16px;
-  font-weight:900;letter-spacing:.6px;color:#000;
+  width:100%;
+  border:none;
+  border-radius:16px;
+  padding:14px;
+  font-weight:900;
+  color:#000;
+  cursor:pointer;
   background:linear-gradient(90deg,var(--gold2),var(--gold),#fff1a8,var(--gold));
-  box-shadow:0 12px 26px rgba(255,215,0,.55), inset 0 1px 0 #fff;
 }
+
 .btn.secondary{
-  background:transparent;color:var(--gold);
+  background:transparent;
+  color:var(--gold);
   border:1px dashed rgba(255,215,0,.5);
-  box-shadow:none;
 }
 
-/* QR */
 .qr{
-  display:none;margin-top:10px;text-align:center;
-  border:1px dashed rgba(255,215,0,.5);border-radius:16px;padding:12px;
+  display:none;
+  margin-top:10px;
+  text-align:center;
+  border:1px dashed rgba(255,215,0,.5);
+  border-radius:16px;
+  padding:12px;
 }
-.qr img{width:180px;height:180px;border-radius:14px;background:#fff}
-.note{color:var(--muted);font-size:11px;margin-top:6px}
 
-/* Status */
+.qr img{
+  width:180px;
+  height:180px;
+  border-radius:14px;
+  background:#fff;
+}
+
 .ok{color:#22f5c3;font-weight:800}
 .err{color:#ff6b6b;font-weight:800}
 
-/* Footer */
+/* ===== WIN POPUP ===== */
+
+.winPop{
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%) scale(0);
+  font-size:26px;
+  font-weight:900;
+  color:#FFD700;
+  text-shadow:0 0 25px #FFD700;
+  animation:pop 1.2s ease forwards;
+}
+
+@keyframes pop{
+  0%{transform:translate(-50%,-50%) scale(0);opacity:0}
+  50%{transform:translate(-50%,-50%) scale(1.4);opacity:1}
+  100%{transform:translate(-50%,-50%) scale(1);opacity:0}
+}
+
 .footer{
-  position:sticky;bottom:0;z-index:10;
-  padding:10px 12px;background:linear-gradient(180deg, rgba(5,6,10,.65), rgba(5,6,10,.95));
-  backdrop-filter: blur(6px);
+  position:sticky;
+  bottom:0;
+  padding:10px 12px;
+  background:linear-gradient(180deg, rgba(5,6,10,.65), rgba(5,6,10,.95));
 }
 </style>
 </head>
+
 <body>
 
-<div class="app">
-  <div class="header">
-    BGMI TOURNAMENT • REGISTER
-    <div class="sub">Entry ₹20 • Limited slots • Mobile-only</div>
-  </div>
-
-  <div class="content">
-    <div class="card">
-      <div class="h">🎯 Player Details</div>
-      <input id="name" class="input" placeholder="Player Name" />
-      <input id="bgmi" class="input" placeholder="BGMI ID" />
-      <input id="phone" class="input" placeholder="Mobile No (10 digits)" />
-      <select id="room" class="select">
-        <option value="Room 1 • 6:00 PM">Room 1 • 6:00 PM</option>
-        <option value="Room 2 • 7:00 PM">Room 2 • 7:00 PM</option>
-      </select>
-    </div>
-
-    <div class="card">
-      <div class="h">💳 Payment (UPI)</div>
-      <div class="sub">Scan & pay ₹20, then enter Txn ID</div>
-      <div class="qr" id="qrBox">
-        <img id="qrImg" src="" alt="UPI QR"/>
-        <input id="txn" class="input" placeholder="UPI Transaction ID" style="margin-top:10px"/>
-        <div class="note">Make sure Txn ID is unique</div>
-      </div>
-      <button class="btn" id="payBtn" onclick="showQR()">Pay ₹20 & Continue</button>
-    </div>
-
-    <div class="card">
-      <div class="h">✅ Confirm</div>
-      <button class="btn secondary" onclick="confirmBooking()">Confirm Booking</button>
-      <div id="msg" style="margin-top:8px"></div>
-    </div>
-  </div>
-
-  <div class="footer">
-    <button class="btn" onclick="location.href='slots.html'">📋 Check Slot List</button>
-  </div>
+<div class="live-bar">
+  <span class="badge">LIVE</span>
+  <div class="live-track" id="liveTrack"></div>
 </div>
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<div class="app">
+
+<div class="header">
+BGMI TOURNAMENT • REGISTER
+</div>
+
+<div class="content">
+
+<div class="card">
+<div class="h">🎯 Player Details</div>
+<input id="name" class="input" placeholder="Player Name"/>
+<input id="bgmi" class="input" placeholder="BGMI ID"/>
+<input id="phone" class="input" placeholder="Mobile No (10 digits)"/>
+
+<select id="room" class="select">
+<option value="Room 1 • 6:00 PM">Room 1 • 12:30 PM</option>
+<option value="Room 2 • 7:00 PM">Room 2 • 8:00 PM</option>
+</select>
+
+<select id="amount" class="select">
+<option value="20">Entry ₹20</option>
+<option value="49">Entry ₹49</option>
+<option value="99">Entry ₹99</option>
+</select>
+</div>
+
+<div class="card">
+<div class="h">💳 Payment (UPI)</div>
+<div class="sub">Scan & pay selected amount</div>
+
+<div class="qr" id="qrBox">
+<img id="qrImg"/>
+<input id="txn" class="input" placeholder="UPI Transaction ID"/>
+</div>
+
+<button class="btn" id="payBtn" onclick="showQR()">Pay & Continue</button>
+</div>
+
+<div class="card">
+<div class="h">✅ Confirm</div>
+<button class="btn secondary" onclick="confirmBooking()">Confirm Booking</button>
+<div id="msg"></div>
+</div>
+
+</div>
+
+<div class="footer">
+<button class="btn" onclick="location.href='slots.html'">📋 Check Slot List</button>
+</div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
-  authDomain: "incoinpaysliveearning.firebaseapp.com",
-  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
-  projectId: "incoinpaysliveearning",
-  storageBucket: "incoinpaysliveearning.appspot.com",
-  messagingSenderId: "971873814750",
-  appId: "1:971873814750:web:7418c7da119e4725ed9a4f",
-  measurementId: "G-5QXM87ZRH2"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-const MAX_PER_ROOM = 25;
+firebase.initializeApp({
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+authDomain:"incoinpaysliveearning.firebaseapp.com",
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+projectId:"incoinpaysliveearning"
+});
 
-let currentUPI = "";
+const db=firebase.database();
+const MAX_PER_ROOM=25;
 
-// Fetch UPI from Firebase and generate QR
-db.ref('config/upi').once('value').then(snapshot=>{
-  if(snapshot.exists()){
-    currentUPI = snapshot.val();
-    const qrData = encodeURIComponent(`upi://pay?pa=${currentUPI}&pn=BGMI Tournament&am=20&cu=INR`);
-    document.getElementById("qrImg").src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${qrData}`;
-  } else {
-    document.getElementById("qrImg").alt = "UPI not set by admin yet";
-  }
+let currentUPI="";
+let upiLoaded=false;
+
+db.ref("config/upi").once("value").then(snap=>{
+if(snap.exists()){
+currentUPI=snap.val();
+upiLoaded=true;
+}
 });
 
 function showQR(){
-  document.getElementById("qrBox").style.display = "block";
-  document.getElementById("payBtn").style.display = "none";
+if(!upiLoaded){
+alert("Payment loading...");
+return;
 }
 
-// Count how many confirmed users in a room
-async function countRoom(room){
-  const snapshot = await db.ref('slots').orderByChild('room').equalTo(room).once('value');
-  return snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
-}
+let amount=document.getElementById("amount").value;
 
-// Check if Txn ID exists
-async function txnExists(txn){
-  const snapshot = await db.ref('txns/' + txn).once('value');
-  return snapshot.exists();
+const qrData=encodeURIComponent(
+`upi://pay?pa=${currentUPI}&pn=BGMI Tournament&am=${amount}&cu=INR`
+);
+
+document.getElementById("qrImg").src=
+`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${qrData}`;
+
+document.getElementById("qrBox").style.display="block";
+document.getElementById("payBtn").disabled=true;
 }
 
 async function confirmBooking(){
-  const name = document.getElementById("name").value.trim();
-  const bgmi = document.getElementById("bgmi").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const room = document.getElementById("room").value;
-  const txn = document.getElementById("txn").value.trim();
-  const msg = document.getElementById("msg");
-  const whatsappNumber = "7970882743"; // Replace with your WhatsApp number
 
-  if(!name || !bgmi || phone.length!==10 || !txn){
-    msg.innerHTML = "<span class='err'>❌ Fill all fields correctly</span>";
-    return;
-  }
+let name=document.getElementById("name").value.trim();
+let bgmi=document.getElementById("bgmi").value.trim();
+let phone=document.getElementById("phone").value.trim();
+let room=document.getElementById("room").value;
+let amount=document.getElementById("amount").value;
+let txn=document.getElementById("txn").value.trim();
+let msg=document.getElementById("msg");
 
-  if(await txnExists(txn)){
-    msg.innerHTML = "<span class='err'>❌ Txn ID already used</span>";
-    return;
-  }
-
-  const roomCount = await countRoom(room);
-  if(roomCount >= MAX_PER_ROOM){
-    msg.innerHTML = "<span class='err'>❌ Room full! Choose another room</span>";
-    return;
-  }
-
-  // Save to slots
-  const slotRef = db.ref('slots').push();
-  await slotRef.set({
-    name, bgmi, phone, room, txn, timestamp: Date.now()
-  });
-
-  // Save Txn ID to prevent reuse
-  await db.ref('txns/' + txn).set(true);
-
-  msg.innerHTML = "<span class='ok'>✅ Booking confirmed! See you in the game 🎮</span>";
-
-  // WhatsApp message
-  const whatsappText = encodeURIComponent(`Please confirm my slot ${phone}`);
-  window.open(`https://wa.me/${whatsappNumber}?text=${whatsappText}`, '_blank');
-
-  // Reset form
-  document.getElementById("name").value = '';
-  document.getElementById("bgmi").value = '';
-  document.getElementById("phone").value = '';
-  document.getElementById("txn").value = '';
-  document.getElementById("qrBox").style.display = "none";
-  document.getElementById("payBtn").style.display = "block";
+if(!name||!bgmi||phone.length!==10||!txn){
+msg.innerHTML="<span class='err'>❌ Fill all fields correctly</span>";
+return;
 }
+
+let txnCheck=await db.ref("txns/"+txn).once("value");
+if(txnCheck.exists()){
+msg.innerHTML="<span class='err'>❌ Txn ID already used</span>";
+return;
+}
+
+let roomSnap=await db.ref("slots").orderByChild("room").equalTo(room).once("value");
+let count=roomSnap.exists()?Object.keys(roomSnap.val()).length:0;
+
+if(count>=MAX_PER_ROOM){
+msg.innerHTML="<span class='err'>❌ Room Full</span>";
+return;
+}
+
+let ref=db.ref("slots").push();
+await ref.set({
+name,bgmi,phone,room,amount,txn,timestamp:Date.now()
+});
+
+await db.ref("txns/"+txn).set(true);
+
+msg.innerHTML="<span class='ok'>✅ Booking Confirmed 🎮</span>";
+
+showWinPopup(amount);
+
+document.getElementById("name").value="";
+document.getElementById("bgmi").value="";
+document.getElementById("phone").value="";
+document.getElementById("txn").value="";
+document.getElementById("qrBox").style.display="none";
+document.getElementById("payBtn").disabled=false;
+}
+
+function showWinPopup(amount){
+let pop=document.createElement("div");
+pop.className="winPop";
+pop.innerText="🔥 ₹"+amount+" Entry Confirmed!";
+document.body.appendChild(pop);
+setTimeout(()=>pop.remove(),1200);
+}
+
+/* ===== LIVE TICKER ===== */
+
+function startTicker(){
+db.ref("slots").limitToLast(1).once("value",snap=>{
+let player="Player";
+snap.forEach(child=>{player=child.val().name;});
+let text="🎮 "+player+" joined tournament!";
+let track=document.getElementById("liveTrack");
+track.innerText=text;
+
+let speed=Math.max(8,text.length/2);
+track.style.transition="none";
+track.style.left="100%";
+
+setTimeout(()=>{
+track.style.transition=`left ${speed}s linear`;
+track.style.left="-100%";
+},100);
+
+setTimeout(startTicker,(speed*1000)+2000);
+});
+}
+
+startTicker();
 </script>
 
 </body>
