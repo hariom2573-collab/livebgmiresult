@@ -16,7 +16,7 @@ body{
 }
 h2{
   text-align:center;
-  padding:10px 10px 5px;
+  padding:10px;
   font-size:20px;
   background:linear-gradient(90deg,#00f5ff,#ff00c8,#ffd86b);
   -webkit-background-clip:text;
@@ -35,7 +35,6 @@ h2{
   border-radius:16px;
   padding:10px;
   margin-bottom:10px;
-  transition:0.3s ease;
 }
 .slotTitle{
   font-weight:800;
@@ -74,66 +73,87 @@ button{
   color:#000;
   margin-top:5px;
 }
-#upiBtn{
-  margin:10px 10px 0 10px;
-  border-radius:12px;
-  background:linear-gradient(135deg,#ffd86b,#ff00c8,#00f5ff);
-  color:#000;
-}
-.statusAvailable{
-  border-left:5px solid #00ff88;
-}
-.statusReserved{
-  border-left:5px solid #ff2e63;
-}
+.statusAvailable{border-left:5px solid #00ff88;}
+.statusReserved{border-left:5px solid #ff2e63;}
 </style>
 </head>
 <body>
 
 <h2>🎮 BGMI LIVE SLOT ADMIN</h2>
 
-<!-- UPI Button -->
-<button id="upiBtn">💳 Update Tournament UPI</button>
-
 <div id="adminWrap"></div>
-<button id="pushBtn">🚀 PUSH LIVE</button>
+<button id="pushBtn">🚀 UPDATE LIVE</button>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <script>
-var firebaseConfig = {
-  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
-  authDomain: "incoinpaysliveearning.firebaseapp.com",
-  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
-  projectId: "incoinpaysliveearning",
-  storageBucket: "incoinpaysliveearning.appspot.com",
-  messagingSenderId: "971873814750",
-  appId: "1:971873814750:web:7418c7da119e4725ed9a4f"
-};
+firebase.initializeApp({
+  apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+  authDomain:"incoinpaysliveearning.firebaseapp.com",
+  databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+  projectId:"incoinpaysliveearning"
+});
 
-firebase.initializeApp(firebaseConfig);
-var db = firebase.database();
-
-var slots = [];
-for(let i=1;i<=20;i++){
-  slots.push({slot:"Slot "+i,name:"AVAILABLE",status:"Available"});
-}
-
+var db=firebase.database();
 var wrap=document.getElementById("adminWrap");
 
+const TOTAL_SLOTS=25;
+var slots=[];
+
+/* Create default slots */
+function createDefaultSlots(){
+  slots=[];
+  for(let i=1;i<=TOTAL_SLOTS;i++){
+    slots.push({
+      slot:"Slot "+i,
+      name:"",
+      status:"Available"
+    });
+  }
+}
+
+/* Load bookings from register page data */
+function loadFromDatabase(){
+
+  createDefaultSlots();
+
+  db.ref("slots").once("value").then(function(snap){
+
+    if(snap.exists()){
+
+      const data=Object.values(snap.val());
+
+      data.forEach(function(b,i){
+        if(i<TOTAL_SLOTS){
+          slots[i].name=b.name || "";
+          slots[i].status="Reserved";
+        }
+      });
+
+    }
+
+    renderAdmin();
+  });
+}
+
+/* Render Admin UI */
 function renderAdmin(){
+
   wrap.innerHTML="";
+
   slots.forEach(function(s,i){
+
     var d=document.createElement("div");
     d.className="card";
+
     if(s.status==="Available") d.classList.add("statusAvailable");
     if(s.status==="Reserved") d.classList.add("statusReserved");
 
     d.innerHTML=
       "<div class='slotTitle'>"+s.slot+"</div>"+
       "<div class='row'>"+
-      "<input value='"+s.name+"' class='nameInput'>"+
+      "<input value='"+s.name+"' class='nameInput' placeholder='Player Name'>"+
       "<select class='statusSel'>"+
       "<option value='Available' "+(s.status==="Available"?"selected":"")+">Available</option>"+
       "<option value='Reserved' "+(s.status==="Reserved"?"selected":"")+">Reserved</option>"+
@@ -144,34 +164,38 @@ function renderAdmin(){
 
     d.querySelector(".nameInput").oninput=function(e){
       slots[i].name=e.target.value.toUpperCase();
-      e.target.value=e.target.value.toUpperCase();
     };
+
     d.querySelector(".statusSel").onchange=function(e){
       slots[i].status=e.target.value;
       renderAdmin();
     };
+
   });
 }
 
-// Load slots from Firebase
-db.ref("slots").once("value").then(function(snap){
-  if(snap.exists()){
-    slots=snap.val();
-  }
-  renderAdmin();
-});
-
-// Push updated slots to Firebase
+/* Push updated manual slots */
 document.getElementById("pushBtn").onclick=function(){
-  db.ref("slots").set(slots)
-  .then(()=>alert("✅ Updated Successfully!"))
+
+  var finalData={};
+
+  slots.forEach(function(s,i){
+    if(s.status==="Reserved"){
+      finalData["slot"+(i+1)]={
+        name:s.name || "PLAYER",
+        slot:s.slot,
+        status:"Reserved"
+      };
+    }
+  });
+
+  db.ref("slots").set(finalData)
+  .then(()=>alert("✅ Live Updated Successfully"))
   .catch(err=>alert("❌ "+err.message));
 };
 
-// Open admin-upi.html when UPI button clicked
-document.getElementById("upiBtn").onclick=function(){
-  window.open("admin-upi.html","_blank");
-};
+/* Initial Load */
+loadFromDatabase();
 </script>
 
 </body>
