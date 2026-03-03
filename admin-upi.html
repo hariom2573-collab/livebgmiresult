@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BGMI Admin • Update UPI</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#0A0A0C;color:#fff;display:flex;flex-direction:column;align-items:center;padding:20px;}
+.card{background:#121421;padding:20px;border-radius:16px;width:100%;max-width:400px;margin-bottom:20px;box-shadow:0 6px 20px rgba(0,0,0,.5);}
+h2{color:#FFD700;text-align:center;}
+.input{width:100%;padding:12px;border-radius:12px;border:none;margin-bottom:12px;font-size:16px;}
+.btn{width:100%;padding:14px;border:none;border-radius:14px;font-weight:bold;background:#FFD700;color:#000;cursor:pointer;font-size:16px;}
+.note{color:#9aa0b4;font-size:12px;margin-top:6px;text-align:center;}
+.ok{color:#22f5c3;}
+.err{color:#ff6b6b;}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Update Tournament UPI</h2>
+  <input type="text" id="upiInput" class="input" placeholder="Enter UPI ID"/>
+  <button class="btn" onclick="updateUPI()">Save UPI</button>
+  <div id="msg" class="note"></div>
+</div>
+
+<div class="card">
+  <h2>Current UPI ID</h2>
+  <div id="currentUPI" class="note"></div>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+// Your Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+  authDomain: "incoinpaysliveearning.firebaseapp.com",
+  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+  projectId: "incoinpaysliveearning",
+  storageBucket: "incoinpaysliveearning.appspot.com",
+  messagingSenderId: "971873814750",
+  appId: "1:971873814750:web:7418c7da119e4725ed9a4f",
+  measurementId: "G-5QXM87ZRH2"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// Reference to UPI node
+const upiRef = db.ref('config/upi');
+
+// Load current UPI
+upiRef.once('value').then(snapshot=>{
+  document.getElementById('currentUPI').innerText = snapshot.exists() ? snapshot.val() : "Not set yet";
+});
+
+// Secret admin key
+const ADMIN_KEY = "MySecret123"; // Change this to your own secret
+
+function updateUPI(){
+  const enteredKey = prompt("Enter admin key to update UPI:");
+  if(enteredKey !== ADMIN_KEY){
+    alert("❌ Wrong admin key!");
+    return;
+  }
+
+  const upi = document.getElementById('upiInput').value.trim();
+  const msg = document.getElementById('msg');
+  if(!upi){
+    msg.innerHTML = "<span class='err'>❌ Enter a valid UPI ID</span>";
+    return;
+  }
+
+  upiRef.set(upi)
+    .then(()=>{
+      msg.innerHTML = "<span class='ok'>✅ UPI updated successfully!</span>";
+      document.getElementById('currentUPI').innerText = upi;
+      document.getElementById('upiInput').value = '';
+    })
+    .catch(err=>{
+      msg.innerHTML = "<span class='err'>❌ Error saving UPI</span>";
+      console.error(err);
+    });
+}
+</script>
+
+</body>
+</html>
