@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin • Bookings</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0c0f18;
+  color:#fff;
+}
+.header{
+  background:linear-gradient(90deg,#ff9f00,#FFD700,#fff1a8);
+  padding:15px;
+  text-align:center;
+  font-weight:900;
+  color:#000;
+}
+.container{
+  padding:15px;
+}
+.card{
+  background:#111522;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:10px;
+  border:1px solid rgba(255,215,0,.3);
+}
+.h{
+  font-weight:800;
+  color:#FFD700;
+}
+.small{
+  font-size:12px;
+  color:#bbb;
+}
+.count{
+  margin:10px 0;
+  font-weight:800;
+  color:#22f5c3;
+}
+select{
+  width:100%;
+  padding:8px;
+  margin-bottom:10px;
+  border-radius:8px;
+}
+.btn{
+  padding:6px 10px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:700;
+}
+.delete{
+  background:#ff4d4d;
+  color:#fff;
+}
+
+/* ===== LOGIN ===== */
+#loginBox{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,.9);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:9999;
+}
+#loginBox input{
+  padding:10px;
+  margin-bottom:10px;
+  border-radius:8px;
+  border:none;
+  width:200px;
+  text-align:center;
+}
+#loginBox button{
+  padding:10px 15px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(90deg,#ff9f00,#FFD700);
+  font-weight:700;
+  cursor:pointer;
+}
+#loginMsg{
+  margin-top:10px;
+  color:red;
+  font-weight:700;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginBox">
+  <h2>ADMIN LOGIN</h2>
+  <input type="password" id="adminPass" placeholder="Enter Password">
+  <button onclick="login()">Login</button>
+  <div id="loginMsg"></div>
+</div>
+
+<div class="header">
+ADMIN PANEL • BOOKINGS
+</div>
+
+<div class="container" id="mainContent" style="display:none;">
+
+<select id="roomFilter" onchange="loadBookings()">
+<option value="all">All Rooms</option>
+<option value="Room 1 • 12:30 PM">Room 1 • 12:30 PM</option>
+<option value="Room 2 • 8:00 PM">Room 2 • 8:00 PM</option>
+</select>
+
+<div class="count" id="totalCount">Total: 0</div>
+
+<div id="bookingList"></div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+firebase.initializeApp({
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+authDomain:"incoinpaysliveearning.firebaseapp.com",
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+projectId:"incoinpaysliveearning"
+});
+
+const db=firebase.database();
+const list=document.getElementById("bookingList");
+const total=document.getElementById("totalCount");
+const mainContent=document.getElementById("mainContent");
+const loginBox=document.getElementById("loginBox");
+const ADMIN_PASSWORD="bgmi@123"; // 🔑 Set your admin password here
+
+/* ===== LOGIN CHECK ===== */
+function login(){
+  let pass=document.getElementById("adminPass").value;
+  if(pass===ADMIN_PASSWORD){
+    loginBox.style.display="none";
+    mainContent.style.display="block";
+    loadBookings();
+  }else{
+    document.getElementById("loginMsg").innerText="Wrong Password!";
+  }
+}
+
+/* ===== LOAD BOOKINGS ===== */
+function loadBookings(){
+
+let filter=document.getElementById("roomFilter").value;
+
+db.ref("bookings").on("value",snap=>{
+
+list.innerHTML="";
+let count=0;
+
+if(snap.exists()){
+
+snap.forEach(child=>{
+
+let data=child.val();
+let id=child.key;
+
+if(filter==="all" || data.room===filter){
+
+count++;
+
+let div=document.createElement("div");
+div.className="card";
+
+div.innerHTML=`
+<div class="h">${data.name}</div>
+<div class="small">BGMI: ${data.bgmi}</div>
+<div class="small">Phone: ${data.phone}</div>
+<div class="small">Room: ${data.room}</div>
+<div class="small">Amount: ₹${data.amount}</div>
+<div class="small">Txn: ${data.txn}</div>
+<br>
+<button class="btn delete" onclick="deleteBooking('${id}','${data.txn}')">Delete</button>
+`;
+
+list.appendChild(div);
+
+}
+
+});
+
+}
+
+total.innerText="Total: "+count;
+
+});
+
+}
+
+/* ===== DELETE BOOKING ===== */
+function deleteBooking(id,txn){
+
+if(confirm("Delete this booking?")){
+
+db.ref("bookings/"+id).remove();
+db.ref("txns/"+txn).remove();
+
+}
+
+}
+</script>
+
+</body>
+</html>
