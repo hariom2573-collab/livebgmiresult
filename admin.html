@@ -182,42 +182,52 @@ projectId:"incoinpaysliveearning"
 const db=firebase.database();
 const ADMIN_PASSWORD="bgmi@123";
 
+// ===== CHECK LOGIN ON LOAD =====
+window.onload = function(){
+    if(localStorage.getItem("adminLoggedIn") === "true"){
+        document.getElementById("loginBox").style.display="none";
+        document.getElementById("dashboard").style.display="flex";
+        loadCounter();
+    }
+}
+
 /* LOGIN */
 function login(){
-let pass=document.getElementById("adminPass").value;
-
-if(pass===ADMIN_PASSWORD){
-document.getElementById("loginBox").style.display="none";
-document.getElementById("dashboard").style.display="flex";
-loadCounter();
-}else{
-document.getElementById("loginMsg").innerHTML="<span style='color:red'>Wrong Password</span>";
+    let pass=document.getElementById("adminPass").value;
+    if(pass===ADMIN_PASSWORD){
+        localStorage.setItem("adminLoggedIn","true"); // 🔑 save login
+        document.getElementById("loginBox").style.display="none";
+        document.getElementById("dashboard").style.display="flex";
+        loadCounter();
+    }else{
+        document.getElementById("loginMsg").innerHTML="<span style='color:red'>Wrong Password</span>";
+    }
 }
-}
 
+/* LOGOUT */
 function logout(){
-location.reload();
+    localStorage.removeItem("adminLoggedIn");
+    location.reload();
 }
 
 /* LIVE COUNTER */
 function loadCounter(){
-db.ref("bookings").on("value",snap=>{
-let count=0;
-if(snap.exists()){
-snap.forEach(()=>{count++;});
-}
-document.getElementById("totalCount").innerText=count;
-});
+    db.ref("bookings").on("value",snap=>{
+        let count=0;
+        if(snap.exists()){
+            snap.forEach(()=>{count++;});
+        }
+        document.getElementById("totalCount").innerText=count;
+    });
 }
 
 /* BUTTON NAVIGATION */
-
 function goSlots(){
-window.location.href="admin-book.html";
+    window.location.href="admin-book.html";
 }
 
 function goConfirm(){
-window.location.href="admin-slot.html";
+    window.location.href="admin-slot.html";
 }
 </script>
 
