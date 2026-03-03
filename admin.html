@@ -1,201 +1,224 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>BGMI Premium Admin Panel</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>BGMI Admin Dashboard</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
 body{
+  height:100vh;
+  background:radial-gradient(circle at top,#1a1f35,#0c0f18 70%);
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* ===== MOBILE CONTAINER ===== */
+
+.wrapper{
+  width:100%;
+  max-width:420px;
   height:100vh;
   display:flex;
   flex-direction:column;
-  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
-  color:#fff;
+  justify-content:center;
+  padding:20px;
 }
-h2{
+
+/* ===== LOGIN ===== */
+
+.login-box{
+  background:#111827;
+  padding:25px;
+  border-radius:20px;
   text-align:center;
-  padding:10px;
-  font-size:20px;
-  background:linear-gradient(90deg,#00f5ff,#ff00c8,#ffd86b);
-  -webkit-background-clip:text;
-  color:transparent;
-  font-weight:900;
+  box-shadow:0 0 25px rgba(0,0,0,.6);
 }
-#adminWrap{
-  flex:1;
-  overflow-y:auto;
-  padding:10px;
+
+.login-box h2{
+  color:#FFD700;
+  margin-bottom:15px;
 }
-.card{
-  backdrop-filter:blur(14px);
-  background:rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:16px;
-  padding:10px;
-  margin-bottom:10px;
-}
-.slotTitle{
-  font-weight:800;
-  margin-bottom:6px;
-  font-size:14px;
-}
-.row{
-  display:flex;
-  gap:6px;
-}
-input,select{
-  padding:8px;
-  border:none;
-  border-radius:10px;
+
+.input{
   width:100%;
-  outline:none;
-  font-size:13px;
-  font-weight:600;
-}
-input{
-  background:#0e1122;
-  color:#00f5ff;
-}
-select{
-  background:#11152b;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:#1f2937;
   color:#fff;
+  margin-top:12px;
 }
-button{
+
+.btn{
   width:100%;
-  padding:14px;
+  padding:13px;
   border:none;
-  font-weight:900;
-  font-size:15px;
+  border-radius:14px;
+  font-weight:800;
   cursor:pointer;
-  background:linear-gradient(135deg,#00f5ff,#ff00c8,#ffd86b);
-  color:#000;
+  margin-top:15px;
+  font-size:15px;
+}
+
+/* ===== DASHBOARD ===== */
+
+.dashboard{
+  display:none;
+  flex-direction:column;
+  gap:15px;
+}
+
+.header{
+  font-size:20px;
+  font-weight:900;
+  text-align:center;
+  background:linear-gradient(90deg,#FFD700,#ff9f00);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.card{
+  background:#111827;
+  padding:15px;
+  border-radius:16px;
+  border:1px solid rgba(255,215,0,.3);
+}
+
+.counter{
+  font-size:24px;
+  font-weight:900;
+  color:#22f5c3;
+  text-align:center;
   margin-top:5px;
 }
-.statusAvailable{border-left:5px solid #00ff88;}
-.statusReserved{border-left:5px solid #ff2e63;}
+
+select{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  background:#1f2937;
+  color:#fff;
+  border:none;
+  margin-top:8px;
+}
+
+.slot-btn{
+  background:linear-gradient(90deg,#22c55e,#16a34a);
+  color:#fff;
+}
+
+.confirm-btn{
+  background:linear-gradient(90deg,#f97316,#f59e0b);
+  color:#fff;
+}
+
+.logout-btn{
+  background:#ef4444;
+  color:#fff;
+}
 </style>
 </head>
+
 <body>
 
-<h2>🎮 BGMI LIVE SLOT ADMIN</h2>
+<div class="wrapper">
 
-<div id="adminWrap"></div>
-<button id="pushBtn">🚀 UPDATE LIVE</button>
+  <!-- LOGIN -->
+  <div class="login-box" id="loginBox">
+    <h2>ADMIN LOGIN</h2>
+    <input type="password" id="adminPass" class="input" placeholder="Enter Password">
+    <button class="btn" style="background:linear-gradient(90deg,#ff9f00,#FFD700);" onclick="login()">Login</button>
+    <div id="loginMsg"></div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="dashboard" id="dashboard">
+
+    <div class="header">BGMI ADMIN PANEL</div>
+
+    <div class="card">
+      <div>Total Bookings</div>
+      <div class="counter" id="totalCount">0</div>
+    </div>
+
+    <div class="card">
+      <div>Select Match</div>
+      <select id="matchSelect">
+        <option value="Room 1 • 12:30 PM">Room 1 • 12:30 PM</option>
+        <option value="Room 2 • 8:00 PM">Room 2 • 8:00 PM</option>
+      </select>
+    </div>
+
+    <button class="btn slot-btn" onclick="goSlots()">📋 Slot List</button>
+    <button class="btn confirm-btn" onclick="goConfirm()">✅ Confirm Booking</button>
+
+    <button class="btn logout-btn" onclick="logout()">Logout</button>
+
+  </div>
+
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <script>
 firebase.initializeApp({
-  apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
-  authDomain:"incoinpaysliveearning.firebaseapp.com",
-  databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
-  projectId:"incoinpaysliveearning"
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+authDomain:"incoinpaysliveearning.firebaseapp.com",
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+projectId:"incoinpaysliveearning"
 });
 
-var db=firebase.database();
-var wrap=document.getElementById("adminWrap");
+const db=firebase.database();
+const ADMIN_PASSWORD="bgmi@123";
 
-const TOTAL_SLOTS=25;
-var slots=[];
+/* LOGIN */
+function login(){
+let pass=document.getElementById("adminPass").value;
 
-/* Create default slots */
-function createDefaultSlots(){
-  slots=[];
-  for(let i=1;i<=TOTAL_SLOTS;i++){
-    slots.push({
-      slot:"Slot "+i,
-      name:"",
-      status:"Available"
-    });
-  }
+if(pass===ADMIN_PASSWORD){
+document.getElementById("loginBox").style.display="none";
+document.getElementById("dashboard").style.display="flex";
+loadCounter();
+}else{
+document.getElementById("loginMsg").innerHTML="<span style='color:red'>Wrong Password</span>";
+}
 }
 
-/* Load bookings from register page data */
-function loadFromDatabase(){
-
-  createDefaultSlots();
-
-  db.ref("slots").once("value").then(function(snap){
-
-    if(snap.exists()){
-
-      const data=Object.values(snap.val());
-
-      data.forEach(function(b,i){
-        if(i<TOTAL_SLOTS){
-          slots[i].name=b.name || "";
-          slots[i].status="Reserved";
-        }
-      });
-
-    }
-
-    renderAdmin();
-  });
+function logout(){
+location.reload();
 }
 
-/* Render Admin UI */
-function renderAdmin(){
-
-  wrap.innerHTML="";
-
-  slots.forEach(function(s,i){
-
-    var d=document.createElement("div");
-    d.className="card";
-
-    if(s.status==="Available") d.classList.add("statusAvailable");
-    if(s.status==="Reserved") d.classList.add("statusReserved");
-
-    d.innerHTML=
-      "<div class='slotTitle'>"+s.slot+"</div>"+
-      "<div class='row'>"+
-      "<input value='"+s.name+"' class='nameInput' placeholder='Player Name'>"+
-      "<select class='statusSel'>"+
-      "<option value='Available' "+(s.status==="Available"?"selected":"")+">Available</option>"+
-      "<option value='Reserved' "+(s.status==="Reserved"?"selected":"")+">Reserved</option>"+
-      "</select>"+
-      "</div>";
-
-    wrap.appendChild(d);
-
-    d.querySelector(".nameInput").oninput=function(e){
-      slots[i].name=e.target.value.toUpperCase();
-    };
-
-    d.querySelector(".statusSel").onchange=function(e){
-      slots[i].status=e.target.value;
-      renderAdmin();
-    };
-
-  });
+/* LIVE COUNTER */
+function loadCounter(){
+db.ref("bookings").on("value",snap=>{
+let count=0;
+if(snap.exists()){
+snap.forEach(()=>{count++;});
+}
+document.getElementById("totalCount").innerText=count;
+});
 }
 
-/* Push updated manual slots */
-document.getElementById("pushBtn").onclick=function(){
+/* BUTTON NAVIGATION */
 
-  var finalData={};
+function goSlots(){
+window.location.href="admin-book.html";
+}
 
-  slots.forEach(function(s,i){
-    if(s.status==="Reserved"){
-      finalData["slot"+(i+1)]={
-        name:s.name || "PLAYER",
-        slot:s.slot,
-        status:"Reserved"
-      };
-    }
-  });
-
-  db.ref("slots").set(finalData)
-  .then(()=>alert("✅ Live Updated Successfully"))
-  .catch(err=>alert("❌ "+err.message));
-};
-
-/* Initial Load */
-loadFromDatabase();
+function goConfirm(){
+window.location.href="admin-slot.html";
+}
 </script>
 
 </body>
