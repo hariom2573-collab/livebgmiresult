@@ -111,7 +111,7 @@ html,body{width:100%;height:100%;background:radial-gradient(120% 80% at 50% 0%, 
       <div class="h">💳 Payment (UPI)</div>
       <div class="sub">Scan & pay ₹20, then enter Txn ID</div>
       <div class="qr" id="qrBox">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=upi://pay?pa=9142192847@jio&pn=BGMI%20Tournament&am=20&cu=INR" alt="UPI QR"/>
+        <img id="qrImg" src="" alt="UPI QR"/>
         <input id="txn" class="input" placeholder="UPI Transaction ID" style="margin-top:10px"/>
         <div class="note">Make sure Txn ID is unique</div>
       </div>
@@ -135,7 +135,6 @@ html,body{width:100%;height:100%;background:radial-gradient(120% 80% at 50% 0%, 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
-// TODO: Replace with your Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
   authDomain: "incoinpaysliveearning.firebaseapp.com",
@@ -146,25 +145,35 @@ const firebaseConfig = {
   appId: "1:971873814750:web:7418c7da119e4725ed9a4f",
   measurementId: "G-5QXM87ZRH2"
 };
-
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-
 const MAX_PER_ROOM = 25;
+
+let currentUPI = "";
+
+// Fetch UPI from Firebase and generate QR
+db.ref('config/upi').once('value').then(snapshot=>{
+  if(snapshot.exists()){
+    currentUPI = snapshot.val();
+    const qrData = encodeURIComponent(`upi://pay?pa=${currentUPI}&pn=BGMI Tournament&am=20&cu=INR`);
+    document.getElementById("qrImg").src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${qrData}`;
+  } else {
+    document.getElementById("qrImg").alt = "UPI not set by admin yet";
+  }
+});
 
 function showQR(){
   document.getElementById("qrBox").style.display = "block";
   document.getElementById("payBtn").style.display = "none";
 }
 
-// Check room count from Firebase
+// Count how many confirmed users in a room
 async function countRoom(room){
-  const snapshot = await db.ref('users').orderByChild('room').equalTo(room).once('value');
+  const snapshot = await db.ref('slots').orderByChild('room').equalTo(room).once('value');
   return snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
 }
 
-// Check if Txn ID already exists
+// Check if Txn ID exists
 async function txnExists(txn){
   const snapshot = await db.ref('txns/' + txn).once('value');
   return snapshot.exists();
@@ -178,37 +187,40 @@ async function confirmBooking(){
   const txn = document.getElementById("txn").value.trim();
   const msg = document.getElementById("msg");
 
-  if(!name || !bgmi || phone.length !== 10 || !txn){
+  if(!name || !bgmi || phone.length!==10 || !txn){
     msg.innerHTML = "<span class='err'>❌ Fill all fields correctly</span>";
     return;
   }
 
   if(await txnExists(txn)){
-    msg.innerHTML = "<span class='err'>❌ This Txn ID already used</span>";
+    msg.innerHTML = "<span class='err'>❌ Txn ID already used</span>";
     return;
   }
 
   const roomCount = await countRoom(room);
   if(roomCount >= MAX_PER_ROOM){
-    msg.innerHTML = "<span class='err'>❌ Room full</span>";
+    msg.innerHTML = "<span class='err'>❌ Room full! Choose another room</span>";
     return;
   }
 
-  // Add user to Firebase
-  const newUserRef = db.ref('users').push();
-  await newUserRef.set({
-    name, bgmi, phone, room, slot: roomCount + 1
+  // Save to slots
+  const slotRef = db.ref('slots').push();
+  await slotRef.set({
+    name, bgmi, phone, room, txn, timestamp: Date.now()
   });
 
-  // Save txn
-  await db.ref('txns/' + txn).set({usedBy: phone, timestamp: Date.now()});
+  // Save Txn ID to prevent reuse
+  await db.ref('txns/' + txn).set(true);
 
-  msg.innerHTML = "<span class='ok'>✅ Booking successful! Opening WhatsApp…</span>";
+  msg.innerHTML = "<span class='ok'>✅ Booking confirmed! See you in the game 🎮</span>";
 
-  const text = encodeURIComponent(
-    `Hi ${name}! Your BGMI slot is confirmed.\nRoom: ${room}\nBGMI ID: ${bgmi}`
-  );
-  window.open(`https://wa.me/91${phone}?text=${text}`, "_blank");
+  // Reset form
+  document.getElementById("name").value = '';
+  document.getElementById("bgmi").value = '';
+  document.getElementById("phone").value = '';
+  document.getElementById("txn").value = '';
+  document.getElementById("qrBox").style.display = "none";
+  document.getElementById("payBtn").style.display = "block";
 }
 </script>
 
