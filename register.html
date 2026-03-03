@@ -186,6 +186,7 @@ async function confirmBooking(){
   const room = document.getElementById("room").value;
   const txn = document.getElementById("txn").value.trim();
   const msg = document.getElementById("msg");
+  const whatsappNumber = "7970882743"; // Replace with your WhatsApp number
 
   if(!name || !bgmi || phone.length!==10 || !txn){
     msg.innerHTML = "<span class='err'>❌ Fill all fields correctly</span>";
@@ -213,6 +214,10 @@ async function confirmBooking(){
   await db.ref('txns/' + txn).set(true);
 
   msg.innerHTML = "<span class='ok'>✅ Booking confirmed! See you in the game 🎮</span>";
+
+  // WhatsApp message
+  const whatsappText = encodeURIComponent(`Please confirm my slot ${phone}`);
+  window.open(`https://wa.me/${whatsappNumber}?text=${whatsappText}`, '_blank');
 
   // Reset form
   document.getElementById("name").value = '';
