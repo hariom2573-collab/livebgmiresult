@@ -14,7 +14,60 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,system-ui;}
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
+/* 📱 Mobile Perfect Fit */
+html, body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
 
+/* Adjust slot container height dynamically */
+.slot-wrap{
+  position:absolute;
+  top:130px;
+  bottom:10px;
+  left:8px;
+  right:8px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  overflow-y:auto;
+  padding-bottom:10px;
+}
+
+/* Make slot size responsive */
+.slot-item{
+  min-height:60px;
+  font-size:12px;
+}
+
+/* Small phones adjustment */
+@media (max-width:380px){
+  .slot-item{
+    min-height:55px;
+    font-size:11px;
+  }
+}
+
+/* Extra small phones */
+@media (max-width:330px){
+  .slot-item{
+    min-height:50px;
+    font-size:10px;
+  }
+}
+
+/* Info bar responsive */
+.info-bar{
+  top:55px;
+  font-size:10px;
+}
+
+
+/* Marquee responsive */
+.marquee-wrap{
+  top:6px;
+}
 /* Loader */
 #loader{
   position:fixed;
@@ -169,10 +222,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
     <button onclick="confirmSlot()">Confirm</button>
   </div>
 </div>
-
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 <script>
+
 const firebaseConfig = {
   apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
   authDomain: "incoinpaysliveearning.firebaseapp.com",
@@ -182,55 +235,40 @@ const firebaseConfig = {
   messagingSenderId: "971873814750",
   appId: "1:971873814750:web:7418c7da119e4725ed9a4f"
 };
+
 firebase.initializeApp(firebaseConfig);
-const db=firebase.database();
+const db = firebase.database();
 
-const staticMessages=["🔥 Team X Jocker – ₹510 via GPay 🔥","🔥 Big Bull – ₹300 Winner 🔥","🔥 Reaper 7 – ₹90 Winner 🔥","Check your slot & upcoming match!"];
-const msgEl=document.getElementById("msg");let i=0;
-function showStaticMsg(){msgEl.textContent=staticMessages[i];msgEl.style.animation="none";void msgEl.offsetWidth;msgEl.style.animation="slideRTL 14s linear";i=(i+1)%staticMessages.length;setTimeout(showStaticMsg,14000);}
-showStaticMsg();
-
-function updateTime(){const now=new Date();document.getElementById("dateTime").textContent=now.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"})+" | "+now.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});}
-updateTime();setInterval(updateTime,60000);
-
-const wrap=document.getElementById("slotWrap");
-const loader=document.getElementById("loader");
+const wrap = document.getElementById("slotWrap");
+const loader = document.getElementById("loader");
 
 db.ref("slots").on("value",(snap)=>{
-  const data = snap.val();
-  wrap.innerHTML="";
 
-  if(!data){
-    loader.style.display="none";
-    return;
-  }
+  const data = snap.val() || {};
+  wrap.innerHTML = "";
 
-  // 🔥 Convert object to array properly
-  let slotsArray = [];
+  // 🔥 Force Slot 1 to 25
+  for(let i=1;i<=25;i++){
 
-  if(Array.isArray(data)){
-    slotsArray = data;
-  } else {
-    slotsArray = Object.values(data);
-  }
+    const slotKey = "Slot " + i;
 
-  // 🔥 Sort by Slot Number (Slot 1, Slot 2 ...)
-  slotsArray.sort((a,b)=>{
-    let numA = parseInt(a.slot.replace(/\D/g,'')) || 0;
-    let numB = parseInt(b.slot.replace(/\D/g,'')) || 0;
-    return numA - numB;
-  });
+    // Firebase me slot search
+    let slotData = null;
 
-  // 🔥 Render in correct order
-  slotsArray.forEach((s)=>{
-    const isVip = s.status === "Reserved";
+    Object.values(data).forEach(s=>{
+      if(s.slot === slotKey){
+        slotData = s;
+      }
+    });
+
+    const isVip = slotData && slotData.status === "Reserved";
 
     const d = document.createElement("div");
     d.className = "slot-item " + (isVip ? "vip" : "");
 
-    const displayName = s.name && s.name !== "AVAILABLE"
-      ? `${s.slot} – ${s.name}`
-      : s.slot;
+    const displayName = isVip
+      ? `${slotKey} – ${slotData.name}`
+      : slotKey;
 
     const statusText = isVip ? "Reserved" : "Available";
 
@@ -239,6 +277,7 @@ db.ref("slots").on("value",(snap)=>{
       <span>${statusText}</span>
     `;
 
+    // VIP Tag
     if(isVip){
       const vipTag = document.createElement("div");
       vipTag.className = "vip-tag";
@@ -248,31 +287,46 @@ db.ref("slots").on("value",(snap)=>{
 
     wrap.appendChild(d);
 
+    // Click Event
     d.addEventListener("click",()=>{
+
       if(isVip){
-        document.getElementById("modalName").textContent=s.name;
-        document.getElementById("modalSlot").textContent=s.slot;
-        document.getElementById("modalId").textContent=s.id||"N/A";
-        document.getElementById("modalPassTime").textContent=s.passTime||"N/A";
-        document.getElementById("modalStartTime").textContent=s.startTime||"8:40 PM";
 
-        const waLink=`https://wa.me/${s.whatsapp||"7970882743"}`;
-        const waEl=document.getElementById("modalWhatsapp");
-        waEl.href=waLink;
-        waEl.textContent=s.whatsapp||"7970882743";
+        document.getElementById("modalName").textContent = slotData.name;
+        document.getElementById("modalSlot").textContent = slotData.slot;
+        document.getElementById("modalId").textContent = slotData.id || "N/A";
+        document.getElementById("modalPassTime").textContent = slotData.passTime || "N/A";
+        document.getElementById("modalStartTime").textContent = slotData.startTime || "8:40 PM";
 
-        document.getElementById("modal-bg").style.display="flex";
+        const waLink = `https://wa.me/${slotData.whatsapp || "7970882743"}`;
+        const waEl = document.getElementById("modalWhatsapp");
+        waEl.href = waLink;
+        waEl.textContent = slotData.whatsapp || "7970882743";
+
+        document.getElementById("modal-bg").style.display = "flex";
+
       } else {
-        window.location.href="register.html";
+        window.location.href = "register.html";
       }
-    });
-  });
 
-  loader.style.display="none";
+    });
+
+  }
+
+  loader.style.display = "none";
+
 });
 
-function closeModal(){document.getElementById("modal-bg").style.display="none";}
-function confirmSlot(){alert("Slot confirmed!");closeModal();}
+// Modal
+function closeModal(){
+  document.getElementById("modal-bg").style.display="none";
+}
+
+function confirmSlot(){
+  alert("Slot confirmed!");
+  closeModal();
+}
+
 </script>
 </body>
 </html>
