@@ -128,6 +128,36 @@ html,body{
   margin-bottom:10px;
   outline:none;
 }
+/* ===== ABOUT BUTTON FIX INSIDE PLAYER CARD ===== */
+
+.card:first-of-type{
+  position:relative;
+  padding-top:40px; /* button ke liye space */
+}
+
+.card:first-of-type .aboutBtn{
+  position:absolute;
+  top:14px;
+  right:14px;
+
+  background:rgba(255,215,0,.08);
+  border:1px solid rgba(255,215,0,.6);
+  color:#FFD700;
+
+  font-weight:700;
+  font-size:11px;
+
+  padding:5px 10px;
+  border-radius:20px;
+
+  cursor:pointer;
+  transition:.25s ease;
+}
+
+.card:first-of-type .aboutBtn:hover{
+  background:rgba(255,215,0,.2);
+  transform:scale(1.05);
+}
 
 .btn{
   width:100%;
@@ -164,6 +194,7 @@ html,body{
 
 .ok{color:#22f5c3;font-weight:800}
 .err{color:#ff6b6b;font-weight:800}
+
 
 /* ===== WIN POPUP ===== */
 
@@ -211,6 +242,7 @@ BGMI TOURNAMENT • REGISTER
 
 <div class="card">
 <div class="h">🎯 Player Details</div>
+<button class="aboutBtn" onclick="openAbout()">About</button>
 <input id="name" class="input" placeholder="Player Name"/>
 <input id="bgmi" class="input" placeholder="BGMI ID"/>
 <input id="phone" class="input" placeholder="Mobile No (10 digits)"/>
@@ -351,7 +383,9 @@ pop.innerText="🔥 ₹"+amount+" Entry Confirmed!";
 document.body.appendChild(pop);
 setTimeout(()=>pop.remove(),1200);
 }
-
+function openAbout(){
+  window.location.href = "about.html";
+}
 /* ===== LIVE TICKER ===== */
 
 function startTicker(){
