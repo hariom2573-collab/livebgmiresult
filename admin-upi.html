@@ -34,7 +34,7 @@ h2{color:#FFD700;text-align:center;}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
-// Your Firebase config
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
   authDomain: "incoinpaysliveearning.firebaseapp.com",
@@ -52,17 +52,18 @@ const db = firebase.database();
 const upiRef = db.ref('config/upi');
 
 // Load current UPI
-upiRef.once('value').then(snapshot=>{
+upiRef.once('value').then(snapshot => {
   document.getElementById('currentUPI').innerText = snapshot.exists() ? snapshot.val() : "Not set yet";
 });
 
-// Secret admin key
-const ADMIN_KEY = "MySecret123"; // Change this to your own secret
+// Security code
+const SECURITY_CODE = "7372874327";
 
 function updateUPI(){
-  const enteredKey = prompt("Enter admin key to update UPI:");
-  if(enteredKey !== ADMIN_KEY){
-    alert("❌ Wrong admin key!");
+  // Prompt for code
+  const enteredCode = prompt("Enter security code to update UPI:");
+  if(enteredCode !== SECURITY_CODE){
+    alert("❌ Wrong security code!");
     return;
   }
 
@@ -74,12 +75,12 @@ function updateUPI(){
   }
 
   upiRef.set(upi)
-    .then(()=>{
+    .then(() => {
       msg.innerHTML = "<span class='ok'>✅ UPI updated successfully!</span>";
       document.getElementById('currentUPI').innerText = upi;
       document.getElementById('upiInput').value = '';
     })
-    .catch(err=>{
+    .catch(err => {
       msg.innerHTML = "<span class='err'>❌ Error saving UPI</span>";
       console.error(err);
     });
