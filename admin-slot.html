@@ -12,6 +12,7 @@ body{
   background:#0c0f18;
   color:#fff;
 }
+
 .header{
   background:linear-gradient(90deg,#ff9f00,#FFD700,#fff1a8);
   padding:15px;
@@ -19,9 +20,11 @@ body{
   font-weight:900;
   color:#000;
 }
+
 .container{
   padding:15px;
 }
+
 .card{
   background:#111522;
   padding:12px;
@@ -29,25 +32,30 @@ body{
   margin-bottom:10px;
   border:1px solid rgba(255,215,0,.3);
 }
+
 .h{
   font-weight:800;
   color:#FFD700;
 }
+
 .small{
   font-size:12px;
   color:#bbb;
 }
+
 .count{
   margin:10px 0;
   font-weight:800;
   color:#22f5c3;
 }
+
 select{
   width:100%;
   padding:8px;
   margin-bottom:10px;
   border-radius:8px;
 }
+
 .btn{
   padding:6px 10px;
   border:none;
@@ -55,64 +63,21 @@ select{
   cursor:pointer;
   font-weight:700;
 }
+
 .delete{
   background:#ff4d4d;
   color:#fff;
-}
-
-/* ===== LOGIN ===== */
-#loginBox{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,.9);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  z-index:9999;
-}
-#loginBox input{
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:8px;
-  border:none;
-  width:200px;
-  text-align:center;
-}
-#loginBox button{
-  padding:10px 15px;
-  border:none;
-  border-radius:8px;
-  background:linear-gradient(90deg,#ff9f00,#FFD700);
-  font-weight:700;
-  cursor:pointer;
-}
-#loginMsg{
-  margin-top:10px;
-  color:red;
-  font-weight:700;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div id="loginBox">
-  <h2>ADMIN LOGIN</h2>
-  <input type="password" id="adminPass" placeholder="Enter Password">
-  <button onclick="login()">Login</button>
-  <div id="loginMsg"></div>
-</div>
-
 <div class="header">
 ADMIN PANEL • BOOKINGS
 </div>
 
-<div class="container" id="mainContent" style="display:none;">
+<div class="container">
 
 <select id="roomFilter" onchange="loadBookings()">
 <option value="all">All Rooms</option>
@@ -140,23 +105,7 @@ projectId:"incoinpaysliveearning"
 const db=firebase.database();
 const list=document.getElementById("bookingList");
 const total=document.getElementById("totalCount");
-const mainContent=document.getElementById("mainContent");
-const loginBox=document.getElementById("loginBox");
-const ADMIN_PASSWORD="bgmi@123"; // 🔑 Set your admin password here
 
-/* ===== LOGIN CHECK ===== */
-function login(){
-  let pass=document.getElementById("adminPass").value;
-  if(pass===ADMIN_PASSWORD){
-    loginBox.style.display="none";
-    mainContent.style.display="block";
-    loadBookings();
-  }else{
-    document.getElementById("loginMsg").innerText="Wrong Password!";
-  }
-}
-
-/* ===== LOAD BOOKINGS ===== */
 function loadBookings(){
 
 let filter=document.getElementById("roomFilter").value;
@@ -205,7 +154,6 @@ total.innerText="Total: "+count;
 
 }
 
-/* ===== DELETE BOOKING ===== */
 function deleteBooking(id,txn){
 
 if(confirm("Delete this booking?")){
@@ -216,6 +164,8 @@ db.ref("txns/"+txn).remove();
 }
 
 }
+
+loadBookings();
 </script>
 
 </body>
