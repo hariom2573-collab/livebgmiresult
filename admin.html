@@ -1,233 +1,135 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>BGMI Admin Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BGMI Admin • Login</title>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial, sans-serif;
-}
-
 body{
-  height:100vh;
-  background:radial-gradient(circle at top,#1a1f35,#0c0f18 70%);
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#0A0A0C;
   color:#fff;
   display:flex;
   justify-content:center;
   align-items:center;
-}
-
-/* ===== MOBILE CONTAINER ===== */
-
-.wrapper{
-  width:100%;
-  max-width:420px;
   height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding:20px;
 }
 
-/* ===== LOGIN ===== */
-
-.login-box{
-  background:#111827;
+.card{
+  background:#121421;
   padding:25px;
-  border-radius:20px;
-  text-align:center;
-  box-shadow:0 0 25px rgba(0,0,0,.6);
+  border-radius:16px;
+  width:100%;
+  max-width:400px;
+  box-shadow:0 6px 20px rgba(0,0,0,.5);
 }
 
-.login-box h2{
+h2{
   color:#FFD700;
-  margin-bottom:15px;
+  text-align:center;
+  margin-bottom:20px;
 }
 
 .input{
   width:100%;
   padding:12px;
-  border:none;
   border-radius:12px;
-  background:#1f2937;
-  color:#fff;
-  margin-top:12px;
+  border:none;
+  margin-bottom:12px;
+  font-size:16px;
 }
 
 .btn{
   width:100%;
-  padding:13px;
+  padding:14px;
   border:none;
   border-radius:14px;
-  font-weight:800;
+  font-weight:bold;
+  background:#FFD700;
+  color:#000;
   cursor:pointer;
-  margin-top:15px;
-  font-size:15px;
+  font-size:16px;
 }
 
-/* ===== DASHBOARD ===== */
-
-.dashboard{
-  display:none;
-  flex-direction:column;
-  gap:15px;
-}
-
-.header{
-  font-size:20px;
-  font-weight:900;
+.note{
   text-align:center;
-  background:linear-gradient(90deg,#FFD700,#ff9f00);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+  font-size:13px;
+  margin-top:10px;
 }
 
-.card{
-  background:#111827;
-  padding:15px;
-  border-radius:16px;
-  border:1px solid rgba(255,215,0,.3);
-}
-
-.counter{
-  font-size:24px;
-  font-weight:900;
-  color:#22f5c3;
-  text-align:center;
-  margin-top:5px;
-}
-
-select{
-  width:100%;
-  padding:10px;
-  border-radius:10px;
-  background:#1f2937;
-  color:#fff;
-  border:none;
-  margin-top:8px;
-}
-
-.slot-btn{
-  background:linear-gradient(90deg,#22c55e,#16a34a);
-  color:#fff;
-}
-
-.confirm-btn{
-  background:linear-gradient(90deg,#f97316,#f59e0b);
-  color:#fff;
-}
-
-.logout-btn{
-  background:#ef4444;
-  color:#fff;
-}
+.err{color:#ff6b6b;}
 </style>
 </head>
-
 <body>
 
-<div class="wrapper">
+<div class="card">
+  <h2>Admin Login</h2>
 
-  <!-- LOGIN -->
-  <div class="login-box" id="loginBox">
-    <h2>ADMIN LOGIN</h2>
-    <input type="password" id="adminPass" class="input" placeholder="Enter Password">
-    <button class="btn" style="background:linear-gradient(90deg,#ff9f00,#FFD700);" onclick="login()">Login</button>
-    <div id="loginMsg"></div>
-  </div>
+  <input type="email" id="email" class="input" placeholder="Email"/>
+  <input type="password" id="password" class="input" placeholder="Password"/>
 
-  <!-- DASHBOARD -->
-  <div class="dashboard" id="dashboard">
-
-    <div class="header">BGMI ADMIN PANEL</div>
-
-    <div class="card">
-      <div>Total Bookings</div>
-      <div class="counter" id="totalCount">0</div>
-    </div>
-
-    <div class="card">
-      <div>Select Match</div>
-      <select id="matchSelect">
-        <option value="Room 1 • 12:30 PM">Room 1 • 12:30 PM</option>
-        <option value="Room 2 • 8:00 PM">Room 2 • 8:00 PM</option>
-      </select>
-    </div>
-
-    <button class="btn slot-btn" onclick="goSlots()">📋 Slot List</button>
-    <button class="btn confirm-btn" onclick="goConfirm()">✅ Confirm Booking</button>
-
-    <button class="btn logout-btn" onclick="logout()">Logout</button>
-
-  </div>
-
+  <button class="btn" onclick="loginAdmin()">Login</button>
+  <div id="loginMsg" class="note"></div>
 </div>
 
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
 <script>
-firebase.initializeApp({
-apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
-authDomain:"incoinpaysliveearning.firebaseapp.com",
-databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
-projectId:"incoinpaysliveearning"
-});
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+  authDomain: "incoinpaysliveearning.firebaseapp.com",
+  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+  projectId: "incoinpaysliveearning",
+  storageBucket: "incoinpaysliveearning.appspot.com",
+  messagingSenderId: "971873814750",
+  appId: "1:971873814750:web:7418c7da119e4725ed9a4f"
+};
 
-const db=firebase.database();
-const ADMIN_PASSWORD="bgmi@123";
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 
-// ===== CHECK LOGIN ON LOAD =====
-window.onload = function(){
-    if(localStorage.getItem("adminLoggedIn") === "true"){
-        document.getElementById("loginBox").style.display="none";
-        document.getElementById("dashboard").style.display="flex";
-        loadCounter();
-    }
-}
+// 🔥 YOUR ADMIN UID
+const ADMIN_UID = "VIAP56vYwndWPhJxktn0lRPTWnS2";
 
-/* LOGIN */
-function login(){
-    let pass=document.getElementById("adminPass").value;
-    if(pass===ADMIN_PASSWORD){
-        localStorage.setItem("adminLoggedIn","true"); // 🔑 save login
-        document.getElementById("loginBox").style.display="none";
-        document.getElementById("dashboard").style.display="flex";
-        loadCounter();
+
+// 🔐 LOGIN FUNCTION
+async function loginAdmin(){
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const loginMsg = document.getElementById('loginMsg');
+  loginMsg.innerHTML = '';
+
+  if(!email || !password){
+    loginMsg.innerHTML = "<span class='err'>❌ Enter email & password</span>";
+    return;
+  }
+
+  try{
+    const userCredential = await auth.signInWithEmailAndPassword(email,password);
+    const user = userCredential.user;
+
+    // ✅ ADMIN UID CHECK
+    if(user.uid === ADMIN_UID){
+
+      // 🔥 REDIRECT TO DASHBOARD
+      window.location.href = "admin-dashboard.html";
+
     }else{
-        document.getElementById("loginMsg").innerHTML="<span style='color:red'>Wrong Password</span>";
+
+      loginMsg.innerHTML = "<span class='err'>❌ You are not Admin!</span>";
+      auth.signOut();
+
     }
-}
 
-/* LOGOUT */
-function logout(){
-    localStorage.removeItem("adminLoggedIn");
-    location.reload();
-}
-
-/* LIVE COUNTER */
-function loadCounter(){
-    db.ref("bookings").on("value",snap=>{
-        let count=0;
-        if(snap.exists()){
-            snap.forEach(()=>{count++;});
-        }
-        document.getElementById("totalCount").innerText=count;
-    });
-}
-
-/* BUTTON NAVIGATION */
-function goSlots(){
-    window.location.href="admin-book.html";
-}
-
-function goConfirm(){
-    window.location.href="admin-slot.html";
+  }catch(err){
+    loginMsg.innerHTML = "<span class='err'>❌ " + err.message + "</span>";
+  }
 }
 </script>
 
