@@ -14,14 +14,11 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,system-ui;}
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
-/* 📱 Mobile Perfect Fit */
 html, body{
   width:100%;
   height:100%;
   overflow:hidden;
 }
-
-/* Adjust slot container height dynamically */
 .slot-wrap{
   position:absolute;
   top:130px;
@@ -34,41 +31,29 @@ html, body{
   overflow-y:auto;
   padding-bottom:10px;
 }
-
-/* Make slot size responsive */
 .slot-item{
   min-height:60px;
   font-size:12px;
 }
-
-/* Small phones adjustment */
 @media (max-width:380px){
   .slot-item{
     min-height:55px;
     font-size:11px;
   }
 }
-
-/* Extra small phones */
 @media (max-width:330px){
   .slot-item{
     min-height:50px;
     font-size:10px;
   }
 }
-
-/* Info bar responsive */
 .info-bar{
   top:55px;
   font-size:10px;
 }
-
-
-/* Marquee responsive */
 .marquee-wrap{
   top:6px;
 }
-/* Loader */
 #loader{
   position:fixed;
   inset:0;
@@ -86,8 +71,6 @@ html, body{
   animation:spin 1s linear infinite;
 }
 @keyframes spin{to{transform:rotate(360deg);}}
-
-/* Marquee */
 .marquee-wrap{
   position:fixed;
   top:10px;
@@ -106,8 +89,6 @@ html, body{
   text-shadow:0 1px 2px rgba(255,255,255,.5);
 }
 @keyframes slideRTL{from{transform:translateX(0);}to{transform:translateX(-220vw);}}
-
-/* Info Bar */
 .info-bar{
   position:fixed;
   top:56px;left:8px;right:8px;
@@ -128,15 +109,11 @@ html, body{
 .info-right b{color:var(--neon);text-shadow:0 0 6px rgba(0,245,255,.9);}
 .tap-link{color:var(--gold);font-weight:800;text-decoration:none;text-shadow:0 0 6px rgba(255,216,107,.8);}
 .tap-link:active{opacity:.7;}
-
-/* Slot wrap */
 .slot-wrap{
   position:fixed;left:8px;right:8px;top:136px;bottom:12px;
   display:grid;grid-template-columns:1fr 1fr;
   gap:8px;overflow-y:auto;padding-bottom:12px;
 }
-
-/* Slot card */
 .slot-item{
   position:relative;display:flex;flex-direction:column;
   justify-content:center;gap:2px;padding:6px 8px;border-radius:12px;
@@ -147,8 +124,6 @@ html, body{
 }
 .slot-item span:first-child{font-weight:800;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .slot-item span:last-child{font-size:8px;color:#000;font-weight:bold;background:gold;padding:1px 3px;border-radius:3px;align-self:flex-end;}
-
-/* VIP style */
 .slot-item.vip{
   background:var(--vip-gradient);color:#02030a;font-weight:800;border:3px solid gold;
   box-shadow:0 0 12px rgba(255,215,0,.8), inset 0 0 8px rgba(255,255,255,.3);
@@ -160,35 +135,26 @@ html, body{
   animation:shimmer 2s linear infinite alternate;pointer-events:none;
 }
 @keyframes shimmer{0%{background-position:0% 50%;}100%{background-position:100% 50%;}}
-
-/* Modal */
 #modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;justify-content:center;align-items:center;z-index:9999;}
 #modal{background:rgba(20,20,30,.95);padding:16px;border-radius:12px;width:90%;max-width:360px;color:#fff;position:relative;box-shadow:0 0 12px #00f5ff;}
 #modal h2{font-size:16px;margin-bottom:8px;}
 #modal p{font-size:14px;margin:4px 0;}
 #modal button{margin-top:12px;padding:8px 12px;background:var(--neon);color:#000;border:none;border-radius:8px;font-weight:800;cursor:pointer;}
 #modal .close{position:absolute;top:6px;right:8px;font-size:18px;font-weight:bold;cursor:pointer;}
-
-/* Ripple/Click effect */
 .ripple{
   position:absolute;width:20px;height:20px;border-radius:50%;pointer-events:none;
   background:radial-gradient(circle,rgba(255,255,255,.9)0%,rgba(0,245,255,.6)40%,transparent 70%);
   transform:translate(-50%,-50%) scale(0);animation:ripple .6s ease-out forwards;
 }
 @keyframes ripple{to{transform:translate(-50%,-50%) scale(3);opacity:0;}}
-
-/* Fire effect */
 .fire{
   position:absolute;width:40px;height:40px;border-radius:50%;pointer-events:none;
   background:radial-gradient(circle,rgba(255,150,0,.8)0%,rgba(255,50,0,0.6)50%,transparent 80%);
   transform:translate(-50%,-50%) scale(0);animation:fireBurst .5s ease-out forwards;
 }
 @keyframes fireBurst{0%{transform:translate(-50%,-50%) scale(0);opacity:1;}100%{transform:translate(-50%,-50%) scale(3);opacity:0;}}
-
-/* Pulse */
 .vip-pulse{position:absolute;inset:0;border-radius:12px;background:rgba(255,215,0,0.25);pointer-events:none;transform:scale(0);animation:pulse .6s ease-out forwards;}
 @keyframes pulse{to{transform:scale(1.5);opacity:0;}}
-
 </style>
 </head>
 <body>
@@ -209,7 +175,6 @@ html, body{
 
 <div class="slot-wrap" id="slotWrap"></div>
 
-<!-- Modal -->
 <div id="modal-bg">
   <div id="modal">
     <span class="close" onclick="closeModal()">×</span>
@@ -222,10 +187,10 @@ html, body{
     <button onclick="confirmSlot()">Confirm</button>
   </div>
 </div>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 <script>
-
 const firebaseConfig = {
   apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
   authDomain: "incoinpaysliveearning.firebaseapp.com",
@@ -235,49 +200,24 @@ const firebaseConfig = {
   messagingSenderId: "971873814750",
   appId: "1:971873814750:web:7418c7da119e4725ed9a4f"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-
 const wrap = document.getElementById("slotWrap");
 const loader = document.getElementById("loader");
+const MAX_SLOTS = 25;
 
-db.ref("slots").on("value",(snap)=>{
-
-  const data = snap.val() || {};
+function renderSlots(data){
   wrap.innerHTML = "";
-
-  // 🔥 Force Slot 1 to 25
-  for(let i=1;i<=25;i++){
-
+  for(let i=1;i<=MAX_SLOTS;i++){
     const slotKey = "Slot " + i;
-
-    // Firebase me slot search
-    let slotData = null;
-
-    Object.values(data).forEach(s=>{
-      if(s.slot === slotKey){
-        slotData = s;
-      }
-    });
-
-    const isVip = slotData && slotData.status === "Reserved";
+    const slotData = data[slotKey] || null;
+    const isVip = slotData && slotData.status==="Reserved";
 
     const d = document.createElement("div");
-    d.className = "slot-item " + (isVip ? "vip" : "");
+    d.className = "slot-item " + (isVip?"vip":"");
 
-    const displayName = isVip
-      ? `${slotKey} – ${slotData.name}`
-      : slotKey;
+    d.innerHTML = `<span>${slotKey}${isVip?" – "+slotData.name:""}</span><span>${isVip?"Reserved":"Available"}</span>`;
 
-    const statusText = isVip ? "Reserved" : "Available";
-
-    d.innerHTML = `
-      <span>${displayName}</span>
-      <span>${statusText}</span>
-    `;
-
-    // VIP Tag
     if(isVip){
       const vipTag = document.createElement("div");
       vipTag.className = "vip-tag";
@@ -285,48 +225,37 @@ db.ref("slots").on("value",(snap)=>{
       d.appendChild(vipTag);
     }
 
-    wrap.appendChild(d);
-
-    // Click Event
     d.addEventListener("click",()=>{
-
       if(isVip){
-
         document.getElementById("modalName").textContent = slotData.name;
         document.getElementById("modalSlot").textContent = slotData.slot;
         document.getElementById("modalId").textContent = slotData.id || "N/A";
         document.getElementById("modalPassTime").textContent = slotData.passTime || "N/A";
         document.getElementById("modalStartTime").textContent = slotData.startTime || "8:40 PM";
-
-        const waLink = `https://wa.me/${slotData.whatsapp || "7970882743"}`;
+        const waLink = `https://wa.me/${slotData.whatsapp||"7970882743"}`;
         const waEl = document.getElementById("modalWhatsapp");
         waEl.href = waLink;
-        waEl.textContent = slotData.whatsapp || "7970882743";
-
-        document.getElementById("modal-bg").style.display = "flex";
-
+        waEl.textContent = slotData.whatsapp||"7970882743";
+        document.getElementById("modal-bg").style.display="flex";
       } else {
-        window.location.href = "register.html";
+        alert("✅ This slot is Available");
       }
-
     });
 
+    wrap.appendChild(d);
   }
-
-  loader.style.display = "none";
-
-});
-
-// Modal
-function closeModal(){
-  document.getElementById("modal-bg").style.display="none";
+  loader.style.display="none";
 }
 
-function confirmSlot(){
-  alert("Slot confirmed!");
-  closeModal();
-}
+// Listen to admin-updated slots
+db.ref("slots").on("value", snap => renderSlots(snap.val()||{}));
 
+// Modal functions
+function closeModal(){ document.getElementById("modal-bg").style.display="none"; }
+function confirmSlot(){ alert("Slot confirmed!"); closeModal(); }
+
+// Show current date-time
+setInterval(()=>{ document.getElementById("dateTime").textContent = new Date().toLocaleString(); },1000);
 </script>
 </body>
 </html>
