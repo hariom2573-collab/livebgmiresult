@@ -4,9 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>BGMI Tournament • Register</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
-
 <style>
 :root{
   --bg:#0A0A0C;
@@ -15,279 +13,79 @@
   --gold2:#ff9f00;
   --muted:#9aa0b4;
 }
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Inter,system-ui;
-}
-
-html,body{
-  width:100%;
-  height:100%;
-  background:radial-gradient(120% 80% at 50% 0%, #121421 0%, #050508 60%, #020204 100%);
-  color:#fff;
-  overflow:hidden;
-}
-
-.app{
-  max-width:430px;
-  margin:0 auto;
-  height:100dvh;
-  display:flex;
-  flex-direction:column;
-}
-
-/* ===== LIVE BAR ===== */
-
-.live-bar{
-  width:100%;
-  height:40px;
-  background:#0b0e17;
-  border-bottom:1px solid rgba(255,215,0,.4);
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-}
-
-.badge{
-  background:#22f5c3;
-  color:#000;
-  font-weight:800;
-  padding:4px 8px;
-  border-radius:4px;
-  font-size:12px;
-  margin-left:8px;
-}
-
-.live-track{
-  position:absolute;
-  white-space:nowrap;
-  font-weight:800;
-  font-size:14px;
-  left:100%;
-  background:linear-gradient(90deg,#FFD700,#fff,#ff9f00,#FFD700);
-  background-size:300%;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:shine 3s linear infinite;
-}
-
-@keyframes shine{
-  0%{background-position:0%}
-  100%{background-position:300%}
-}
-
-/* ===== HEADER ===== */
-
-.header{
-  padding:14px;
-  background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);
-  color:#000;
-  font-weight:900;
-  text-align:center;
-}
-
-/* ===== CONTENT ===== */
-
-.content{
-  flex:1;
-  overflow:auto;
-  padding:12px 12px 90px;
-}
-
-.card{
-  background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
-  border:1px solid rgba(255,215,0,.35);
-  border-radius:22px;
-  padding:16px;
-  margin-bottom:14px;
-}
-
-.h{
-  font-weight:900;
-  color:var(--gold);
-  margin-bottom:8px;
-}
-
-.sub{
-  color:var(--muted);
-  font-size:12px;
-  margin-bottom:10px;
-}
-
-.input,.select{
-  width:100%;
-  padding:12px;
-  border-radius:14px;
-  border:1px solid rgba(255,215,0,.35);
-  background:#06070c;
-  color:#fff;
-  margin-bottom:10px;
-  outline:none;
-}
-/* ===== ABOUT BUTTON FIX INSIDE PLAYER CARD ===== */
-
-.card:first-of-type{
-  position:relative;
-  padding-top:40px; /* button ke liye space */
-}
-
-.card:first-of-type .aboutBtn{
-  position:absolute;
-  top:14px;
-  right:14px;
-
-  background:rgba(255,215,0,.08);
-  border:1px solid rgba(255,215,0,.6);
-  color:#FFD700;
-
-  font-weight:700;
-  font-size:11px;
-
-  padding:5px 10px;
-  border-radius:20px;
-
-  cursor:pointer;
-  transition:.25s ease;
-}
-
-.card:first-of-type .aboutBtn:hover{
-  background:rgba(255,215,0,.2);
-  transform:scale(1.05);
-}
-
-.btn{
-  width:100%;
-  border:none;
-  border-radius:16px;
-  padding:14px;
-  font-weight:900;
-  color:#000;
-  cursor:pointer;
-  background:linear-gradient(90deg,var(--gold2),var(--gold),#fff1a8,var(--gold));
-}
-
-.btn.secondary{
-  background:transparent;
-  color:var(--gold);
-  border:1px dashed rgba(255,215,0,.5);
-}
-
-.qr{
-  display:none;
-  margin-top:10px;
-  text-align:center;
-  border:1px dashed rgba(255,215,0,.5);
-  border-radius:16px;
-  padding:12px;
-}
-
-.qr img{
-  width:180px;
-  height:180px;
-  border-radius:14px;
-  background:#fff;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui;}
+html,body{width:100%;height:100%;background:radial-gradient(120% 80% at 50% 0%, #121421 0%, #050508 60%, #020204 100%);color:#fff;overflow:hidden;}
+.app{max-width:430px;margin:0 auto;height:100dvh;display:flex;flex-direction:column;}
+.live-bar{width:100%;height:40px;background:#0b0e17;border-bottom:1px solid rgba(255,215,0,.4);position:relative;overflow:hidden;display:flex;align-items:center;}
+.badge{background:#22f5c3;color:#000;font-weight:800;padding:4px 8px;border-radius:4px;font-size:12px;margin-left:8px;}
+.live-track{position:absolute;white-space:nowrap;font-weight:800;font-size:14px;left:100%;background:linear-gradient(90deg,#FFD700,#fff,#ff9f00,#FFD700);background-size:300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shine 3s linear infinite;}
+@keyframes shine{0%{background-position:0%}100%{background-position:300%}}
+.header{padding:14px;background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);color:#000;font-weight:900;text-align:center;}
+.content{flex:1;overflow:auto;padding:12px 12px 90px;}
+.card{background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02));border:1px solid rgba(255,215,0,.35);border-radius:22px;padding:16px;margin-bottom:14px;}
+.h{font-weight:900;color:var(--gold);margin-bottom:8px;}
+.sub{color:var(--muted);font-size:12px;margin-bottom:10px;}
+.input,.select{width:100%;padding:12px;border-radius:14px;border:1px solid rgba(255,215,0,.35);background:#06070c;color:#fff;margin-bottom:10px;outline:none;}
+.card:first-of-type{position:relative;padding-top:40px;}
+.card:first-of-type .aboutBtn{position:absolute;top:14px;right:14px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.6);color:#FFD700;font-weight:700;font-size:11px;padding:5px 10px;border-radius:20px;cursor:pointer;transition:.25s ease;}
+.card:first-of-type .aboutBtn:hover{background:rgba(255,215,0,.2);transform:scale(1.05);}
+.btn{width:100%;border:none;border-radius:16px;padding:14px;font-weight:900;color:#000;cursor:pointer;background:linear-gradient(90deg,var(--gold2),var(--gold),#fff1a8,var(--gold));}
+.btn.secondary{background:transparent;color:var(--gold);border:1px dashed rgba(255,215,0,.5);}
+.qr{display:none;margin-top:10px;text-align:center;border:1px dashed rgba(255,215,0,.5);border-radius:16px;padding:12px;}
+.qr img{width:180px;height:180px;border-radius:14px;background:#fff;}
 .ok{color:#22f5c3;font-weight:800}
 .err{color:#ff6b6b;font-weight:800}
-
-
-/* ===== WIN POPUP ===== */
-
-.winPop{
-  position:fixed;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%) scale(0);
-  font-size:26px;
-  font-weight:900;
-  color:#FFD700;
-  text-shadow:0 0 25px #FFD700;
-  animation:pop 1.2s ease forwards;
-}
-
-@keyframes pop{
-  0%{transform:translate(-50%,-50%) scale(0);opacity:0}
-  50%{transform:translate(-50%,-50%) scale(1.4);opacity:1}
-  100%{transform:translate(-50%,-50%) scale(1);opacity:0}
-}
-
-.footer{
-  position:sticky;
-  bottom:0;
-  padding:10px 12px;
-  background:linear-gradient(180deg, rgba(5,6,10,.65), rgba(5,6,10,.95));
-}
+.winPop{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(0);font-size:26px;font-weight:900;color:#FFD700;text-shadow:0 0 25px #FFD700;animation:pop 1.2s ease forwards;}
+@keyframes pop{0%{transform:translate(-50%,-50%) scale(0);opacity:0}50%{transform:translate(-50%,-50%) scale(1.4);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+.footer{position:sticky;bottom:0;padding:10px 12px;background:linear-gradient(180deg, rgba(5,6,10,.65), rgba(5,6,10,.95));}
 </style>
 </head>
-
 <body>
-
 <div class="live-bar">
   <span class="badge">LIVE</span>
   <div class="live-track" id="liveTrack"></div>
 </div>
-
 <div class="app">
-
-<div class="header">
-BGMI TOURNAMENT • REGISTER
-</div>
-
+<div class="header">BGMI TOURNAMENT • REGISTER</div>
 <div class="content">
-
 <div class="card">
 <div class="h">🎯 Player Details</div>
 <button class="aboutBtn" onclick="openAbout()">About</button>
 <input id="name" class="input" placeholder="Player Name"/>
 <input id="bgmi" class="input" placeholder="BGMI ID"/>
 <input id="phone" class="input" placeholder="Mobile No (10 digits)"/>
-
 <select id="room" class="select">
-<option value="Room 1 • 6:00 PM">Room 1 • 12:30 PM</option>
-<option value="Room 2 • 7:00 PM">Room 2 • 8:00 PM</option>
+<option value="Room 1 • 12:30 PM">Room 1 • 12:30 PM</option>
+<option value="Room 2 • 8:00 PM">Room 2 • 8:00 PM</option>
 </select>
-
 <select id="amount" class="select">
 <option value="20">Entry ₹20</option>
 <option value="49">Entry ₹49</option>
 <option value="99">Entry ₹99</option>
 </select>
 </div>
-
 <div class="card">
 <div class="h">💳 Payment (UPI)</div>
 <div class="sub">Scan & pay selected amount</div>
-
 <div class="qr" id="qrBox">
 <img id="qrImg"/>
 <input id="txn" class="input" placeholder="UPI Transaction ID"/>
 </div>
-
 <button class="btn" id="payBtn" onclick="showQR()">Pay & Continue</button>
 </div>
-
 <div class="card">
 <div class="h">✅ Confirm</div>
 <button class="btn secondary" onclick="confirmBooking()">Confirm Booking</button>
 <div id="msg"></div>
 </div>
-
 </div>
-
 <div class="footer">
 <button class="btn" onclick="location.href='slots.html'">📋 Check Slot List</button>
 </div>
-
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
 <script>
 firebase.initializeApp({
 apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
@@ -303,114 +101,111 @@ let currentUPI="";
 let upiLoaded=false;
 
 db.ref("config/upi").once("value").then(snap=>{
-if(snap.exists()){
-currentUPI=snap.val();
-upiLoaded=true;
-}
+  if(snap.exists()){
+    currentUPI=snap.val();
+    upiLoaded=true;
+  }
 });
 
 function showQR(){
-if(!upiLoaded){
-alert("Payment loading...");
-return;
-}
-
-let amount=document.getElementById("amount").value;
-
-const qrData=encodeURIComponent(
-`upi://pay?pa=${currentUPI}&pn=BGMI Tournament&am=${amount}&cu=INR`
-);
-
-document.getElementById("qrImg").src=
-`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${qrData}`;
-
-document.getElementById("qrBox").style.display="block";
-document.getElementById("payBtn").disabled=true;
+  if(!upiLoaded){ alert("Payment loading..."); return; }
+  let amount=document.getElementById("amount").value;
+  const qrData=encodeURIComponent(`upi://pay?pa=${currentUPI}&pn=BGMI Tournament&am=${amount}&cu=INR`);
+  document.getElementById("qrImg").src=`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${qrData}`;
+  document.getElementById("qrBox").style.display="block";
+  document.getElementById("payBtn").disabled=true;
 }
 
 async function confirmBooking(){
+  let name=document.getElementById("name").value.trim();
+  let bgmi=document.getElementById("bgmi").value.trim();
+  let phone=document.getElementById("phone").value.trim();
+  let room=document.getElementById("room").value;
+  let amount=document.getElementById("amount").value;
+  let txn=document.getElementById("txn").value.trim();
+  let msg=document.getElementById("msg");
 
-let name=document.getElementById("name").value.trim();
-let bgmi=document.getElementById("bgmi").value.trim();
-let phone=document.getElementById("phone").value.trim();
-let room=document.getElementById("room").value;
-let amount=document.getElementById("amount").value;
-let txn=document.getElementById("txn").value.trim();
-let msg=document.getElementById("msg");
+  if(!name||!bgmi||phone.length!==10||!txn){
+    msg.innerHTML="<span class='err'>❌ Fill all fields correctly</span>"; return;
+  }
 
-if(!name||!bgmi||phone.length!==10||!txn){
-msg.innerHTML="<span class='err'>❌ Fill all fields correctly</span>";
-return;
+  // Check txn unique
+  let txnCheck=await db.ref("txns/"+txn).once("value");
+  if(txnCheck.exists()){ msg.innerHTML="<span class='err'>❌ Txn ID already used</span>"; return; }
+
+  // Auto assign first available slot
+  let slotsSnap=await db.ref("slots").once("value");
+  let assignedSlot=null;
+
+  // Loop 1-25
+  for(let i=1;i<=25;i++){
+    let slotKey="Slot "+i;
+    let sData = slotsSnap.val() ? slotsSnap.val()[slotKey] : null;
+    if(!sData || sData.status==="Available"){
+      assignedSlot = slotKey;
+      break;
+    }
+  }
+
+  if(!assignedSlot){
+    msg.innerHTML="<span class='err'>❌ All slots full!</span>"; return;
+  }
+
+  // Save booking in slots
+  await db.ref("slots/"+assignedSlot).set({
+    slot:assignedSlot,
+    name:name.toUpperCase(),
+    bgmi,
+    phone,
+    room,
+    amount,
+    txn,
+    status:"Reserved",
+    timestamp:Date.now()
+  });
+
+  // Save txn
+  await db.ref("txns/"+txn).set(true);
+
+  msg.innerHTML="<span class='ok'>✅ Booking Confirmed 🎮 Assigned: "+assignedSlot+"</span>";
+  showWinPopup(amount+" | "+assignedSlot);
+
+  // Reset fields
+  document.getElementById("name").value="";
+  document.getElementById("bgmi").value="";
+  document.getElementById("phone").value="";
+  document.getElementById("txn").value="";
+  document.getElementById("qrBox").style.display="none";
+  document.getElementById("payBtn").disabled=false;
 }
 
-let txnCheck=await db.ref("txns/"+txn).once("value");
-if(txnCheck.exists()){
-msg.innerHTML="<span class='err'>❌ Txn ID already used</span>";
-return;
+// Win popup
+function showWinPopup(text){
+  let pop=document.createElement("div");
+  pop.className="winPop";
+  pop.innerText="🔥 "+text+" Entry Confirmed!";
+  document.body.appendChild(pop);
+  setTimeout(()=>pop.remove(),1200);
 }
 
-let roomSnap=await db.ref("slots").orderByChild("room").equalTo(room).once("value");
-let count=roomSnap.exists()?Object.keys(roomSnap.val()).length:0;
+function openAbout(){ window.location.href="about.html"; }
 
-if(count>=MAX_PER_ROOM){
-msg.innerHTML="<span class='err'>❌ Room Full</span>";
-return;
-}
-
-let ref=db.ref("slots").push();
-await ref.set({
-name,bgmi,phone,room,amount,txn,timestamp:Date.now()
-});
-
-await db.ref("txns/"+txn).set(true);
-
-msg.innerHTML="<span class='ok'>✅ Booking Confirmed 🎮</span>";
-
-showWinPopup(amount);
-
-document.getElementById("name").value="";
-document.getElementById("bgmi").value="";
-document.getElementById("phone").value="";
-document.getElementById("txn").value="";
-document.getElementById("qrBox").style.display="none";
-document.getElementById("payBtn").disabled=false;
-}
-
-function showWinPopup(amount){
-let pop=document.createElement("div");
-pop.className="winPop";
-pop.innerText="🔥 ₹"+amount+" Entry Confirmed!";
-document.body.appendChild(pop);
-setTimeout(()=>pop.remove(),1200);
-}
-function openAbout(){
-  window.location.href = "about.html";
-}
-/* ===== LIVE TICKER ===== */
-
+// Live ticker
 function startTicker(){
-db.ref("slots").limitToLast(1).once("value",snap=>{
-let player="Player";
-snap.forEach(child=>{player=child.val().name;});
-let text="🎮 "+player+" joined tournament!";
-let track=document.getElementById("liveTrack");
-track.innerText=text;
-
-let speed=Math.max(8,text.length/2);
-track.style.transition="none";
-track.style.left="100%";
-
-setTimeout(()=>{
-track.style.transition=`left ${speed}s linear`;
-track.style.left="-100%";
-},100);
-
-setTimeout(startTicker,(speed*1000)+2000);
-});
+  db.ref("slots").limitToLast(1).once("value",snap=>{
+    let player="Player";
+    snap.forEach(child=>{player=child.val().name;});
+    let text="🎮 "+player+" joined tournament!";
+    let track=document.getElementById("liveTrack");
+    track.innerText=text;
+    let speed=Math.max(8,text.length/2);
+    track.style.transition="none";
+    track.style.left="100%";
+    setTimeout(()=>{ track.style.transition=`left ${speed}s linear`; track.style.left="-100%"; },100);
+    setTimeout(startTicker,(speed*1000)+2000);
+  });
 }
-
 startTicker();
 </script>
-
 </body>
 </html>
