@@ -2,22 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>BGMI Premium Admin Panel</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>BGMI VIP Admin Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui;}
 body{
-  height:100vh;
+  background:#0a0a12;
+  color:#fff;
   display:flex;
   flex-direction:column;
-  background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);
-  color:#fff;
+  min-height:100vh;
 }
 h2{
   text-align:center;
-  padding:10px;
+  padding:12px;
   font-size:20px;
+  color:#00f5ff;
   background:linear-gradient(90deg,#00f5ff,#ff00c8,#ffd86b);
   -webkit-background-clip:text;
   color:transparent;
@@ -29,11 +29,10 @@ h2{
   padding:10px;
 }
 .card{
-  backdrop-filter:blur(14px);
-  background:rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:16px;
+  background:rgba(255,255,255,0.05);
   padding:10px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.1);
   margin-bottom:10px;
 }
 .slotTitle{
@@ -44,14 +43,15 @@ h2{
 .row{
   display:flex;
   gap:6px;
+  flex-wrap:wrap;
 }
 input,select{
-  padding:8px;
+  padding:10px;
   border:none;
   border-radius:10px;
   width:100%;
   outline:none;
-  font-size:13px;
+  font-size:14px;
   font-weight:600;
 }
 input{
@@ -64,29 +64,51 @@ select{
 }
 button{
   width:100%;
-  padding:14px;
+  padding:16px;
   border:none;
   font-weight:900;
-  font-size:15px;
+  font-size:16px;
   cursor:pointer;
   background:linear-gradient(135deg,#00f5ff,#ff00c8,#ffd86b);
   color:#000;
-  margin-top:5px;
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:100;
+  border-radius:0;
 }
 .statusAvailable{border-left:5px solid #00ff88;}
 .statusReserved{border-left:5px solid #ff2e63;}
+
+/* Scrollbar for mobile */
+#adminWrap::-webkit-scrollbar{
+  width:6px;
+}
+#adminWrap::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,0.2);
+  border-radius:3px;
+}
+#adminWrap::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+/* Responsive adjustments */
+@media(max-width:400px){
+  input, select{font-size:12px;padding:8px;}
+  .slotTitle{font-size:13px;}
+  button{font-size:14px;padding:14px;}
+}
 </style>
 </head>
 <body>
 
 <h2>🎮 BGMI LIVE SLOT ADMIN</h2>
-
 <div id="adminWrap"></div>
-<button id="pushBtn">🚀 UPDATE LIVE</button>
+<button id="pushBtn">🚀 PUSH TO LIVE</button>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
 <script>
 firebase.initializeApp({
   apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
@@ -95,106 +117,73 @@ firebase.initializeApp({
   projectId:"incoinpaysliveearning"
 });
 
-var db=firebase.database();
-var wrap=document.getElementById("adminWrap");
+const db = firebase.database();
+const wrap = document.getElementById("adminWrap");
+const TOTAL_SLOTS = 25;
+let slots = [];
 
-const TOTAL_SLOTS=25;
-var slots=[];
-
-/* Create default slots */
+// Create default slots
 function createDefaultSlots(){
   slots=[];
   for(let i=1;i<=TOTAL_SLOTS;i++){
-    slots.push({
-      slot:"Slot "+i,
-      name:"",
-      status:"Available"
-    });
+    slots.push({slot:"Slot "+i,name:"",status:"Available"});
   }
 }
 
-/* Load bookings from register page data */
+// Load slots from Firebase
 function loadFromDatabase(){
-
   createDefaultSlots();
-
-  db.ref("slots").once("value").then(function(snap){
-
+  db.ref("slots").once("value").then(snap=>{
     if(snap.exists()){
-
-      const data=Object.values(snap.val());
-
-      data.forEach(function(b,i){
-        if(i<TOTAL_SLOTS){
-          slots[i].name=b.name || "";
-          slots[i].status="Reserved";
+      const data = snap.val();
+      for(let i=1;i<=TOTAL_SLOTS;i++){
+        const sKey = "Slot "+i;
+        if(data[sKey]){
+          slots[i-1].name = data[sKey].name || "";
+          slots[i-1].status = data[sKey].status || "Reserved";
         }
-      });
-
+      }
     }
-
     renderAdmin();
   });
 }
 
-/* Render Admin UI */
+// Render Admin UI
 function renderAdmin(){
-
   wrap.innerHTML="";
-
-  slots.forEach(function(s,i){
-
-    var d=document.createElement("div");
-    d.className="card";
-
-    if(s.status==="Available") d.classList.add("statusAvailable");
-    if(s.status==="Reserved") d.classList.add("statusReserved");
-
-    d.innerHTML=
-      "<div class='slotTitle'>"+s.slot+"</div>"+
-      "<div class='row'>"+
-      "<input value='"+s.name+"' class='nameInput' placeholder='Player Name'>"+
-      "<select class='statusSel'>"+
-      "<option value='Available' "+(s.status==="Available"?"selected":"")+">Available</option>"+
-      "<option value='Reserved' "+(s.status==="Reserved"?"selected":"")+">Reserved</option>"+
-      "</select>"+
-      "</div>";
-
+  slots.forEach((s,i)=>{
+    const d=document.createElement("div");
+    d.className="card "+(s.status==="Available"?"statusAvailable":"statusReserved");
+    d.innerHTML=`<div class='slotTitle'>${s.slot}</div>
+      <div class='row'>
+        <input value='${s.name}' class='nameInput' placeholder='Player Name'>
+        <select class='statusSel'>
+          <option value='Available' ${s.status==="Available"?"selected":""}>Available</option>
+          <option value='Reserved' ${s.status==="Reserved"?"selected":""}>Reserved</option>
+        </select>
+      </div>`;
     wrap.appendChild(d);
 
-    d.querySelector(".nameInput").oninput=function(e){
-      slots[i].name=e.target.value.toUpperCase();
-    };
-
-    d.querySelector(".statusSel").onchange=function(e){
+    d.querySelector(".nameInput").oninput=e=>slots[i].name=e.target.value.toUpperCase();
+    d.querySelector(".statusSel").onchange=e=>{
       slots[i].status=e.target.value;
       renderAdmin();
-    };
-
+    }
   });
 }
 
-/* Push updated manual slots */
-document.getElementById("pushBtn").onclick=function(){
-
-  var finalData={};
-
-  slots.forEach(function(s,i){
-    if(s.status==="Reserved"){
-      finalData["slot"+(i+1)]={
-        name:s.name || "PLAYER",
-        slot:s.slot,
-        status:"Reserved"
-      };
-    }
+// Push updates
+document.getElementById("pushBtn").onclick=()=>{
+  const finalData={};
+  slots.forEach((s,i)=>{
+    finalData["Slot "+(i+1)]={slot:s.slot,name:s.name||"PLAYER",status:s.status};
   });
-
   db.ref("slots").set(finalData)
-  .then(()=>alert("✅ Live Updated Successfully"))
-  .catch(err=>alert("❌ "+err.message));
-};
+    .then(()=>alert("✅ Live Updated Successfully"))
+    .catch(err=>alert("❌ "+err.message));
+}
 
-/* Initial Load */
+// Initial load
 loadFromDatabase();
 </script>
 
