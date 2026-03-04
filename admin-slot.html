@@ -1,172 +1,261 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin • Bookings</title>
-
+<title>BGMI VIP PRO Mobile Overlay – Reserved Pop-Up</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
-body{
-  margin:0;
-  font-family:Arial;
-  background:#0c0f18;
-  color:#fff;
+:root{
+  --bg:#06060b;
+  --vip-gradient: linear-gradient(135deg,#7b3fe4,#00f5ff,#ffd86b);
+  --available-gradient: linear-gradient(135deg,#222,#444);
+  --neon:#00f5ff;
+  --gold:#ffd86b;
 }
-
-.header{
-  background:linear-gradient(90deg,#ff9f00,#FFD700,#fff1a8);
-  padding:15px;
-  text-align:center;
-  font-weight:900;
-  color:#000;
-}
-
-.container{
-  padding:15px;
-}
-
-.card{
-  background:#111522;
-  padding:12px;
-  border-radius:12px;
-  margin-bottom:10px;
-  border:1px solid rgba(255,215,0,.3);
-}
-
-.h{
-  font-weight:800;
-  color:#FFD700;
-}
-
-.small{
-  font-size:12px;
-  color:#bbb;
-}
-
-.count{
-  margin:10px 0;
-  font-weight:800;
-  color:#22f5c3;
-}
-
-select{
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,system-ui;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
+html, body{
   width:100%;
-  padding:8px;
-  margin-bottom:10px;
-  border-radius:8px;
+  height:100%;
+  overflow:hidden;
 }
-
-.btn{
-  padding:6px 10px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  font-weight:700;
+.slot-wrap{
+  position:absolute;
+  top:130px;
+  bottom:10px;
+  left:8px;
+  right:8px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  overflow-y:auto;
+  padding-bottom:10px;
 }
-
-.delete{
-  background:#ff4d4d;
-  color:#fff;
+.slot-item{
+  min-height:60px;
+  font-size:12px;
 }
+@media (max-width:380px){
+  .slot-item{
+    min-height:55px;
+    font-size:11px;
+  }
+}
+@media (max-width:330px){
+  .slot-item{
+    min-height:50px;
+    font-size:10px;
+  }
+}
+.info-bar{
+  top:55px;
+  font-size:10px;
+}
+.marquee-wrap{
+  top:6px;
+}
+#loader{
+  position:fixed;
+  inset:0;
+  background:rgba(6,6,11,0.95);
+  z-index:9999;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+#loader .ring{
+  width:60px;height:60px;
+  border:5px solid rgba(255,255,255,.15);
+  border-top-color:var(--neon);
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.marquee-wrap{
+  position:fixed;
+  top:10px;
+  left:8px;
+  right:8px;
+  padding:6px 0;
+  border-radius:14px;
+  border:1px solid rgba(255,216,107,.7);
+  background: linear-gradient(90deg,#7b3fe4,#00f5ff,#ffd86b);
+  z-index:5;
+}
+.lane{height:28px;overflow:hidden;position:relative;}
+.msg{
+  position:absolute;right:-100%;white-space:nowrap;
+  font-weight:800;font-size:13px;color:#02030a;
+  text-shadow:0 1px 2px rgba(255,255,255,.5);
+}
+@keyframes slideRTL{from{transform:translateX(0);}to{transform:translateX(-220vw);}}
+.info-bar{
+  position:fixed;
+  top:56px;left:8px;right:8px;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:10px;padding:6px;border-radius:16px;
+  z-index:5;
+}
+.info-left,.info-right{
+  position:relative;padding:10px 12px;border-radius:14px;
+  font-size:11px;color:#fff;
+  border:1.5px solid rgba(0,245,255,.6);
+  background:linear-gradient(135deg,rgba(123,63,228,.25),rgba(0,245,255,.15));
+  backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);
+  box-shadow:0 0 12px rgba(0,245,255,.35), inset 0 0 8px rgba(255,255,255,.15);
+  overflow:hidden;
+}
+.info-left span{color:var(--gold);font-weight:800;text-shadow:0 0 6px rgba(255,216,107,.8);}
+.info-right b{color:var(--neon);text-shadow:0 0 6px rgba(0,245,255,.9);}
+.tap-link{color:var(--gold);font-weight:800;text-decoration:none;text-shadow:0 0 6px rgba(255,216,107,.8);}
+.tap-link:active{opacity:.7;}
+.slot-wrap{
+  position:fixed;left:8px;right:8px;top:136px;bottom:12px;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:8px;overflow-y:auto;padding-bottom:12px;
+}
+.slot-item{
+  position:relative;display:flex;flex-direction:column;
+  justify-content:center;gap:2px;padding:6px 8px;border-radius:12px;
+  border:2px solid rgba(255,216,107,.9);
+  box-shadow:0 0 8px rgba(123,63,228,.5), inset 0 0 6px rgba(255,255,255,.2);
+  background:var(--available-gradient);
+  color:#fff;cursor:pointer;transition:.2s;
+}
+.slot-item span:first-child{font-weight:800;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.slot-item span:last-child{font-size:8px;color:#000;font-weight:bold;background:gold;padding:1px 3px;border-radius:3px;align-self:flex-end;}
+.slot-item.vip{
+  background:var(--vip-gradient);color:#02030a;font-weight:800;border:3px solid gold;
+  box-shadow:0 0 12px rgba(255,215,0,.8), inset 0 0 8px rgba(255,255,255,.3);
+}
+.vip-tag{
+  position:absolute;top:-8px;right:-8px;background:linear-gradient(45deg,#ffd700,#ff8c00,#ff0000,#ff8c00,#ffd700);
+  color:#000;font-weight:bold;padding:3px 6px;font-size:8px;border-radius:6px;
+  text-shadow:0 0 5px #fff;
+  animation:shimmer 2s linear infinite alternate;pointer-events:none;
+}
+@keyframes shimmer{0%{background-position:0% 50%;}100%{background-position:100% 50%;}}
+#modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;justify-content:center;align-items:center;z-index:9999;}
+#modal{background:rgba(20,20,30,.95);padding:16px;border-radius:12px;width:90%;max-width:360px;color:#fff;position:relative;box-shadow:0 0 12px #00f5ff;}
+#modal h2{font-size:16px;margin-bottom:8px;}
+#modal p{font-size:14px;margin:4px 0;}
+#modal button{margin-top:12px;padding:8px 12px;background:var(--neon);color:#000;border:none;border-radius:8px;font-weight:800;cursor:pointer;}
+#modal .close{position:absolute;top:6px;right:8px;font-size:18px;font-weight:bold;cursor:pointer;}
+.ripple{
+  position:absolute;width:20px;height:20px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.9)0%,rgba(0,245,255,.6)40%,transparent 70%);
+  transform:translate(-50%,-50%) scale(0);animation:ripple .6s ease-out forwards;
+}
+@keyframes ripple{to{transform:translate(-50%,-50%) scale(3);opacity:0;}}
+.fire{
+  position:absolute;width:40px;height:40px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,150,0,.8)0%,rgba(255,50,0,0.6)50%,transparent 80%);
+  transform:translate(-50%,-50%) scale(0);animation:fireBurst .5s ease-out forwards;
+}
+@keyframes fireBurst{0%{transform:translate(-50%,-50%) scale(0);opacity:1;}100%{transform:translate(-50%,-50%) scale(3);opacity:0;}}
+.vip-pulse{position:absolute;inset:0;border-radius:12px;background:rgba(255,215,0,0.25);pointer-events:none;transform:scale(0);animation:pulse .6s ease-out forwards;}
+@keyframes pulse{to{transform:scale(1.5);opacity:0;}}
 </style>
 </head>
-
 <body>
 
-<div class="header">
-ADMIN PANEL • BOOKINGS
+<div id="loader"><div class="ring"></div></div>
+<div class="marquee-wrap"><div class="lane"><span id="msg" class="msg"></span></div></div>
+
+<div class="info-bar">
+  <div class="info-left">
+    🕒 <span id="dateTime"></span><br>
+    🎮 Match Start: <b>8:40 PM</b>
+  </div>
+  <div class="info-right">
+    📸 Insta: <a class="tap-link" href="https://www.instagram.com/bgmi_expertleague" target="_blank">@bgmi</a><br>
+    ☎️ 7970882743
+  </div>
 </div>
 
-<div class="container">
+<div class="slot-wrap" id="slotWrap"></div>
 
-<select id="roomFilter" onchange="loadBookings()">
-<option value="all">All Rooms</option>
-<option value="Room 1 • 12:30 PM">Room 1 • 12:30 PM</option>
-<option value="Room 2 • 8:00 PM">Room 2 • 8:00 PM</option>
-</select>
-
-<div class="count" id="totalCount">Total: 0</div>
-
-<div id="bookingList"></div>
-
+<div id="modal-bg">
+  <div id="modal">
+    <span class="close" onclick="closeModal()">×</span>
+    <h2 id="modalName"></h2>
+    <p>Slot Number: <span id="modalSlot"></span></p>
+    <p>ID: <span id="modalId"></span></p>
+    <p>Pass Time: <span id="modalPassTime"></span></p>
+    <p>Match Start: <span id="modalStartTime"></span></p>
+    <p>WhatsApp: <a id="modalWhatsapp" href="" target="_blank"></a></p>
+    <button onclick="confirmSlot()">Confirm</button>
+  </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-
 <script>
-firebase.initializeApp({
-apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
-authDomain:"incoinpaysliveearning.firebaseapp.com",
-databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
-projectId:"incoinpaysliveearning"
-});
+const firebaseConfig = {
+  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+  authDomain: "incoinpaysliveearning.firebaseapp.com",
+  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+  projectId: "incoinpaysliveearning",
+  storageBucket: "incoinpaysliveearning.appspot.com",
+  messagingSenderId: "971873814750",
+  appId: "1:971873814750:web:7418c7da119e4725ed9a4f"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const wrap = document.getElementById("slotWrap");
+const loader = document.getElementById("loader");
+const MAX_SLOTS = 25;
 
-const db=firebase.database();
-const list=document.getElementById("bookingList");
-const total=document.getElementById("totalCount");
+function renderSlots(data){
+  wrap.innerHTML = "";
+  for(let i=1;i<=MAX_SLOTS;i++){
+    const slotKey = "Slot " + i;
+    const slotData = data[slotKey] || null;
+    const isVip = slotData && slotData.status==="Reserved";
 
-function loadBookings(){
+    const d = document.createElement("div");
+    d.className = "slot-item " + (isVip?"vip":"");
 
-let filter=document.getElementById("roomFilter").value;
+    d.innerHTML = `<span>${slotKey}${isVip?" – "+slotData.name:""}</span><span>${isVip?"Reserved":"Available"}</span>`;
 
-db.ref("bookings").on("value",snap=>{
+    if(isVip){
+      const vipTag = document.createElement("div");
+      vipTag.className = "vip-tag";
+      vipTag.textContent = "🔥 Esports 🔥";
+      d.appendChild(vipTag);
+    }
 
-list.innerHTML="";
-let count=0;
+    d.addEventListener("click",()=>{
+      if(isVip){
+        document.getElementById("modalName").textContent = slotData.name;
+        document.getElementById("modalSlot").textContent = slotData.slot;
+        document.getElementById("modalId").textContent = slotData.id || "N/A";
+        document.getElementById("modalPassTime").textContent = slotData.passTime || "N/A";
+        document.getElementById("modalStartTime").textContent = slotData.startTime || "8:40 PM";
+        const waLink = `https://wa.me/${slotData.whatsapp||"7970882743"}`;
+        const waEl = document.getElementById("modalWhatsapp");
+        waEl.href = waLink;
+        waEl.textContent = slotData.whatsapp||"7970882743";
+        document.getElementById("modal-bg").style.display="flex";
+      } else {
+        alert("✅ This slot is Available");
+      }
+    });
 
-if(snap.exists()){
-
-snap.forEach(child=>{
-
-let data=child.val();
-let id=child.key;
-
-if(filter==="all" || data.room===filter){
-
-count++;
-
-let div=document.createElement("div");
-div.className="card";
-
-div.innerHTML=`
-<div class="h">${data.name}</div>
-<div class="small">BGMI: ${data.bgmi}</div>
-<div class="small">Phone: ${data.phone}</div>
-<div class="small">Room: ${data.room}</div>
-<div class="small">Amount: ₹${data.amount}</div>
-<div class="small">Txn: ${data.txn}</div>
-<br>
-<button class="btn delete" onclick="deleteBooking('${id}','${data.txn}')">Delete</button>
-`;
-
-list.appendChild(div);
-
+    wrap.appendChild(d);
+  }
+  loader.style.display="none";
 }
 
-});
+// Listen to admin-updated slots
+db.ref("slots").on("value", snap => renderSlots(snap.val()||{}));
 
-}
+// Modal functions
+function closeModal(){ document.getElementById("modal-bg").style.display="none"; }
+function confirmSlot(){ alert("Slot confirmed!"); closeModal(); }
 
-total.innerText="Total: "+count;
-
-});
-
-}
-
-function deleteBooking(id,txn){
-
-if(confirm("Delete this booking?")){
-
-db.ref("bookings/"+id).remove();
-db.ref("txns/"+txn).remove();
-
-}
-
-}
-
-loadBookings();
+// Show current date-time
+setInterval(()=>{ document.getElementById("dateTime").textContent = new Date().toLocaleString(); },1000);
 </script>
-
 </body>
 </html>
