@@ -2,122 +2,1645 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>BGMI Tournament • Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BGMI Dashboard</title>
+
+<link rel="manifest" href="manifest.json">
+
 <style>
-:root{
-  --gold:#FFD700;
-  --gold2:#ff9f00;
-  --muted:#9aa0b4;
-  --stroke:rgba(255,215,0,.35);
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,Arial,sans-serif;
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui;}
-html,body{width:100%;height:100%;background:#05060b;color:#fff;overflow:hidden;}
-.app{max-width:430px;margin:0 auto;height:100dvh;display:flex;flex-direction:column;gap:12px;padding:14px}
+
+body{
+background:#07111d;
+color:#fff;
+overflow-x:hidden;
+}
+
+body::-webkit-scrollbar{
+display:none;
+}
+
+/* Splash */
+
+#splash{
+position:fixed;
+inset:0;
+background:#07111d;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+font-weight:700;
+z-index:9999;
+}
+
+.logo{
+width:90px;
+height:90px;
+border-radius:50%;
+background:#16a34a;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:42px;
+box-shadow:0 0 30px #16a34a;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.08);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
 
 /* Header */
-.header{display:flex;align-items:center;justify-content:space-between}
-.menu-btn,.bell{
-  width:40px;height:40px;border-radius:12px;
-  border:1px solid var(--stroke);
-  background:#0b0f1a; display:grid;place-items:center; font-size:18px;
+
+.header{
+
+padding:18px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
 }
-.brand{font-weight:900;background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);-webkit-background-clip:text;background-clip:text;color:transparent; font-size:16px}
 
-/* Cards */
-.card{background:#0b0f1a; border:1px solid var(--stroke); border-radius:18px; padding:14px;}
-.card h2{font-size:13px;color:#ffeaa7;margin-bottom:8px}
+.user-box{
 
-/* Profile */
-.profile{display:flex;gap:12px;align-items:center}
-.avatar{width:56px;height:56px;border-radius:14px;background:#0f1220;border:1px solid var(--stroke);display:grid;place-items:center;font-weight:900;color:var(--gold);}
-.meta{font-size:12px;color:var(--muted)}
+display:flex;
 
-/* Wallet */
-.wallet{display:flex;align-items:center;justify-content:space-between}
-.balance{font-size:26px;font-weight:900;color:var(--gold)}
-.btn{border:none;border-radius:12px;padding:10px 14px;font-weight:800;background:linear-gradient(90deg,var(--gold2),var(--gold));color:#000}
-.btn.ghost{background:transparent;color:var(--gold);border:1px dashed rgba(255,215,0,.5);box-shadow:none;}
+align-items:center;
 
-/* Upcoming */
-.upcoming{display:flex;gap:10px;overflow-x:auto}
-.match{min-width:170px;background:#0f1220;border:1px solid var(--stroke);border-radius:14px;padding:10px}
-.match .title{font-weight:800;font-size:13px}
-.match .time,.match .fee{font-size:12px;color:var(--muted)}
-.match .reg{margin-top:8px;width:100%;padding:8px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--gold2),var(--gold));font-weight:800;cursor:pointer}
+gap:12px;
 
-/* Announcement */
-.notice{font-size:12px;color:#c7d2fe;background:#0f1220;border:1px solid rgba(73,198,255,.35);border-radius:12px;padding:10px}
+}
 
-/* Firebase Loader */
-.loading{font-size:12px;color:var(--gold);text-align:center;margin-top:6px;}
+.avatar{
+
+width:48px;
+
+height:48px;
+
+border-radius:50%;
+
+background:#1f2937;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:22px;
+
+}
+
+.username{
+
+font-size:18px;
+
+font-weight:bold;
+
+}
+
+.sub{
+
+font-size:12px;
+
+color:#94a3b8;
+
+}
+
+.notify{
+
+width:46px;
+
+height:46px;
+
+border-radius:14px;
+
+background:#111827;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:22px;
+
+}
+
+/* Wallet Card */
+
+.wallet-card{
+
+margin:15px;
+
+padding:22px;
+
+height:210px;
+
+border-radius:24px;
+
+background:linear-gradient(135deg,#0f766e,#14b8a6,#22c55e);
+
+position:relative;
+
+overflow:hidden;
+
+box-shadow:0 15px 30px rgba(0,0,0,.35);
+
+}
+
+.wallet-card:before{
+
+content:"";
+
+position:absolute;
+
+right:-60px;
+
+top:-60px;
+
+width:180px;
+
+height:180px;
+
+border-radius:50%;
+
+background:rgba(255,255,255,.08);
+
+}
+
+.wallet-card:after{
+
+content:"";
+
+position:absolute;
+
+left:-30px;
+
+bottom:-30px;
+
+width:120px;
+
+height:120px;
+
+border-radius:50%;
+
+background:rgba(255,255,255,.05);
+
+}
+
+.wallet-top{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+position:relative;
+
+z-index:2;
+
+}
+
+.wallet-title{
+
+font-size:14px;
+
+opacity:.9;
+
+}
+
+.wallet-logo{
+
+font-size:28px;
+
+}
+
+.wallet-balance{
+
+margin-top:55px;
+
+font-size:34px;
+
+font-weight:bold;
+
+position:relative;
+
+z-index:2;
+
+}
+
+.wallet-bottom{
+
+margin-top:35px;
+
+display:flex;
+
+justify-content:space-between;
+
+position:relative;
+
+z-index:2;
+
+font-size:13px;
+
+opacity:.9;
+
+}
+
+/* Section */
+
+.section-title{
+
+padding:15px;
+
+font-size:18px;
+
+font-weight:bold;
+
+}
+
+/* Tournament Card */
+
+.tournament{
+
+margin:15px;
+
+background:#111827;
+
+border-radius:20px;
+
+overflow:hidden;
+
+box-shadow:0 8px 25px rgba(0,0,0,.25);
+
+}
+
+.banner{
+
+height:150px;
+
+background:linear-gradient(135deg,#2563eb,#0f172a);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:28px;
+
+font-weight:bold;
+
+}
+
+.content{
+
+padding:18px;
+
+}
+
+.game{
+
+font-size:20px;
+
+font-weight:bold;
+
+margin-bottom:15px;
+
+}
+
+.info{
+
+display:flex;
+
+justify-content:space-between;
+
+margin-bottom:18px;
+
+}
+
+.tag{
+
+background:#1f2937;
+
+padding:8px 15px;
+
+border-radius:25px;
+
+font-size:13px;
+
+}
+
+.join{
+
+width:100%;
+
+height:46px;
+
+border:none;
+
+border-radius:12px;
+
+background:#22c55e;
+
+color:#fff;
+
+font-size:16px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.bottom-space{
+
+height:90px;
+
+}
+
 </style>
 </head>
+
 <body>
 
-<div class="app">
-  <div class="header">
-    <div class="menu-btn">☰</div>
-    <div class="brand">BGMI DASHBOARD</div>
-    <div class="bell">🔔</div>
-  </div>
-
-  <!-- Player Card -->
-  <div class="card" id="playerCard">
-    <h2>PLAYER</h2>
-    <div class="profile">
-      <div class="avatar" id="playerAvatar">A</div>
-      <div>
-        <div style="font-weight:800" id="playerName">Aman Gamer</div>
-        <div class="meta" id="playerBGMI">BGMI ID: 785412369</div>
-        <div class="meta" id="playerMobile">Mobile: 9876XXXX12</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Wallet Card -->
-  <div class="card">
-    <h2>WALLET</h2>
-    <div class="wallet">
-      <div>
-        <div class="balance" id="walletBalance">₹50</div>
-        <div class="meta">Available Balance</div>
-      </div>
-      <button class="btn" onclick="addMoney()">Add Money</button>
-    </div>
-  </div>
-
-  <!-- Announcement -->
-  <div class="notice" id="announcement">📢 Room ID & Password will be shared 10 minutes before match start.</div>
-
-  <!-- Upcoming Matches -->
-  <div class="card">
-    <h2>UPCOMING MATCHES</h2>
-    <div class="upcoming">
-      <div class="match" data-match="Solo Group A">
-        <div class="title">Solo • Group A</div>
-        <div class="time">Today • 2:00 PM</div>
-        <div class="fee">Entry ₹20</div>
-        <button class="reg" onclick="registerMatch(this,20,'Solo Group A')">Register</button>
-      </div>
-      <div class="match" data-match="Solo Group B">
-        <div class="title">Solo • Group B</div>
-        <div class="time">Today • 8:40 PM</div>
-        <div class="fee">Entry ₹20</div>
-        <button class="reg" onclick="registerMatch(this,20,'Solo Group B')">Register</button>
-      </div>
-    </div>
-  </div>
-  <div class="loading" id="loading">Loading player data...</div>
+<div id="splash">
+<div class="logo">🎮</div>
 </div>
 
-<!-- Firebase -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
-import { getDatabase, ref, push, set, get, child, update } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-database.js";
+<div class="header">
 
-// Firebase config
+<div class="user-box">
+
+<div class="avatar">
+👤
+</div>
+
+<div>
+
+<div class="username">
+Hello Player
+</div>
+
+<div class="sub">
+Welcome Back
+</div>
+
+</div>
+
+</div>
+
+<div class="notify">
+🔔
+</div>
+
+</div>
+
+<div class="wallet-card">
+
+<div class="wallet-top">
+
+<div class="wallet-title">
+Wallet Balance
+</div>
+
+<div class="wallet-logo">
+💳
+</div>
+
+</div>
+
+<div class="wallet-balance" id="walletAmount">
+₹0
+</div>
+
+<div class="wallet-bottom">
+
+<span>BGMI PAY</span>
+
+<span>LIVE</span>
+
+</div>
+
+</div>
+
+<!-- ===============================
+     TOURNAMENT SECTION
+================================ -->
+
+<div class="section-title">
+🔥 Featured Tournaments
+</div>
+
+<!-- DUO SCRIMS -->
+
+<div class="tournament">
+
+<div class="banner">
+🎮 DUO SCRIMS
+</div>
+
+<div class="content">
+
+<div class="game">
+DUO SCRIMS
+</div>
+
+<div class="info">
+
+<div class="tag">
+💰 Entry ₹20
+</div>
+
+<div class="tag">
+🏆 Prize ₹500
+</div>
+
+</div>
+
+<div class="info">
+
+<div class="tag">
+👥 24/25 Joined
+</div>
+
+<div class="tag">
+🟢 Live
+</div>
+
+</div>
+
+<button class="join" onclick="location.href='duo.html'">
+JOIN NOW
+</button>
+
+</div>
+
+</div>
+
+<!-- SQUAD SCRIMS -->
+
+<div class="tournament">
+
+<div class="banner" style="background:linear-gradient(135deg,#9333ea,#312e81);">
+👥 SQUAD SCRIMS
+</div>
+
+<div class="content">
+
+<div class="game">
+SQUAD SCRIMS
+</div>
+
+<div class="info">
+
+<div class="tag">
+💰 Entry ₹80
+</div>
+
+<div class="tag">
+🏆 Prize ₹2500
+</div>
+
+</div>
+
+<div class="info">
+
+<div class="tag">
+👥 18/25 Joined
+</div>
+
+<div class="tag">
+🟢 Live
+</div>
+
+</div>
+
+<button class="join" onclick="location.href='squad.html'">
+JOIN NOW
+</button>
+
+</div>
+
+</div>
+
+<!-- SQUAD TOURNAMENT -->
+
+<div class="tournament">
+
+<div class="banner" style="background:linear-gradient(135deg,#ea580c,#7c2d12);">
+🏆 SQUAD TOURNAMENT
+</div>
+
+<div class="content">
+
+<div class="game">
+BGMI OFFICIAL TOURNAMENT
+</div>
+
+<div class="info">
+
+<div class="tag">
+💰 Entry ₹100
+</div>
+
+<div class="tag">
+🏆 Prize ₹10000
+</div>
+
+</div>
+
+<div class="info">
+
+<div class="tag">
+👥 92/100 Joined
+</div>
+
+<div class="tag">
+🔥 Hot Match
+</div>
+
+</div>
+
+<button class="join" onclick="location.href='tournament.html'">
+REGISTER NOW
+</button>
+
+</div>
+
+</div>
+
+<div class="bottom-space"></div>
+
+<!-- ===============================
+     PREMIUM BOTTOM NAVIGATION
+================================ -->
+
+<div class="bottom-nav">
+
+<div class="nav-item active" onclick="goPage('dashboard.html',this)">
+<div class="nav-icon">🏠</div>
+<div class="nav-text">Home</div>
+</div>
+
+<div class="nav-item" onclick="goPage('wallet.html',this)">
+<div class="nav-icon">💳</div>
+<div class="nav-text">Wallet</div>
+</div>
+
+<div class="nav-item" onclick="goPage('history.html',this)">
+<div class="nav-icon">📜</div>
+<div class="nav-text">History</div>
+</div>
+
+<div class="nav-item" onclick="goPage('profile.html',this)">
+<div class="nav-icon">👤</div>
+<div class="nav-text">Profile</div>
+</div>
+
+</div>
+
+<!-- Floating Button -->
+
+<div class="floating-btn" onclick="location.href='support.html'">
+💬
+</div>
+
+<style>
+
+/* ===============================
+   PREMIUM BOTTOM NAV
+================================ */
+
+.bottom-nav{
+
+position:fixed;
+
+left:0;
+
+bottom:0;
+
+width:100%;
+
+height:74px;
+
+background:#111827;
+
+display:flex;
+
+justify-content:space-around;
+
+align-items:center;
+
+border-top:1px solid rgba(255,255,255,.08);
+
+z-index:999;
+
+backdrop-filter:blur(15px);
+
+}
+
+.nav-item{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+color:#94a3b8;
+
+font-size:11px;
+
+transition:.3s;
+
+cursor:pointer;
+
+}
+
+.nav-icon{
+
+font-size:22px;
+
+margin-bottom:4px;
+
+}
+
+.nav-item.active{
+
+color:#22c55e;
+
+transform:translateY(-5px);
+
+}
+
+.nav-item.active .nav-icon{
+
+transform:scale(1.15);
+
+}
+
+.floating-btn{
+
+position:fixed;
+
+right:18px;
+
+bottom:90px;
+
+width:58px;
+
+height:58px;
+
+border-radius:50%;
+
+background:#22c55e;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:28px;
+
+box-shadow:0 0 20px rgba(34,197,94,.45);
+
+cursor:pointer;
+
+z-index:999;
+
+animation:float 2s infinite;
+
+}
+
+@keyframes float{
+
+0%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(-8px);
+}
+
+100%{
+transform:translateY(0);
+}
+
+}
+
+</style>
+
+<script>
+
+/* Splash */
+
+setTimeout(function(){
+
+let splash=document.getElementById("splash");
+
+if(splash){
+
+splash.style.opacity="0";
+
+setTimeout(function(){
+
+splash.remove();
+
+},500);
+
+}
+
+},1800);
+
+/* Navigation */
+
+function goPage(page,el){
+
+document.querySelectorAll(".nav-item").forEach(function(btn){
+
+btn.classList.remove("active");
+
+});
+
+el.classList.add("active");
+
+setTimeout(function(){
+
+window.location=page;
+
+},150);
+
+}
+
+</script>
+<!-- =====================================
+        PREMIUM HOME BANNER
+====================================== -->
+
+<style>
+
+.hero-banner{
+margin:15px;
+padding:20px;
+border-radius:22px;
+background:linear-gradient(135deg,#16a34a,#22c55e,#15803d);
+position:relative;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(34,197,94,.30);
+}
+
+.hero-banner::before{
+content:"";
+position:absolute;
+width:220px;
+height:220px;
+background:rgba(255,255,255,.08);
+border-radius:50%;
+top:-90px;
+right:-90px;
+}
+
+.hero-banner h2{
+margin:0;
+font-size:25px;
+position:relative;
+z-index:2;
+}
+
+.hero-banner p{
+margin-top:8px;
+font-size:14px;
+opacity:.9;
+position:relative;
+z-index:2;
+}
+
+.play-btn{
+margin-top:18px;
+padding:12px 22px;
+border:none;
+border-radius:30px;
+background:#fff;
+color:#16a34a;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+position:relative;
+z-index:2;
+}
+
+/* Announcement */
+
+.notice{
+margin:15px;
+height:48px;
+background:#111827;
+border-radius:14px;
+display:flex;
+align-items:center;
+overflow:hidden;
+}
+
+.notice span{
+white-space:nowrap;
+padding-left:100%;
+animation:marquee 15s linear infinite;
+font-size:14px;
+color:#22c55e;
+font-weight:bold;
+}
+
+@keyframes marquee{
+
+0%{
+transform:translateX(0);
+}
+
+100%{
+transform:translateX(-100%);
+}
+
+}
+
+/* Daily Reward */
+
+.reward-card{
+
+margin:15px;
+
+padding:18px;
+
+border-radius:18px;
+
+background:#111827;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+box-shadow:0 8px 20px rgba(0,0,0,.25);
+
+}
+
+.reward-left h3{
+
+margin:0;
+
+font-size:18px;
+
+}
+
+.reward-left p{
+
+margin-top:5px;
+
+font-size:13px;
+
+color:#94a3b8;
+
+}
+
+.claim-btn{
+
+padding:12px 18px;
+
+border:none;
+
+border-radius:12px;
+
+background:#22c55e;
+
+color:#fff;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+/* Statistics */
+
+.stats{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:15px;
+
+margin:15px;
+
+}
+
+.stat-card{
+
+background:#111827;
+
+padding:18px;
+
+border-radius:18px;
+
+text-align:center;
+
+box-shadow:0 5px 20px rgba(0,0,0,.20);
+
+}
+
+.stat-number{
+
+font-size:26px;
+
+font-weight:bold;
+
+color:#22c55e;
+
+}
+
+.stat-title{
+
+margin-top:8px;
+
+font-size:13px;
+
+color:#94a3b8;
+
+}
+
+</style>
+
+<div class="hero-banner">
+
+<h2>🔥 BGMI ESPORTS</h2>
+
+<p>Play Tournament • Win Cash • Daily Scrims</p>
+
+<button class="play-btn">
+PLAY NOW
+</button>
+
+</div>
+
+<div class="notice">
+
+<span>
+
+🔥 Welcome to BGMI Esports • Daily Duo & Squad Scrims • Fast Withdraw • Join Tournament Now 🔥
+
+</span>
+
+</div>
+
+<div class="reward-card">
+
+<div class="reward-left">
+
+<h3>🎁 Daily Reward</h3>
+
+<p>Login every day and claim bonus rewards.</p>
+
+</div>
+
+<button class="claim-btn">
+
+CLAIM
+
+</button>
+
+</div>
+
+<div class="stats">
+
+<div class="stat-card">
+
+<div class="stat-number">
+
+1250+
+
+</div>
+
+<div class="stat-title">
+
+Players Online
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-number">
+
+₹2.5L+
+
+</div>
+
+<div class="stat-title">
+
+Prize Distributed
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-number">
+
+50+
+
+</div>
+
+<div class="stat-title">
+
+Today's Matches
+
+</div>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-number">
+
+99%
+
+</div>
+
+<div class="stat-title">
+
+Fair Play
+
+</div>
+
+</div>
+
+</div>
+<!-- =====================================
+        FEATURED EVENTS
+====================================== -->
+
+<style>
+
+.section{
+    margin:20px 15px 10px;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.event-card{
+    margin:15px;
+    background:#111827;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+    transition:.3s;
+}
+
+.event-card:hover{
+    transform:translateY(-5px);
+}
+
+.event-image{
+    height:160px;
+    background:linear-gradient(135deg,#1d4ed8,#312e81);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:55px;
+}
+
+.event-body{
+    padding:18px;
+}
+
+.event-title{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.event-desc{
+    margin-top:8px;
+    color:#94a3b8;
+    font-size:14px;
+    line-height:22px;
+}
+
+.event-footer{
+    margin-top:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.prize{
+    color:#22c55e;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.register-btn{
+    background:#22c55e;
+    color:#fff;
+    border:none;
+    padding:12px 20px;
+    border-radius:12px;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.games{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:15px;
+
+margin:15px;
+
+}
+
+.game-box{
+
+background:#111827;
+
+border-radius:18px;
+
+padding:20px;
+
+text-align:center;
+
+transition:.3s;
+
+}
+
+.game-box:hover{
+
+transform:scale(1.05);
+
+}
+
+.game-icon{
+
+font-size:40px;
+
+margin-bottom:12px;
+
+}
+
+.game-name{
+
+font-size:17px;
+
+font-weight:bold;
+
+}
+
+.game-text{
+
+font-size:13px;
+
+color:#94a3b8;
+
+margin-top:8px;
+
+}
+
+</style>
+
+<div class="section">
+🎮 Game Categories
+</div>
+
+<div class="games">
+
+<div class="game-box">
+
+<div class="game-icon">
+👥
+</div>
+
+<div class="game-name">
+Duo Scrims
+</div>
+
+<div class="game-text">
+Daily Custom Rooms
+</div>
+
+</div>
+
+<div class="game-box">
+
+<div class="game-icon">
+🎯
+</div>
+
+<div class="game-name">
+Squad Scrims
+</div>
+
+<div class="game-text">
+Competitive Matches
+</div>
+
+</div>
+
+<div class="game-box">
+
+<div class="game-icon">
+🏆
+</div>
+
+<div class="game-name">
+Tournament
+</div>
+
+<div class="game-text">
+Win Cash Prizes
+</div>
+
+</div>
+
+<div class="game-box">
+
+<div class="game-icon">
+⚡
+</div>
+
+<div class="game-name">
+Practice
+</div>
+
+<div class="game-text">
+Unlimited Rooms
+</div>
+
+</div>
+
+</div>
+
+<div class="section">
+🏆 Featured Event
+</div>
+
+<div class="event-card">
+
+<div class="event-image">
+🔥
+</div>
+
+<div class="event-body">
+
+<div class="event-title">
+BGMI Mega Championship
+</div>
+
+<div class="event-desc">
+
+Entry Fee ₹100 • Top 100 Teams • Daily Live Streaming • Instant Prize Distribution
+
+</div>
+
+<div class="event-footer">
+
+<div class="prize">
+Prize ₹1,00,000
+</div>
+
+<button class="register-btn">
+
+REGISTER
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+document.querySelectorAll(".register-btn").forEach(btn=>{
+
+btn.onclick=function(){
+
+alert("Registration Opening Soon");
+
+};
+
+});
+
+</script>
+
+<!-- ===============================
+     PREMIUM FINISH
+================================ -->
+
+<style>
+
+/* Page Animation */
+.fade-up{
+    opacity:0;
+    transform:translateY(30px);
+    transition:.6s;
+}
+
+.fade-up.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* Shine Effect */
+
+.wallet-card,
+.tournament,
+.event-card{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.wallet-card::after,
+.tournament::after,
+.event-card::after{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:-150%;
+
+width:60%;
+
+height:100%;
+
+background:linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.18),
+transparent
+);
+
+animation:shine 4s infinite;
+
+}
+
+@keyframes shine{
+
+100%{
+
+left:160%;
+
+}
+
+}
+
+/* Floating Live Counter */
+
+.live-counter{
+
+margin:15px;
+
+padding:14px;
+
+border-radius:14px;
+
+background:#111827;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+font-size:15px;
+
+}
+
+.online{
+
+color:#22c55e;
+
+font-weight:bold;
+
+animation:pulseGreen 1s infinite;
+
+}
+
+@keyframes pulseGreen{
+
+0%{opacity:1;}
+
+50%{opacity:.4;}
+
+100%{opacity:1;}
+
+}
+
+/* Install Button */
+
+.install-btn{
+
+position:fixed;
+
+left:15px;
+
+bottom:90px;
+
+padding:12px 18px;
+
+background:#2563eb;
+
+color:#fff;
+
+border-radius:30px;
+
+font-size:14px;
+
+font-weight:bold;
+
+display:none;
+
+box-shadow:0 10px 20px rgba(0,0,0,.25);
+
+z-index:999;
+
+}
+
+/* Mobile */
+
+@media(max-width:480px){
+
+.wallet-card{
+
+height:190px;
+
+}
+
+.wallet-balance{
+
+font-size:30px;
+
+}
+
+.section{
+
+font-size:18px;
+
+}
+
+.event-title{
+
+font-size:18px;
+
+}
+
+}
+
+</style>
+
+<div class="live-counter fade-up">
+
+<div>
+
+🟢 Players Online
+
+</div>
+
+<div class="online" id="onlineCount">
+
+1254
+
+</div>
+
+</div>
+
+<button class="install-btn" id="installBtn">
+
+⬇ Install App
+
+</button>
+
+<script>
+
+/* Fade Animation */
+
+const observer=new IntersectionObserver((entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.classList.add("show");
+
+}
+
+});
+
+});
+
+document.querySelectorAll(".wallet-card,.tournament,.event-card,.game-box,.reward-card,.stat-card,.live-counter").forEach(el=>{
+
+el.classList.add("fade-up");
+
+observer.observe(el);
+
+});
+
+/* Fake Online Counter */
+
+setInterval(()=>{
+
+const c=document.getElementById("onlineCount");
+
+if(c){
+
+c.innerText=1200+Math.floor(Math.random()*150);
+
+}
+
+},4000);
+
+/* PWA Install */
+
+let deferredPrompt;
+
+window.addEventListener("beforeinstallprompt",(e)=>{
+
+e.preventDefault();
+
+deferredPrompt=e;
+
+document.getElementById("installBtn").style.display="block";
+
+});
+
+document.getElementById("installBtn").onclick=async()=>{
+
+if(!deferredPrompt) return;
+
+deferredPrompt.prompt();
+
+deferredPrompt=null;
+
+document.getElementById("installBtn").style.display="none";
+
+};
+
+/* Welcome */
+
+setTimeout(()=>{
+
+console.log("BGMI Dashboard Loaded");
+
+},1000);
+
+</script>
+
+<!-- ==========================================
+        PART 7 - REALTIME FIREBASE SYSTEM
+=========================================== -->
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
   authDomain: "incoinpaysliveearning.firebaseapp.com",
@@ -125,76 +1648,143 @@ const firebaseConfig = {
   projectId: "incoinpaysliveearning",
   storageBucket: "incoinpaysliveearning.firebasestorage.app",
   messagingSenderId: "971873814750",
-  appId: "1:971873814750:web:7418c7da119e4725ed9a4f",
-  measurementId: "G-5QXM87ZRH2"
+  appId: "1:971873814750:web:7418c7da119e4725ed9a4f"
 };
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+const auth=getAuth(app);
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+/* ===============================
+      Wallet Realtime
+================================ */
 
-// Mock logged in player info (replace with actual login)
-const currentPlayer = {
-  name: "Aman Gamer",
-  bgmi: "785412369",
-  mobile: "9876543210",
-  wallet: 50
-};
+const wallet=document.getElementById("walletAmount");
 
-// Load player info
-function loadPlayerData(){
-  document.getElementById("playerName").textContent = currentPlayer.name;
-  document.getElementById("playerBGMI").textContent = "BGMI ID: " + currentPlayer.bgmi;
-  document.getElementById("playerMobile").textContent = "Mobile: " + currentPlayer.mobile;
-  document.getElementById("walletBalance").textContent = "₹" + currentPlayer.wallet;
-  document.getElementById("playerAvatar").textContent = currentPlayer.name[0].toUpperCase();
-  document.getElementById("loading").style.display="none";
-}
-loadPlayerData();
+onAuthStateChanged(auth,(user)=>{
 
-// Add money to wallet
-function addMoney(){
-  let amt = prompt("Enter amount to add:", "20");
-  amt = parseInt(amt);
-  if(!isNaN(amt) && amt>0){
-    currentPlayer.wallet += amt;
-    document.getElementById("walletBalance").textContent = "₹" + currentPlayer.wallet;
-
-    // Save to Firebase
-    const playerRef = ref(db, 'players/' + currentPlayer.mobile);
-    update(playerRef, {wallet: currentPlayer.wallet}).then(()=>{
-      alert(`₹${amt} added to wallet`);
-    }).catch(err=>alert("Firebase error: "+err));
-  }else{
-    alert("Invalid amount");
-  }
+if(!user){
+location.href="login.html";
+return;
 }
 
-// Register match
-function registerMatch(btn, fee, matchName){
-  if(currentPlayer.wallet < fee){
-    alert("❌ Insufficient balance!");
-    return;
-  }
-  currentPlayer.wallet -= fee;
-  document.getElementById("walletBalance").textContent = "₹" + currentPlayer.wallet;
+onValue(ref(db,"users/"+user.uid),(snap)=>{
 
-  btn.textContent = "Registered ✅";
-  btn.disabled = true;
+if(!snap.exists()) return;
 
-  // Save registration in Firebase
-  const matchRef = ref(db, 'registrations/' + matchName.replace(/\s/g,'_') + '/' + currentPlayer.mobile);
-  set(matchRef, {
-    name: currentPlayer.name,
-    bgmi: currentPlayer.bgmi,
-    mobile: currentPlayer.mobile,
-    fee: fee,
-    timestamp: Date.now()
-  }).then(()=>console.log("Registered in Firebase"))
-  .catch(err=>alert("Firebase error: "+err));
-  alert(`🎉 Registration successful for ${matchName}! ₹${fee} deducted`);
+const data=snap.val();
+
+wallet.innerHTML="₹ "+Number(data.wallet||0).toLocaleString("en-IN",{
+maximumFractionDigits:2
+});
+
+});
+
+});
+
+/* ===============================
+      Announcement
+================================ */
+
+const notice=document.querySelector(".notice span");
+
+onValue(ref(db,"announcement"),(snap)=>{
+
+if(!snap.exists()) return;
+
+notice.innerHTML="📢 "+snap.val();
+
+});
+
+/* ===============================
+      Live Players
+================================ */
+
+const online=document.getElementById("onlineCount");
+
+onValue(ref(db,"onlinePlayers"),(snap)=>{
+
+if(!snap.exists()) return;
+
+online.innerHTML=snap.val();
+
+});
+
+/* ===============================
+      Duo Scrims
+================================ */
+
+onValue(ref(db,"tournaments/duo"),(snap)=>{
+
+if(!snap.exists()) return;
+
+const d=snap.val();
+
+document.getElementById("duoEntry").innerHTML="💰 Entry ₹"+d.entry;
+document.getElementById("duoPrize").innerHTML="🏆 Prize ₹"+d.prize;
+document.getElementById("duoJoined").innerHTML="👥 "+d.joined+"/25 Joined";
+
+});
+
+/* ===============================
+      Squad Scrims
+================================ */
+
+onValue(ref(db,"tournaments/squad"),(snap)=>{
+
+if(!snap.exists()) return;
+
+const d=snap.val();
+
+document.getElementById("squadEntry").innerHTML="💰 Entry ₹"+d.entry;
+document.getElementById("squadPrize").innerHTML="🏆 Prize ₹"+d.prize;
+document.getElementById("squadJoined").innerHTML="👥 "+d.joined+"/25 Joined";
+
+});
+
+/* ===============================
+      Tournament
+================================ */
+
+onValue(ref(db,"tournaments/tournament"),(snap)=>{
+
+if(!snap.exists()) return;
+
+const d=snap.val();
+
+document.getElementById("tourEntry").innerHTML="💰 Entry ₹"+d.entry;
+document.getElementById("tourPrize").innerHTML="🏆 Prize ₹"+d.prize;
+document.getElementById("tourJoined").innerHTML="👥 "+d.joined+"/100 Joined";
+
+});
+
+/* ===============================
+      Broadcast
+================================ */
+
+const bar=document.getElementById("broadcastBox");
+
+onValue(ref(db,"broadcast"),(snap)=>{
+
+if(!snap.exists()){
+bar.style.display="none";
+return;
 }
+
+const b=snap.val();
+
+bar.style.display="block";
+bar.innerHTML=b.message;
+
+if(b.type=="maintenance"){
+
+bar.style.background="#dc2626";
+
+}else{
+
+bar.style.background="#16a34a";
+
+}
+
+});
+
 </script>
-
-</body>
-</html>
