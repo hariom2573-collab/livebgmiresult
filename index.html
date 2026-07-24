@@ -1,261 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>BGMI Tournament • Home</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BGMI Tournament Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-:root{
-  --bg:#0A0A0C;
-  --gold:#FFD700;
-  --gold2:#ff9f00;
-  --muted:#9aa0b4;
-  --radius:18px;
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui;}
-html,body{
-  width:100%;height:100%;
-  background:radial-gradient(120% 80% at 50% 0%, #121421 0%, #050508 60%, #020204 100%);
-  color:#fff;
-  overflow:hidden;
+
+body{
+
+background:linear-gradient(135deg,#020617,#0f172a,#111827);
+
+height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+color:#fff;
+
 }
-.app{
-  max-width:430px;
-  margin:0 auto;
-  height:100dvh;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
-  padding:16px;
-  gap:12px;
+
+.login-box{
+
+width:92%;
+
+max-width:380px;
+
+background:#0f172a;
+
+padding:25px;
+
+border-radius:22px;
+
+box-shadow:0 15px 40px rgba(0,0,0,.45);
+
+border:1px solid rgba(255,215,0,.25);
+
 }
-/* Scrolling Announcements */
-.announcement-bar{
-  width:100%;
-  overflow:hidden;
-  border:2px solid rgba(255,215,0,.7);
-  border-radius:18px;
-  background:linear-gradient(90deg,#111,#222);
-  padding:12px 8px;
-  margin-bottom:14px;
-  position:relative;
-  height:40px;
+
+.logo{
+
+text-align:center;
+
+font-size:28px;
+
+font-weight:800;
+
+color:#FFD700;
+
+margin-bottom:8px;
+
 }
-.announcement-text{
-  display:inline-block;
-  white-space:nowrap;
-  position:absolute;
-  will-change:transform;
-  font-size:16px;
-  color:#ffd700;
-  font-weight:800;
+
+.sub{
+
+text-align:center;
+
+font-size:13px;
+
+color:#94a3b8;
+
+margin-bottom:25px;
+
 }
-/* Brand */
-.brand{
-  text-align:center;
-  padding-top:8px;
+
+.input{
+
+width:100%;
+
+padding:13px;
+
+margin-bottom:15px;
+
+border:none;
+
+border-radius:12px;
+
+background:#1e293b;
+
+color:#fff;
+
+outline:none;
+
+font-size:15px;
+
 }
-.brand h1{
-  font-weight:900;
-  letter-spacing:.6px;
-  margin-bottom:6px;
-  background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+
+.input::placeholder{
+
+color:#94a3b8;
+
 }
-.brand .sub{
-  color:var(--muted);
-  font-size:12px;
+
+.login-btn{
+
+width:100%;
+
+padding:14px;
+
+border:none;
+
+border-radius:14px;
+
+background:linear-gradient(90deg,#FFD700,#ffb300);
+
+font-weight:700;
+
+font-size:16px;
+
+cursor:pointer;
+
+color:#000;
+
 }
-/* Hero card */
-.hero{
-  margin-top:6px;
-  background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
-  border:1px solid rgba(255,215,0,.35);
-  border-radius:22px;
-  padding:18px;
-  box-shadow:0 16px 36px rgba(0,0,0,.75), inset 0 0 18px rgba(255,215,0,.06);
-  display:flex;
-  flex-direction:column;
-  gap:10px;
+
+.login-btn:hover{
+
+opacity:.95;
+
 }
-/* Buttons */
-.btn{
-  width:100%;
-  border:none;
-  border-radius:18px;
-  padding:16px 16px;
-  font-weight:900;
-  letter-spacing:.6px;
-  color:#000;
-  background:linear-gradient(90deg,var(--gold2),var(--gold),#fff1a8,var(--gold));
-  box-shadow:0 14px 30px rgba(255,215,0,.55), inset 0 1px 0 #fff;
-  font-size:16px;
-  cursor:pointer;
+
+.register{
+
+margin-top:18px;
+
+text-align:center;
+
+font-size:14px;
+
 }
-.btn.secondary{
-  background:transparent;
-  color:var(--gold);
-  border:1px dashed rgba(255,215,0,.5);
-  box-shadow:none;
+
+.register a{
+
+color:#22c55e;
+
+text-decoration:none;
+
+font-weight:bold;
+
 }
-.note{
-  color:var(--muted);
-  font-size:12px;
-  text-align:center;
-  margin-top:10px;
+
+#error{
+
+margin-top:15px;
+
+text-align:center;
+
+color:#ff6b6b;
+
+font-size:14px;
+
 }
-/* Modal Background */
-.modal-bg{
-  position:fixed;
-  inset:0;
-  background:rgba(18,18,18,0.95);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:100;
-}
-/* Modal Box */
-.modal{
-  background:#1b1b2a;
-  border:1px solid rgba(255,215,0,.35);
-  border-radius:22px;
-  padding:20px;
-  width:90%;
-  max-width:360px;
-  box-shadow:0 16px 36px rgba(0,0,0,.85), inset 0 0 18px rgba(255,215,0,.06);
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  position:relative;
-}
-/* Input fields */
-.input-field{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid #0b1220;
-  background:#020617;
-  color:#fff;
-  font-size:14px;
-  outline:none;
-}
-.input-field::placeholder{color:var(--muted)}
-.modal h2{
-  text-align:center;
-  font-size:18px;
-  font-weight:900;
-  margin-bottom:6px;
-  background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-.close-btn{
-  position:absolute;
-  top:12px;
-  right:12px;
-  font-size:22px;
-  font-weight:900;
-  color:var(--gold);
-  cursor:pointer;
-}
+
 </style>
+
 </head>
+
 <body>
-<div class="app">
-  <!-- Scrolling Announcement -->
-  <div class="announcement-bar">
-    <div class="announcement-text" id="announcementText">Welcome to BGMI Tournament!</div>
-  </div>
-  <!-- Brand -->
-  <div class="brand">
-    <h1>BGMI TOURNAMENT</h1>
-    <div class="sub">Mobile-only Premium Experience</div>
-  </div>
-  <!-- Hero Card -->
-  <div class="hero">
-    <button class="btn" onclick="location.href='register.html'">🎯 Register Now</button>
-    <button class="btn" onclick="openLogin()">🔐 Login Now</button>
-    <button class="btn secondary" onclick="location.href='slots.html'">📋 Check Slot List</button>
-    <div class="note">Limited slots • Instant confirmation</div>
-  </div>
+
+<div class="login-box">
+
+<div class="logo">
+🎮 BGMI TOURNAMENT
 </div>
-<!-- Login Modal -->
-<div class="modal-bg" id="modalBg">
-  <div class="modal">
-    <span class="close-btn" onclick="closeLogin()">×</span>
-    <h2>Login</h2>
-    <input type="text" id="bgmiIdModal" class="input-field" placeholder="Enter BGMI ID">
-    <input type="text" id="mobileModal" class="input-field" placeholder="Enter Mobile Number">
-    <button class="btn" onclick="loginUser()">Login</button>
-  </div>
+
+<div class="sub">
+Login to Continue
 </div>
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const modalBg = document.getElementById('modalBg');
-  window.openLogin = () => { modalBg.style.display = 'flex'; }
-  window.closeLogin = () => { modalBg.style.display = 'none'; }
-  modalBg.addEventListener('click', e => { if(e.target===modalBg) closeLogin(); });
-  // Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
-    authDomain: "incoinpaysliveearning.firebaseapp.com",
-    databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
-    projectId: "incoinpaysliveearning",
-    storageBucket: "incoinpaysliveearning.appspot.com",
-    messagingSenderId: "971873814750",
-    appId: "1:971873814750:web:7418c7da119e4725ed9a4f",
-    measurementId: "G-5QXM87ZRH2"
-  };
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-  // Login function
-  window.loginUser = () => {
-    const bgmi = document.getElementById('bgmiIdModal').value.trim();
-    const mob = document.getElementById('mobileModal').value.trim();
-    if(bgmi === "" || mob === "") { alert("❌ Enter BGMI ID and Mobile Number"); return; }
-    if(!/^\d{10}$/.test(mob)) { alert("❌ Mobile must be 10 digits"); return; }
-    db.ref('players').orderByChild('bgmi').equalTo(bgmi).once('value', snapshot => {
-      if(snapshot.exists()){
-        const user = Object.values(snapshot.val())[0];
-        if(user.mobile === mob){
-          alert(`✅ Login successful!\nWelcome ${user.name || bgmi}`);
-          closeLogin();
-          window.location.href='dashboard.html';
-        } else { alert("❌ Mobile number does not match"); }
-      } else { alert("❌ BGMI ID not found"); }
-    }, error => { console.error(error); alert("❌ Database error, try again later"); });
-  }
-  // Scrolling announcements
-  const announcements = [
-    "🎉 Registration Successful!",
-    "🏆 Team X Jocker wins last match!",
-    "🔥 New Match Starting Soon!",
-    "💰 Top-up Wallet for Bonus Points!",
-    "🎯 Slots filling fast, hurry!"
-  ];
-  let annIndex = 0;
-  const annText = document.getElementById('announcementText');
-  let scrollPos = 0;
-  function showAnnouncement(){
-    annText.textContent = announcements[annIndex];
-    scrollPos = annText.parentElement.offsetWidth;
-    annText.style.transform = `translateX(${scrollPos}px)`;
-    const step = () => {
-      scrollPos -= 1;
-      annText.style.transform = `translateX(${scrollPos}px)`;
-      if(scrollPos + annText.offsetWidth > 0){ requestAnimationFrame(step); }
-      else { annIndex = (annIndex+1) % announcements.length; setTimeout(showAnnouncement, 500); }
-    }
-    step();
-  }
-  showAnnouncement();
+
+<input
+type="email"
+id="email"
+class="input"
+placeholder="Enter Email">
+
+<input
+type="password"
+id="password"
+class="input"
+placeholder="Enter Password">
+
+<button
+class="login-btn"
+onclick="loginUser()">
+
+LOGIN
+
+</button>
+
+<div id="error"></div>
+
+<div class="register">
+
+Don't have an account?
+
+<a href="register.html">
+
+Register
+
+</a>
+
+</div>
+
+</div>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+authDomain:"incoinpaysliveearning.firebaseapp.com",
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+projectId:"incoinpaysliveearning",
+storageBucket:"incoinpaysliveearning.firebasestorage.app",
+messagingSenderId:"971873814750",
+appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+
+/* Auto Login */
+
+onAuthStateChanged(auth,(user)=>{
+
+if(user){
+
+window.location.href="dashboard.html";
+
+}
+
 });
+
+/* Login */
+
+window.loginUser=function(){
+
+const email=document.getElementById("email").value.trim();
+
+const password=document.getElementById("password").value.trim();
+
+const error=document.getElementById("error");
+
+error.innerHTML="";
+
+if(email===""||password===""){
+
+error.innerHTML="Please enter Email & Password";
+
+return;
+
+}
+
+signInWithEmailAndPassword(auth,email,password)
+
+.then(()=>{
+
+window.location.href="dashboard.html";
+
+})
+
+.catch((err)=>{
+
+error.innerHTML=err.message;
+
+});
+
+};
+
 </script>
+
 </body>
 </html>
