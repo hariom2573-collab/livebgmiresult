@@ -1,298 +1,491 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>BGMI Tournament • Register</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BGMI Register</title>
+
 <style>
-:root{
-  --bg:#0A0A0C;
-  --gold:#FFD700;
-  --gold2:#ff9f00;
-  --muted:#9aa0b4;
-}
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui;}
-html,body{width:100%;height:100%;background:radial-gradient(120% 80% at 50% 0%, #121421 0%, #050508 60%, #020204 100%);color:#fff;overflow:hidden;}
-.app{max-width:430px;margin:0 auto;height:100dvh;display:flex;flex-direction:column;}
 
-/* LIVE BAR (badge removed) */
-.live-bar{
-  width:100%;
-  height:40px;
-  background:#0b0e17;
-  border-bottom:1px solid rgba(255,215,0,.4);
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,Arial,sans-serif;
 }
 
-.live-track{
-  position:absolute;
-  white-space:nowrap;
-  font-weight:800;
-  font-size:14px;
-  left:100%;
-  background:linear-gradient(90deg,#FFD700,#fff,#ff9f00,#FFD700);
-  background-size:300%;
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  animation:shine 3s linear infinite;
+body{
+background:#07111d;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+overflow:hidden;
 }
 
-@keyframes shine{
-  0%{background-position:0%}
-  100%{background-position:300%}
+body::before{
+content:"";
+position:fixed;
+width:450px;
+height:450px;
+background:#16a34a33;
+border-radius:50%;
+top:-180px;
+right:-150px;
+filter:blur(80px);
 }
 
-.header{
-  padding:14px;
-  background:linear-gradient(90deg,#8a6b00,#FFD700,#fff1a8,#FFD700,#8a6b00);
-  color:#000;
-  font-weight:900;
-  text-align:center;
-}
-
-.content{
-  flex:1;
-  overflow:auto;
-  padding:12px 12px 90px;
+body::after{
+content:"";
+position:fixed;
+width:350px;
+height:350px;
+background:#2563eb22;
+border-radius:50%;
+bottom:-150px;
+left:-120px;
+filter:blur(80px);
 }
 
 .card{
-  background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02));
-  border:1px solid rgba(255,215,0,.35);
-  border-radius:22px;
-  padding:16px;
-  margin-bottom:14px;
+
+width:92%;
+max-width:390px;
+background:#111827;
+border-radius:25px;
+padding:28px;
+position:relative;
+z-index:2;
+box-shadow:0 15px 40px rgba(0,0,0,.45);
+
 }
 
-.h{
-  font-weight:900;
-  color:var(--gold);
-  margin-bottom:8px;
+.logo{
+
+width:90px;
+height:90px;
+margin:auto;
+border-radius:50%;
+background:linear-gradient(135deg,#16a34a,#22c55e);
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:42px;
+box-shadow:0 0 25px rgba(34,197,94,.5);
+
+}
+
+h2{
+
+text-align:center;
+color:#fff;
+margin-top:20px;
+font-size:28px;
+
 }
 
 .sub{
-  color:var(--muted);
-  font-size:12px;
-  margin-bottom:10px;
+
+text-align:center;
+color:#94a3b8;
+margin-top:6px;
+margin-bottom:25px;
+font-size:14px;
+
 }
 
-.input,.select{
-  width:100%;
-  padding:12px;
-  border-radius:14px;
-  border:1px solid rgba(255,215,0,.35);
-  background:#06070c;
-  color:#fff;
-  margin-bottom:10px;
-  outline:none;
+.input-box{
+
+margin-top:16px;
+position:relative;
+
 }
 
-.card:first-of-type{
-  position:relative;
-  padding-top:40px;
+.input-box input{
+
+width:100%;
+height:52px;
+background:#1f2937;
+border:none;
+outline:none;
+border-radius:14px;
+padding:0 18px;
+color:#fff;
+font-size:15px;
+
 }
 
-/* ABOUT + PRIZE BUTTON */
-.topBtns{
-  position:absolute;
-  top:14px;
-  right:14px;
-  display:flex;
-  gap:8px;
+.input-box input::placeholder{
+
+color:#94a3b8;
+
 }
 
-.smallBtn{
-  background:rgba(255,215,0,.08);
-  border:1px solid rgba(255,215,0,.6);
-  color:#FFD700;
-  font-weight:700;
-  font-size:11px;
-  padding:5px 10px;
-  border-radius:20px;
-  cursor:pointer;
-  transition:.25s ease;
+#togglePassword{
+
+position:absolute;
+right:16px;
+top:15px;
+cursor:pointer;
+font-size:20px;
+
 }
 
-.smallBtn:hover{
-  background:rgba(255,215,0,.2);
-  transform:scale(1.05);
+button{
+
+width:100%;
+height:52px;
+margin-top:22px;
+border:none;
+border-radius:14px;
+background:#22c55e;
+color:#fff;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+
 }
 
-.btn{
-  width:100%;
-  border:none;
-  border-radius:16px;
-  padding:14px;
-  font-weight:900;
-  color:#000;
-  cursor:pointer;
-  background:linear-gradient(90deg,var(--gold2),var(--gold),#fff1a8,var(--gold));
+button:hover{
+
+background:#16a34a;
+
 }
 
-.btn.secondary{
-  background:transparent;
-  color:var(--gold);
-  border:1px dashed rgba(255,215,0,.5);
+#msg{
+
+margin-top:18px;
+text-align:center;
+font-size:14px;
+font-weight:bold;
+
 }
 
-.qr{
-  display:none;
-  margin-top:10px;
-  text-align:center;
-  border:1px dashed rgba(255,215,0,.5);
-  border-radius:16px;
-  padding:12px;
+.bottom{
+
+margin-top:25px;
+text-align:center;
+font-size:14px;
+color:#94a3b8;
+
 }
 
-.qr img{
-  width:180px;
-  height:180px;
-  border-radius:14px;
-  background:#fff;
+.bottom a{
+
+color:#22c55e;
+text-decoration:none;
+font-weight:bold;
+
 }
 
-.ok{color:#22f5c3;font-weight:800}
-.err{color:#ff6b6b;font-weight:800}
+.loader{
 
-.winPop{
-  position:fixed;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%) scale(0);
-  font-size:26px;
-  font-weight:900;
-  color:#FFD700;
-  text-shadow:0 0 25px #FFD700;
-  animation:pop 1.2s ease forwards;
+display:none;
+margin:auto;
+margin-top:15px;
+width:30px;
+height:30px;
+border:4px solid #1f2937;
+border-top:4px solid #22c55e;
+border-radius:50%;
+animation:spin .8s linear infinite;
+
 }
 
-@keyframes pop{
-  0%{transform:translate(-50%,-50%) scale(0);opacity:0}
-  50%{transform:translate(-50%,-50%) scale(1.4);opacity:1}
-  100%{transform:translate(-50%,-50%) scale(1);opacity:0}
+@keyframes spin{
+
+100%{
+transform:rotate(360deg);
 }
 
-.footer{
-  position:sticky;
-  bottom:0;
-  padding:10px 12px;
-  background:linear-gradient(180deg, rgba(5,6,10,.65), rgba(5,6,10,.95));
 }
+
 </style>
+
 </head>
+
 <body>
 
-<div class="live-bar">
-  <div class="live-track" id="liveTrack"></div>
-</div>
-
-<div class="app">
-<div class="header">BGMI TOURNAMENT • REGISTER</div>
-<div class="content">
-
 <div class="card">
-<div class="h">🎯 Player Details</div>
 
-<div class="topBtns">
-  <button class="smallBtn" onclick="openAbout()">About</button>
-  <button class="smallBtn" onclick="openPrize()">Prize</button>
+<div class="logo">
+🎮
 </div>
 
-<input id="name" class="input" placeholder="Player Name"/>
-<input id="bgmi" class="input" placeholder="BGMI ID"/>
-<input id="phone" class="input" placeholder="Mobile No (10 digits)"/>
+<h2>Create Account</h2>
 
-<select id="room" class="select">
-<option value="Room 1 • 12:30 PM">Room 1 • 12:30 PM</option>
-<option value="Room 2 • 8:00 PM">Room 2 • 8:00 PM</option>
-</select>
-
-<select id="amount" class="select">
-<option value="20">Entry ₹20</option>
-<option value="49">Entry ₹49</option>
-<option value="99">Entry ₹99</option>
-</select>
+<div class="sub">
+Register & Start Playing BGMI
 </div>
 
-<div class="card">
-<div class="h">💳 Payment (UPI)</div>
-<div class="sub">Scan & pay selected amount</div>
+<div class="input-box">
 
-<div class="qr" id="qrBox">
-<img id="qrImg"/>
-<input id="txn" class="input" placeholder="UPI Transaction ID"/>
+<input
+type="text"
+id="name"
+placeholder="Full Name">
+
 </div>
 
-<button class="btn" id="payBtn" onclick="showQR()">Pay & Continue</button>
+<div class="input-box">
+
+<input
+type="email"
+id="email"
+placeholder="Email Address">
+
 </div>
 
-<div class="card">
-<div class="h">✅ Confirm</div>
-<button class="btn secondary" onclick="confirmBooking()">Confirm Booking</button>
+<div class="input-box">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<span id="togglePassword">
+👁️
+</span>
+
+</div>
+
+<button id="registerBtn">
+
+REGISTER
+
+</button>
+
+<div class="loader" id="loader"></div>
+
 <div id="msg"></div>
-</div>
+
+<div class="bottom">
+
+Already have an account?
+
+<a href="index.html">
+
+Login
+
+</a>
 
 </div>
 
-<div class="footer">
-<button class="btn" onclick="location.href='slots.html'">📋 Check Slot List</button>
 </div>
-</div>
+<script type="module">
 
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
-<script>
-firebase.initializeApp({
+import {
+getAuth,
+createUserWithEmailAndPassword,
+updateProfile
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+set
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+
+const firebaseConfig={
+
 apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+
 authDomain:"incoinpaysliveearning.firebaseapp.com",
+
 databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
-projectId:"incoinpaysliveearning"
-});
 
-let db=firebase.database();
-let currentUPI="",upiLoaded=false;
+projectId:"incoinpaysliveearning",
 
-firebase.auth().signInAnonymously();
+storageBucket:"incoinpaysliveearning.firebasestorage.app",
 
-db.ref("config/upi").once("value").then(snap=>{
-  if(snap.exists()){ currentUPI=snap.val(); upiLoaded=true; }
-});
+messagingSenderId:"971873814750",
 
-function sanitizeInput(str){ return str.replace(/[<>\/]/g,""); }
+appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
 
-function showQR(){
-  if(!upiLoaded){ alert("Payment loading..."); return; }
-  let amount=document.getElementById("amount").value;
-  const qrData=encodeURIComponent(`upi://pay?pa=${currentUPI}&pn=BGMI Tournament&am=${amount}&cu=INR`);
-  document.getElementById("qrImg").src=`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${qrData}`;
-  document.getElementById("qrBox").style.display="block";
-  document.getElementById("payBtn").disabled=true;
+};
+
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+
+const btn=document.getElementById("registerBtn");
+const loader=document.getElementById("loader");
+const msg=document.getElementById("msg");
+
+
+
+/* Show Hide Password */
+
+document.getElementById("togglePassword").onclick=function(){
+
+const pass=document.getElementById("password");
+
+if(pass.type=="password"){
+
+pass.type="text";
+this.innerHTML="🙈";
+
+}else{
+
+pass.type="password";
+this.innerHTML="👁️";
+
 }
 
-function openAbout(){ window.location.href="about.html"; }
-function openPrize(){ window.location.href="prize.html"; }
+};
 
-function startTicker(){
-  db.ref("slots").limitToLast(1).once("value",snap=>{
-    let player="Player";
-    snap.forEach(child=>{ player=child.val().name; });
-    let text="🎮 "+player+" joined tournament!";
-    let track=document.getElementById("liveTrack");
-    track.innerText=text;
-    let speed=Math.max(8,text.length/2);
-    track.style.transition="none";
-    track.style.left="100%";
-    setTimeout(()=>{ track.style.transition=`left ${speed}s linear`; track.style.left="-100%"; },100);
-    setTimeout(startTicker,(speed*1000)+2000);
-  });
+
+
+btn.onclick=async function(){
+
+
+const name=document.getElementById("name").value.trim();
+
+const email=document.getElementById("email").value.trim();
+
+const password=document.getElementById("password").value.trim();
+
+
+msg.innerHTML="";
+
+
+if(name==""||email==""||password==""){
+
+msg.style.color="#ef4444";
+
+msg.innerHTML="⚠ Please fill all fields";
+
+return;
+
 }
-startTicker();
+
+
+btn.style.display="none";
+
+loader.style.display="block";
+
+
+try{
+
+
+const result=await createUserWithEmailAndPassword(
+
+auth,
+
+email,
+
+password
+
+);
+
+
+/* Save Display Name */
+
+await updateProfile(result.user,{
+
+displayName:name
+
+});
+
+
+/* Save Database */
+
+await set(ref(db,"users/"+result.user.uid),{
+
+uid:result.user.uid,
+
+name:name,
+
+email:email,
+
+wallet:0,
+
+createdAt:Date.now()
+
+});
+
+
+loader.style.display="none";
+
+msg.style.color="#22c55e";
+
+msg.innerHTML="✅ Registration Successful";
+
+
+/* Auto Login + Redirect */
+
+setTimeout(()=>{
+
+location.href="dashboard.html";
+
+},1000);
+
+
+}catch(error){
+
+
+loader.style.display="none";
+
+btn.style.display="block";
+
+
+switch(error.code){
+
+
+case "auth/email-already-in-use":
+
+msg.style.color="#ef4444";
+
+msg.innerHTML="❌ Email already registered";
+
+break;
+
+
+case "auth/invalid-email":
+
+msg.style.color="#ef4444";
+
+msg.innerHTML="❌ Invalid Email Address";
+
+break;
+
+
+case "auth/weak-password":
+
+msg.style.color="#ef4444";
+
+msg.innerHTML="❌ Password must be at least 6 characters";
+
+break;
+
+
+default:
+
+msg.style.color="#ef4444";
+
+msg.innerHTML="❌ "+error.message;
+
+break;
+
+}
+
+
+}
+
+
+};
+
 </script>
+
 </body>
 </html>
