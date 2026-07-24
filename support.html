@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support Center</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,Arial,sans-serif;
+}
+
+body{
+background:#07111d;
+color:#fff;
+overflow-x:hidden;
+padding-bottom:90px;
+}
+
+body::-webkit-scrollbar{
+display:none;
+}
+
+/* Header */
+
+.header{
+padding:18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.back-btn{
+width:45px;
+height:45px;
+border-radius:12px;
+background:#111827;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+cursor:pointer;
+}
+
+.page-title{
+font-size:22px;
+font-weight:bold;
+}
+
+.notify{
+width:45px;
+height:45px;
+border-radius:12px;
+background:#111827;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+}
+
+/* Hero */
+
+.hero{
+margin:15px;
+padding:25px;
+border-radius:22px;
+background:linear-gradient(135deg,#16a34a,#22c55e,#15803d);
+position:relative;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(34,197,94,.25);
+}
+
+.hero:before{
+content:"";
+position:absolute;
+width:220px;
+height:220px;
+border-radius:50%;
+background:rgba(255,255,255,.08);
+right:-80px;
+top:-80px;
+}
+
+.hero h2{
+position:relative;
+z-index:2;
+font-size:28px;
+}
+
+.hero p{
+margin-top:8px;
+font-size:14px;
+opacity:.95;
+position:relative;
+z-index:2;
+}
+
+/* Section */
+
+.section-title{
+margin:20px 15px 10px;
+font-size:20px;
+font-weight:bold;
+}
+
+/* Support Cards */
+
+.support-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+margin:15px;
+}
+
+.support-card{
+background:#111827;
+border-radius:20px;
+padding:20px;
+text-align:center;
+transition:.3s;
+cursor:pointer;
+box-shadow:0 8px 20px rgba(0,0,0,.25);
+}
+
+.support-card:hover{
+transform:translateY(-5px);
+}
+
+.support-icon{
+font-size:42px;
+margin-bottom:12px;
+}
+
+.support-name{
+font-size:18px;
+font-weight:bold;
+}
+
+.support-text{
+margin-top:8px;
+font-size:13px;
+color:#94a3b8;
+line-height:20px;
+}
+
+/* Emergency */
+
+.emergency{
+margin:15px;
+padding:18px;
+background:#111827;
+border-radius:18px;
+border-left:5px solid #ef4444;
+box-shadow:0 8px 20px rgba(0,0,0,.25);
+}
+
+.emergency h3{
+color:#ef4444;
+margin-bottom:10px;
+font-size:18px;
+}
+
+.emergency p{
+font-size:14px;
+line-height:24px;
+color:#cbd5e1;
+}
+
+/* Responsive */
+
+@media(max-width:480px){
+
+.support-grid{
+grid-template-columns:1fr;
+}
+
+.hero h2{
+font-size:24px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+<div class="back-btn" onclick="history.back()">
+⬅
+</div>
+
+<div class="page-title">
+Support
+</div>
+
+<div class="notify">
+💬
+</div>
+
+</div>
+
+<div class="hero">
+
+<h2>🎧 24×7 Support</h2>
+
+<p>
+Need help? Contact our support team anytime. We usually reply within a few minutes.
+</p>
+
+</div>
+
+<div class="section-title">
+📞 Contact Support
+</div>
+
+<div class="support-grid">
+
+<div class="support-card" id="whatsappCard">
+
+<div class="support-icon">
+🟢
+</div>
+
+<div class="support-name">
+WhatsApp
+</div>
+
+<div class="support-text">
+Instant WhatsApp Support
+</div>
+
+</div>
+
+<div class="support-card" id="telegramCard">
+
+<div class="support-icon">
+✈️
+</div>
+
+<div class="support-name">
+Telegram
+</div>
+
+<div class="support-text">
+Chat With Admin
+</div>
+
+</div>
+
+<div class="support-card" id="emailCard">
+
+<div class="support-icon">
+📧
+</div>
+
+<div class="support-name">
+Email
+</div>
+
+<div class="support-text">
+Send Email Support
+</div>
+
+</div>
+
+<div class="support-card" id="callCard">
+
+<div class="support-icon">
+📞
+</div>
+
+<div class="support-name">
+Call
+</div>
+
+<div class="support-text">
+Customer Care
+</div>
+
+</div>
+
+</div>
+
+<div class="emergency">
+
+<h3>⚠ Emergency Notice</h3>
+
+<p>
+If your payment is deducted but wallet is not updated, please keep your Transaction ID ready before contacting support.
+</p>
+
+</div>
+<!-- ===============================
+     SUPPORT TICKET FORM
+================================ -->
+
+<style>
+
+.ticket-box{
+margin:15px;
+background:#111827;
+padding:20px;
+border-radius:20px;
+box-shadow:0 8px 20px rgba(0,0,0,.25);
+}
+
+.ticket-box h3{
+margin-bottom:18px;
+font-size:20px;
+}
+
+.input{
+width:100%;
+padding:14px;
+margin-bottom:15px;
+border:none;
+outline:none;
+border-radius:12px;
+background:#1f2937;
+color:#fff;
+font-size:15px;
+}
+
+.input::placeholder{
+color:#94a3b8;
+}
+
+textarea.input{
+resize:none;
+height:120px;
+}
+
+.submit-btn{
+width:100%;
+height:48px;
+border:none;
+border-radius:12px;
+background:#22c55e;
+color:#fff;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+
+.submit-btn:hover{
+background:#16a34a;
+}
+
+/* FAQ */
+
+.faq{
+margin:15px;
+background:#111827;
+border-radius:20px;
+overflow:hidden;
+}
+
+.faq-item{
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.faq-question{
+padding:16px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.faq-answer{
+display:none;
+padding:0 16px 16px;
+font-size:14px;
+color:#94a3b8;
+line-height:22px;
+}
+
+/* Bottom Navigation */
+
+.bottom-nav{
+position:fixed;
+left:0;
+bottom:0;
+width:100%;
+height:72px;
+background:#111827;
+display:flex;
+justify-content:space-around;
+align-items:center;
+border-top:1px solid rgba(255,255,255,.08);
+z-index:999;
+}
+
+.nav-item{
+display:flex;
+flex-direction:column;
+align-items:center;
+font-size:11px;
+color:#94a3b8;
+cursor:pointer;
+}
+
+.nav-item.active{
+color:#22c55e;
+}
+
+.nav-icon{
+font-size:22px;
+margin-bottom:4px;
+}
+
+</style>
+
+<div class="ticket-box">
+
+<h3>🎫 Create Support Ticket</h3>
+
+<input
+type="text"
+class="input"
+id="ticketName"
+placeholder="Your Name">
+
+<select
+class="input"
+id="ticketCategory">
+
+<option value="">
+Select Category
+</option>
+
+<option>
+Wallet Issue
+</option>
+
+<option>
+Tournament
+</option>
+
+<option>
+Deposit
+</option>
+
+<option>
+Withdraw
+</option>
+
+<option>
+Account
+</option>
+
+<option>
+Other
+</option>
+
+</select>
+
+<textarea
+class="input"
+id="ticketMessage"
+placeholder="Describe your problem..."></textarea>
+
+<button
+class="submit-btn"
+id="submitTicket">
+
+Submit Ticket
+
+</button>
+
+</div>
+
+<div class="section-title">
+
+❓ Frequently Asked Questions
+
+</div>
+
+<div class="faq">
+
+<div class="faq-item">
+
+<div class="faq-question">
+How long does withdrawal take?
+</div>
+
+<div class="faq-answer">
+Withdrawals are usually processed within 5–30 minutes.
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question">
+Payment deducted but wallet not credited?
+</div>
+
+<div class="faq-answer">
+Contact support with your Transaction ID and screenshot.
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question">
+Room ID & Password not received?
+</div>
+
+<div class="faq-answer">
+Room details are shared 10–15 minutes before the match starts.
+</div>
+
+</div>
+
+</div>
+
+<div class="bottom-nav">
+
+<div class="nav-item"
+onclick="location.href='dashboard.html'">
+
+<div class="nav-icon">
+🏠
+</div>
+
+Home
+
+</div>
+
+<div class="nav-item"
+onclick="location.href='wallet.html'">
+
+<div class="nav-icon">
+💳
+</div>
+
+Wallet
+
+</div>
+
+<div class="nav-item active">
+
+<div class="nav-icon">
+💬
+</div>
+
+Support
+
+</div>
+
+<div class="nav-item"
+onclick="location.href='profile.html'">
+
+<div class="nav-icon">
+👤
+</div>
+
+Profile
+
+</div>
+
+</div>
+
+<script>
+
+document.querySelectorAll(".faq-question").forEach(function(q){
+
+q.onclick=function(){
+
+const ans=this.nextElementSibling;
+
+if(ans.style.display==="block"){
+
+ans.style.display="none";
+
+}else{
+
+document.querySelectorAll(".faq-answer").forEach(function(a){
+
+a.style.display="none";
+
+});
+
+ans.style.display="block";
+
+}
+
+};
+
+});
+
+</script>
+
+</body>
+</html>
+<!-- ===============================
+     FIREBASE SUPPORT SYSTEM
+================================ -->
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+authDomain:"incoinpaysliveearning.firebaseapp.com",
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+projectId:"incoinpaysliveearning",
+storageBucket:"incoinpaysliveearning.firebasestorage.app",
+messagingSenderId:"971873814750",
+appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
+const auth=getAuth(app);
+
+let currentUser=null;
+
+onAuthStateChanged(auth,(user)=>{
+
+if(!user){
+location.href="index.html";
+return;
+}
+
+currentUser=user;
+
+});
+
+/* ===============================
+      SUBMIT TICKET
+================================ */
+
+document.getElementById("submitTicket").onclick=async()=>{
+
+const name=document.getElementById("ticketName").value.trim();
+const category=document.getElementById("ticketCategory").value;
+const message=document.getElementById("ticketMessage").value.trim();
+
+if(name==""){
+alert("Enter your name");
+return;
+}
+
+if(category==""){
+alert("Select category");
+return;
+}
+
+if(message==""){
+alert("Enter your problem");
+return;
+}
+
+const ticketRef=push(ref(db,"supportTickets"));
+
+await set(ticketRef,{
+
+uid:currentUser.uid,
+email:currentUser.email,
+name:name,
+category:category,
+message:message,
+status:"Pending",
+time:Date.now()
+
+});
+
+alert("✅ Support Ticket Submitted Successfully");
+
+document.getElementById("ticketName").value="";
+document.getElementById("ticketCategory").selectedIndex=0;
+document.getElementById("ticketMessage").value="";
+
+};
+
+/* ===============================
+      CONTACT BUTTONS
+================================ */
+
+document.getElementById("whatsappCard").onclick=function(){
+
+window.open(
+"https://wa.me/917970882743?text=Hello%20BGMI%20Support%2C%20I%20need%20help.",
+"_blank"
+);
+
+};
+
+document.getElementById("telegramCard").onclick=function(){
+
+window.open(
+"https://t.me/Esports_bgmi1",
+"_blank"
+);
+
+};
+
+document.getElementById("emailCard").onclick=function(){
+
+window.location.href=
+"mailto:support@bgmiesports.com";
+
+};
+
+document.getElementById("callCard").onclick=function(){
+
+window.location.href=
+"tel:+917970882743";
+
+};
+
+</script>
