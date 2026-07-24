@@ -402,8 +402,8 @@ height:90px;
 
 <div>
 
-<div class="username">
-Hello Player
+<div class="username" id="userName">
+Hello
 </div>
 
 <div class="sub">
@@ -1659,23 +1659,32 @@ const auth=getAuth(app);
 ================================ */
 
 const wallet=document.getElementById("walletAmount");
+const userName=document.getElementById("userName");
 
 onAuthStateChanged(auth,(user)=>{
 
 if(!user){
-location.href="login.html";
+location.href="index.html";
 return;
 }
 
 onValue(ref(db,"users/"+user.uid),(snap)=>{
 
-if(!snap.exists()) return;
+    if(!snap.exists()) return;
 
-const data=snap.val();
+    const data = snap.val();
 
-wallet.innerHTML="₹ "+Number(data.wallet||0).toLocaleString("en-IN",{
-maximumFractionDigits:2
-});
+    // Wallet
+    wallet.innerHTML = "₹ " + Number(data.wallet || 0).toLocaleString("en-IN",{
+        maximumFractionDigits:2
+    });
+
+    // User Name
+    if(data.name){
+        userName.innerHTML = "Hello " + data.name;
+    }else{
+        userName.innerHTML = "Hello Player";
+    }
 
 });
 
