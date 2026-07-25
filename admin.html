@@ -1,137 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>BGMI Admin • Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BGMI Admin Login</title>
 
 <style>
+
+*{
+  box-sizing:border-box;
+  font-family:Arial,sans-serif;
+}
+
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:#0A0A0C;
-  color:#fff;
+  height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  height:100vh;
+  background:#080808;
+  color:white;
 }
+
 
 .card{
+
+  width:90%;
+  max-width:400px;
   background:#121421;
   padding:25px;
-  border-radius:16px;
-  width:100%;
-  max-width:400px;
-  box-shadow:0 6px 20px rgba(0,0,0,.5);
+  border-radius:18px;
+  box-shadow:0 0 20px #000;
+
 }
+
 
 h2{
-  color:#FFD700;
-  text-align:center;
-  margin-bottom:20px;
+
+ text-align:center;
+ color:#FFD700;
+ margin-bottom:25px;
+
 }
+
 
 .input{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:none;
-  margin-bottom:12px;
-  font-size:16px;
+
+ width:100%;
+ padding:13px;
+ margin-bottom:15px;
+ border-radius:12px;
+ border:none;
+ outline:none;
+ font-size:16px;
+
 }
 
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:14px;
-  font-weight:bold;
-  background:#FFD700;
-  color:#000;
-  cursor:pointer;
-  font-size:16px;
+
+button{
+
+ width:100%;
+ padding:14px;
+ border:none;
+ border-radius:12px;
+ background:#FFD700;
+ color:#000;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer;
+
 }
 
-.note{
-  text-align:center;
-  font-size:13px;
-  margin-top:10px;
+
+button:hover{
+
+ opacity:.8;
+
 }
 
-.err{color:#ff6b6b;}
+
+.msg{
+
+ text-align:center;
+ margin-top:15px;
+ font-size:14px;
+
+}
+
+
+.error{
+
+ color:#ff5c5c;
+
+}
+
+
+.success{
+
+ color:#00ff88;
+
+}
+
+
 </style>
+
 </head>
+
+
 <body>
 
+
 <div class="card">
-  <h2>Admin Login</h2>
 
-  <input type="email" id="email" class="input" placeholder="Email"/>
-  <input type="password" id="password" class="input" placeholder="Password"/>
+<h2>🔥 BGMI ADMIN LOGIN</h2>
 
-  <button class="btn" onclick="loginAdmin()">Login</button>
-  <div id="loginMsg" class="note"></div>
+
+<input 
+type="email"
+id="email"
+class="input"
+placeholder="Enter Admin Email">
+
+
+<input 
+type="password"
+id="password"
+class="input"
+placeholder="Enter Password">
+
+
+<button onclick="loginAdmin()">
+LOGIN
+</button>
+
+
+<div id="msg" class="msg"></div>
+
+
 </div>
 
-<!-- Firebase -->
+
+
+
+
+<!-- Firebase SDK -->
+
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
+
+
 <script>
-// Firebase config
+
+
+// Firebase Config
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
-  authDomain: "incoinpaysliveearning.firebaseapp.com",
-  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
-  projectId: "incoinpaysliveearning",
-  storageBucket: "incoinpaysliveearning.appspot.com",
-  messagingSenderId: "971873814750",
-  appId: "1:971873814750:web:7418c7da119e4725ed9a4f"
+
+apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+
+authDomain: "incoinpaysliveearning.firebaseapp.com",
+
+databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+
+projectId: "incoinpaysliveearning",
+
+storageBucket: "incoinpaysliveearning.appspot.com",
+
+messagingSenderId: "971873814750",
+
+appId: "1:971873814750:web:7418c7da119e4725ed9a4f"
+
 };
 
+
 firebase.initializeApp(firebaseConfig);
+
+
 const auth = firebase.auth();
 
-// 🔥 YOUR ADMIN UID
-const ADMIN_UID = "VIAP56vYwndWPhJxktn0lRPTWnS2";
 
 
-// 🔐 LOGIN FUNCTION
-async function loginAdmin(){
+// 👑 ADMIN UID YAHAN DALE
 
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value.trim();
-  const loginMsg = document.getElementById('loginMsg');
-  loginMsg.innerHTML = '';
+const ADMIN_UID = "VIAP56vYwndWPhJxktn0lRPTWnS";
 
-  if(!email || !password){
-    loginMsg.innerHTML = "<span class='err'>❌ Enter email & password</span>";
-    return;
-  }
 
-  try{
-    const userCredential = await auth.signInWithEmailAndPassword(email,password);
-    const user = userCredential.user;
 
-    // ✅ ADMIN UID CHECK
-    if(user.uid === ADMIN_UID){
 
-      // 🔥 REDIRECT TO DASHBOARD
-      window.location.href = "user.html";
 
-    }else{
+function loginAdmin(){
 
-      loginMsg.innerHTML = "<span class='err'>❌ You are not Admin!</span>";
-      auth.signOut();
 
-    }
+let email = document.getElementById("email").value.trim();
 
-  }catch(err){
-    loginMsg.innerHTML = "<span class='err'>❌ " + err.message + "</span>";
-  }
+let password = document.getElementById("password").value.trim();
+
+let msg = document.getElementById("msg");
+
+
+msg.innerHTML="";
+
+
+
+if(email=="" || password==""){
+
+msg.innerHTML="<span class='error'>❌ Email & Password Required</span>";
+
+return;
+
 }
+
+
+
+auth.signInWithEmailAndPassword(email,password)
+
+.then((result)=>{
+
+
+let user = result.user;
+
+
+
+// ADMIN CHECK
+
+if(user.uid === ADMIN_UID){
+
+
+msg.innerHTML="<span class='success'>✅ Login Successful</span>";
+
+
+
+setTimeout(()=>{
+
+
+window.location.href="user.html";
+
+
+},1000);
+
+
+
+}
+
+else{
+
+
+msg.innerHTML="<span class='error'>❌ You are not Admin</span>";
+
+auth.signOut();
+
+
+}
+
+
+
+})
+
+
+.catch((error)=>{
+
+
+msg.innerHTML="<span class='error'>❌ "+error.message+"</span>";
+
+
+});
+
+
+
+}
+
+
 </script>
+
 
 </body>
 </html>
