@@ -1,240 +1,699 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BGMI Admin Login</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>BGMI Admin Panel</title>
+
+<link rel="manifest" href="manifest.json">
 
 <style>
 
 *{
+margin:0;
+padding:0;
 box-sizing:border-box;
 font-family:Arial,sans-serif;
 }
 
 body{
-margin:0;
+background:#020617;
+color:#fff;
+overflow-x:hidden;
+}
+
+body::-webkit-scrollbar{
+display:none;
+}
+
+/* LOGIN */
+
+#loginBox{
+width:100%;
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:#050505;
-color:white;
+padding:20px;
 }
 
-.card{
-width:90%;
+.login-card{
+width:100%;
 max-width:380px;
-background:#121421;
+background:#111827;
 padding:25px;
 border-radius:18px;
-box-shadow:0 0 20px #000;
+box-shadow:0 10px 25px rgba(0,0,0,.35);
 }
 
-h2{
+.login-card h2{
 text-align:center;
-color:#FFD700;
 margin-bottom:20px;
+color:#22c55e;
 }
 
-input{
+.login-card input{
 width:100%;
 padding:13px;
-margin-bottom:15px;
+margin-top:12px;
 border:none;
+outline:none;
 border-radius:10px;
-font-size:16px;
+background:#1e293b;
+color:#fff;
 }
 
-button{
+.login-card button{
 width:100%;
-padding:14px;
+padding:13px;
+margin-top:18px;
 border:none;
-border-radius:12px;
-background:#FFD700;
-color:black;
-font-weight:bold;
+border-radius:10px;
+background:#22c55e;
+color:#fff;
 font-size:16px;
+font-weight:bold;
 cursor:pointer;
 }
 
-#msg{
-text-align:center;
+.login-card button:hover{
+background:#16a34a;
+}
+
+/* DASHBOARD */
+
+#dashboard{
+display:none;
+padding-bottom:100px;
+}
+
+/* HEADER */
+
+.header{
+height:65px;
+background:#111827;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 18px;
+position:sticky;
+top:0;
+z-index:100;
+border-bottom:1px solid #1f2937;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+color:#22c55e;
+}
+
+.logout{
+padding:10px 18px;
+border:none;
+border-radius:10px;
+background:#ef4444;
+color:#fff;
+cursor:pointer;
+font-weight:bold;
+}
+
+/* DASHBOARD CARDS */
+
+.dashboard{
+width:95%;
+margin:20px auto;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.card{
+background:#111827;
+padding:18px;
+border-radius:18px;
+box-shadow:0 10px 20px rgba(0,0,0,.35);
+}
+
+.card-title{
+font-size:13px;
+color:#94a3b8;
+}
+
+.card-value{
+margin-top:10px;
+font-size:28px;
+font-weight:bold;
+color:#22c55e;
+}
+
+/* MENU BUTTONS */
+
+.menu{
+width:95%;
+margin:20px auto;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.menu button{
+padding:16px;
+border:none;
+border-radius:14px;
+background:#1e293b;
+color:#fff;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+
+.menu button:hover{
+background:#22c55e;
+}
+
+/* PAYMENT SETTINGS */
+
+.settings{
+width:95%;
+margin:20px auto;
+background:#111827;
+padding:20px;
+border-radius:16px;
+}
+
+.settings h2{
+margin-bottom:15px;
+color:#22c55e;
+}
+
+.settings input{
+width:100%;
+padding:12px;
+margin-top:12px;
+border:none;
+border-radius:10px;
+background:#1e293b;
+color:#fff;
+outline:none;
+}
+
+.settings button{
+width:100%;
+padding:12px;
 margin-top:15px;
+border:none;
+border-radius:10px;
+background:#22c55e;
+color:#fff;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
 }
 
-.red{
-color:red;
+.loading{
+display:none;
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.6);
+justify-content:center;
+align-items:center;
+z-index:9999;
 }
 
-.green{
-color:#00ff88;
+.loader{
+width:45px;
+height:45px;
+border-radius:50%;
+border:4px solid #334155;
+border-top:4px solid #22c55e;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+
+@media(max-width:768px){
+
+.dashboard,
+.menu{
+grid-template-columns:1fr;
+}
+
+.logo{
+font-size:18px;
+}
+
+.card-value{
+font-size:22px;
+}
+
 }
 
 </style>
 
 </head>
 
-
 <body>
 
+<!-- LOGIN -->
 
-<div class="card">
+<div id="loginBox">
 
-<h2>🔥 BGMI ADMIN LOGIN</h2>
+<div class="login-card">
 
+<h2>BGMI ADMIN LOGIN</h2>
 
-<input 
+<input
 type="email"
 id="email"
 placeholder="Admin Email">
 
-
-<input 
+<input
 type="password"
 id="password"
 placeholder="Password">
 
-
-<button onclick="loginAdmin()">
+<button onclick="login()">
 LOGIN
 </button>
-
-
-<div id="msg"></div>
-
 
 </div>
 
 
+</div>
 
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<!-- DASHBOARD -->
 
+<div id="dashboard">
+<div class="card" style="margin-top:20px;text-align:center;">
+    <button id="openSlotManager"
+        style="
+        width:100%;
+        height:60px;
+        border:none;
+        border-radius:18px;
+        background:linear-gradient(135deg,#22c55e,#16a34a);
+        color:#fff;
+        font-size:18px;
+        font-weight:700;
+        cursor:pointer;">
+        📦 Open Slot Manager
+    </button>
+</div>
 
-<script>
+<header class="header">
 
+<div class="logo">
+🎮 BGMI ADMIN PANEL
+</div>
+
+<button class="logout" onclick="logout()">
+Logout
+</button>
+
+</header>
+<!-- ===========================
+     DASHBOARD CARDS
+=========================== -->
+
+<div class="dashboard">
+
+<div class="card">
+<div class="card-title">Total Users</div>
+<div class="card-value" id="totalUsers">0</div>
+</div>
+
+<div class="card">
+<div class="card-title">Total Wallet</div>
+<div class="card-value" id="totalWallet">₹0</div>
+</div>
+
+<div class="card">
+<div class="card-title">Pending Recharge</div>
+<div class="card-value" id="pendingRecharge">0</div>
+</div>
+
+<div class="card">
+<div class="card-title">Pending Withdraw</div>
+<div class="card-value" id="pendingWithdraw">0</div>
+</div>
+
+</div>
+
+<!-- ===========================
+     ADMIN MENU
+=========================== -->
+
+<div class="menu">
+
+<button onclick="location.href='user.html'">
+👥 User Manager
+</button>
+
+<button onclick="location.href='recharge.html'">
+💰 Recharge Requests
+</button>
+
+<button onclick="location.href='withdraw.html'">
+🏦 Withdraw Requests
+</button>
+
+<button onclick="location.href='recharge-history.html'">
+📜 Recharge History
+</button>
+
+<button onclick="location.href='withdraw-history.html'">
+📋 Withdraw History
+</button>
+
+<button onclick="location.href='wallet-history.html'">
+💳 Wallet History
+</button>
+
+</div>
+
+<!-- ===========================
+     PAYMENT SETTINGS
+=========================== -->
+
+<div class="settings">
+
+<h2>⚙ Payment Settings</h2>
+
+<input
+type="text"
+id="upiId"
+placeholder="Enter UPI ID (Example: bgmi@ibl)">
+
+<input
+type="text"
+id="upiName"
+placeholder="Enter Payee Name (Example: BGMI Tournament)">
+
+<button onclick="saveUPI()">
+💾 Save Payment Details
+</button>
+
+</div>
+
+<!-- ===========================
+     LOADING
+=========================== -->
+
+<div class="loading" id="loading">
+
+<div class="loader"></div>
+
+</div>
+
+</div>
+
+<!-- ===========================
+     FIREBASE SCRIPT
+=========================== -->
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged,
+signOut
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+onValue,
+get,
+set,
+update
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+/* ===========================
+   FIREBASE CONFIG
+=========================== */
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
 
-authDomain: "incoinpaysliveearning.firebaseapp.com",
+authDomain:"incoinpaysliveearning.firebaseapp.com",
 
-databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
 
-projectId: "incoinpaysliveearning",
+projectId:"incoinpaysliveearning",
 
-storageBucket: "incoinpaysliveearning.appspot.com",
+storageBucket:"incoinpaysliveearning.firebasestorage.app",
 
-messagingSenderId: "971873814750",
+messagingSenderId:"971873814750",
 
-appId: "1:971873814750:web:7418c7da119e4725ed9a4f"
+appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
 
 };
 
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
 
-firebase.initializeApp(firebaseConfig);
+const ADMIN_UID = "VIAP56vYwndWPhJxktn0lRPTWnS2";
 
+/* ===========================
+   LOGIN
+=========================== */
 
-const auth = firebase.auth();
+window.login = function(){
 
+const email = document.getElementById("email").value.trim();
+const password = document.getElementById("password").value;
 
+if(email==="" || password===""){
+alert("Enter Email & Password");
+return;
+}
 
-const ADMIN_EMAIL = "ppatelraj.1998@gmail.com";
+document.getElementById("loading").style.display="flex";
 
+signInWithEmailAndPassword(auth,email,password)
 
+.then(()=>{
 
-function loginAdmin(){
+document.getElementById("loading").style.display="none";
+document.getElementById("password").value="";
 
+})
 
-let email = document.getElementById("email").value.trim();
+.catch((error)=>{
 
-let password = document.getElementById("password").value.trim();
+document.getElementById("loading").style.display="none";
 
-let msg = document.getElementById("msg");
+alert(error.message);
 
+});
 
-msg.innerHTML="";
+};
+document.getElementById("openSlotManager").onclick = function () {
+    window.location.href = "slot-manager.html";
+};
+/* ===========================
+   LOGOUT
+=========================== */
 
+window.logout=function(){
 
+signOut(auth);
 
-if(!email || !password){
+};
 
-msg.innerHTML="<span class='red'>❌ Email & Password Required</span>";
+/* ===========================
+   AUTH CHECK
+=========================== */
+
+onAuthStateChanged(auth,(user)=>{
+
+if(!user){
+
+document.getElementById("loginBox").style.display="flex";
+document.getElementById("dashboard").style.display="none";
 
 return;
 
 }
 
+if(user.uid!==ADMIN_UID){
 
+alert("Access Denied");
 
-auth.signInWithEmailAndPassword(email,password)
+signOut(auth);
 
-.then((result)=>{
-
-
-let user = result.user;
-
-
-
-console.log("LOGIN EMAIL:",user.email);
-
-console.log("LOGIN UID:",user.uid);
-
-
-
-if(user.email === ADMIN_EMAIL){
-
-
-msg.innerHTML="<span class='green'>✅ Login Successful</span>";
-
-
-
-setTimeout(()=>{
-
-
-window.location.href="admin-dashbord.html";
-
-
-},1000);
-
-
+return;
 
 }
 
+document.getElementById("loginBox").style.display="none";
+document.getElementById("dashboard").style.display="block";
 
-else{
+loadDashboard();
 
-
-msg.innerHTML="<span class='red'>❌ You are not Admin</span>";
-
-auth.signOut();
-
-
-}
-
-
-
-})
-
-
-.catch((error)=>{
-
-
-msg.innerHTML="<span class='red'>❌ "+error.message+"</span>";
-
+loadUPI();
 
 });
 
+/* ===========================
+   DASHBOARD
+=========================== */
+
+function loadDashboard(){
+
+onValue(ref(db,"users"),(snap)=>{
+
+let totalUsers=0;
+let totalWallet=0;
+
+if(snap.exists()){
+
+snap.forEach((child)=>{
+
+totalUsers++;
+
+totalWallet+=Number(child.val().wallet||0);
+
+});
 
 }
 
+document.getElementById("totalUsers").innerText=totalUsers;
+
+document.getElementById("totalWallet").innerText="₹"+Math.floor(totalWallet);
+
+});
+
+onValue(ref(db,"rechargeRequests"),(snap)=>{
+
+let pending=0;
+
+if(snap.exists()){
+
+snap.forEach((child)=>{
+
+if(child.val().status==="Pending"){
+
+pending++;
+
+}
+
+});
+
+}
+
+document.getElementById("pendingRecharge").innerText=pending;
+
+});
+
+onValue(ref(db,"withdrawRequests"),(snap)=>{
+
+let pending=0;
+
+if(snap.exists()){
+
+snap.forEach((child)=>{
+
+if(child.val().status==="Pending"){
+
+pending++;
+
+}
+
+});
+
+}
+
+document.getElementById("pendingWithdraw").innerText=pending;
+
+});
+
+}
+
+/* ===========================
+   LOAD UPI
+=========================== */
+
+function loadUPI(){
+
+onValue(ref(db,"config/payment"),(snap)=>{
+
+if(!snap.exists()) return;
+
+const data=snap.val();
+
+document.getElementById("upiId").value=data.upi||"";
+
+document.getElementById("upiName").value=data.name||"";
+
+});
+
+}
+
+/* ===========================
+   SAVE UPI
+=========================== */
+
+window.saveUPI = async function(){
+
+const upi=document.getElementById("upiId").value.trim();
+
+const name=document.getElementById("upiName").value.trim();
+
+if(upi===""){
+
+alert("Enter UPI ID");
+
+return;
+
+}
+
+document.getElementById("loading").style.display="flex";
+
+try{
+
+await set(ref(db,"config/payment"),{
+
+upi:upi,
+
+name:name
+
+});
+
+document.getElementById("loading").style.display="none";
+
+alert("Payment Details Saved Successfully");
+
+}catch(error){
+
+document.getElementById("loading").style.display="none";
+
+console.log(error);
+
+alert(error.message);
+
+}
+
+};
 
 </script>
-
 
 </body>
 </html>
