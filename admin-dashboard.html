@@ -1,276 +1,680 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<title>BGMI VIP Admin Panel</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>BGMI Admin Panel</title>
+
+<link rel="manifest" href="manifest.json">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui;}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
 body{
-  background:#0a0a12;
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  min-height:100vh;
-  overflow-x:hidden;
+background:#020617;
+color:#fff;
+overflow-x:hidden;
+}
+
+body::-webkit-scrollbar{
+display:none;
+}
+
+/* LOGIN */
+
+#loginBox{
+width:100%;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.login-card{
+width:100%;
+max-width:380px;
+background:#111827;
+padding:25px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.35);
+}
+
+.login-card h2{
+text-align:center;
+margin-bottom:20px;
+color:#22c55e;
+}
+
+.login-card input{
+width:100%;
+padding:13px;
+margin-top:12px;
+border:none;
+outline:none;
+border-radius:10px;
+background:#1e293b;
+color:#fff;
+}
+
+.login-card button{
+width:100%;
+padding:13px;
+margin-top:18px;
+border:none;
+border-radius:10px;
+background:#22c55e;
+color:#fff;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.login-card button:hover{
+background:#16a34a;
+}
+
+/* DASHBOARD */
+
+#dashboard{
+display:none;
+padding-bottom:100px;
 }
 
 /* HEADER */
+
 .header{
-  display:flex;
-  align-items:center;
-  padding:12px;
-}
-.menuBtn{
-  font-size:22px;
-  cursor:pointer;
-  margin-right:10px;
-}
-h2{
-  flex:1;
-  text-align:center;
-  font-size:18px;
-  background:linear-gradient(90deg,#00f5ff,#ff00c8,#ffd86b);
-  -webkit-background-clip:text;
-  color:transparent;
-  font-weight:900;
+height:65px;
+background:#111827;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 18px;
+position:sticky;
+top:0;
+z-index:100;
+border-bottom:1px solid #1f2937;
 }
 
-/* SIDEBAR */
-.sidebar{
-  position:fixed;
-  top:0;
-  left:-260px;
-  width:240px;
-  height:100%;
-  background:#11152b;
-  padding:20px;
-  transition:0.3s;
-  z-index:1000;
-}
-.sidebar.active{ left:0; }
-.sidebar h3{ margin-bottom:20px;color:#00f5ff; }
-.logoutBtn{
-  padding:12px;
-  background:#ff2e63;
-  border:none;
-  border-radius:10px;
-  color:#fff;
-  font-weight:700;
-  cursor:pointer;
-  width:100%;
+.logo{
+font-size:22px;
+font-weight:bold;
+color:#22c55e;
 }
 
-/* OVERLAY */
-.overlay{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.6);
-  opacity:0;
-  visibility:hidden;
-  transition:0.3s;
-  z-index:900;
-}
-.overlay.active{
-  opacity:1;
-  visibility:visible;
+.logout{
+padding:10px 18px;
+border:none;
+border-radius:10px;
+background:#ef4444;
+color:#fff;
+cursor:pointer;
+font-weight:bold;
 }
 
-#adminWrap{
-  flex:1;
-  overflow-y:auto;
-  padding:10px;
+/* DASHBOARD CARDS */
+
+.dashboard{
+width:95%;
+margin:20px auto;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
 }
 
 .card{
-  background:rgba(255,255,255,0.05);
-  padding:10px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.1);
-  margin-bottom:10px;
+background:#111827;
+padding:18px;
+border-radius:18px;
+box-shadow:0 10px 20px rgba(0,0,0,.35);
 }
 
-.slotTitle{
-  font-weight:800;
-  margin-bottom:6px;
-  font-size:14px;
+.card-title{
+font-size:13px;
+color:#94a3b8;
 }
 
-.row{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
+.card-value{
+margin-top:10px;
+font-size:28px;
+font-weight:bold;
+color:#22c55e;
 }
 
-input,select{
-  padding:10px;
-  border:none;
-  border-radius:10px;
-  width:100%;
-  outline:none;
-  font-size:14px;
-  font-weight:600;
+/* MENU BUTTONS */
+
+.menu{
+width:95%;
+margin:20px auto;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
 }
 
-input{ background:#0e1122;color:#00f5ff; }
-select{ background:#11152b;color:#fff; }
-
-.statusAvailable{border-left:5px solid #00ff88;}
-.statusReserved{border-left:5px solid #ff2e63;}
-
-#pushBtn{
-  width:100%;
-  padding:16px;
-  border:none;
-  font-weight:900;
-  font-size:16px;
-  cursor:pointer;
-  background:linear-gradient(135deg,#00f5ff,#ff00c8,#ffd86b);
-  color:#000;
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
+.menu button{
+padding:16px;
+border:none;
+border-radius:14px;
+background:#1e293b;
+color:#fff;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
 }
+
+.menu button:hover{
+background:#22c55e;
+}
+
+/* PAYMENT SETTINGS */
+
+.settings{
+width:95%;
+margin:20px auto;
+background:#111827;
+padding:20px;
+border-radius:16px;
+}
+
+.settings h2{
+margin-bottom:15px;
+color:#22c55e;
+}
+
+.settings input{
+width:100%;
+padding:12px;
+margin-top:12px;
+border:none;
+border-radius:10px;
+background:#1e293b;
+color:#fff;
+outline:none;
+}
+
+.settings button{
+width:100%;
+padding:12px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+background:#22c55e;
+color:#fff;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.loading{
+display:none;
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.6);
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.loader{
+width:45px;
+height:45px;
+border-radius:50%;
+border:4px solid #334155;
+border-top:4px solid #22c55e;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+
+@media(max-width:768px){
+
+.dashboard,
+.menu{
+grid-template-columns:1fr;
+}
+
+.logo{
+font-size:18px;
+}
+
+.card-value{
+font-size:22px;
+}
+
+}
+
 </style>
+
 </head>
+
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar" id="sidebar">
-  <h3>Admin Menu</h3>
-  <button class="logoutBtn" onclick="logout()">🚪 Logout</button>
+<!-- LOGIN -->
+
+<div id="loginBox">
+
+<div class="login-card">
+
+<h2>BGMI ADMIN LOGIN</h2>
+
+<input
+type="email"
+id="email"
+placeholder="Admin Email">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<button onclick="login()">
+LOGIN
+</button>
+
 </div>
 
-<div class="overlay" id="overlay"></div>
-
-<!-- HEADER -->
-<div class="header">
-  <div class="menuBtn" onclick="openMenu()">☰</div>
-  <h2>🎮 BGMI LIVE SLOT ADMIN</h2>
 </div>
 
-<div id="adminWrap"></div>
-<button id="pushBtn">🚀 PUSH TO LIVE</button>
+<!-- DASHBOARD -->
 
-<!-- Firebase v8 -->
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+<div id="dashboard">
 
-<script>
-firebase.initializeApp({
-  apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
-  authDomain:"incoinpaysliveearning.firebaseapp.com",
-  databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
-  projectId:"incoinpaysliveearning"
-});
+<header class="header">
 
-const db = firebase.database();
-const wrap = document.getElementById("adminWrap");
-const TOTAL_SLOTS = 25;
-let slots = [];
+<div class="logo">
+🎮 BGMI ADMIN PANEL
+</div>
 
-/* LOGIN CHECK */
-firebase.auth().onAuthStateChanged(function(user){
-  if(!user){
-    window.location.href="admin-login.html";
-  }else{
-    loadFromDatabase();
-  }
-});
+<button class="logout" onclick="logout()">
+Logout
+</button>
 
-/* SIDEBAR */
-const sidebar=document.getElementById("sidebar");
-const overlay=document.getElementById("overlay");
+</header>
+<!-- ===========================
+     DASHBOARD CARDS
+=========================== -->
 
-function openMenu(){
-  sidebar.classList.add("active");
-  overlay.classList.add("active");
-}
-function closeMenu(){
-  sidebar.classList.remove("active");
-  overlay.classList.remove("active");
-}
-overlay.addEventListener("click",closeMenu);
+<div class="dashboard">
 
-/* LOGOUT */
-function logout(){
-  firebase.auth().signOut().then(()=>{
-    window.location.href="admin-login.html";
-  });
-}
+<div class="card">
+<div class="card-title">Total Users</div>
+<div class="card-value" id="totalUsers">0</div>
+</div>
 
-/* SLOT SYSTEM */
-function createDefaultSlots(){
-  slots=[];
-  for(let i=1;i<=TOTAL_SLOTS;i++){
-    slots.push({slot:"Slot "+i,name:"",status:"Available"});
-  }
-}
+<div class="card">
+<div class="card-title">Total Wallet</div>
+<div class="card-value" id="totalWallet">₹0</div>
+</div>
 
-function loadFromDatabase(){
-  createDefaultSlots();
-  db.ref("slots").once("value").then(snap=>{
-    if(snap.exists()){
-      const data=snap.val();
-      for(let i=1;i<=TOTAL_SLOTS;i++){
-        const key="Slot "+i;
-        if(data[key]){
-          slots[i-1].name=data[key].name||"";
-          slots[i-1].status=data[key].status||"Available";
-        }
-      }
-    }
-    renderAdmin();
-  });
-}
+<div class="card">
+<div class="card-title">Pending Recharge</div>
+<div class="card-value" id="pendingRecharge">0</div>
+</div>
 
-function renderAdmin(){
-  wrap.innerHTML="";
-  slots.forEach((s,i)=>{
-    const d=document.createElement("div");
-    d.className="card "+(s.status==="Available"?"statusAvailable":"statusReserved");
-    d.innerHTML=`
-      <div class='slotTitle'>${s.slot}</div>
-      <div class='row'>
-        <input value='${s.name}' class='nameInput' placeholder='Player Name'>
-        <select class='statusSel'>
-          <option value='Available' ${s.status==="Available"?"selected":""}>Available</option>
-          <option value='Reserved' ${s.status==="Reserved"?"selected":""}>Reserved</option>
-        </select>
-      </div>`;
-    wrap.appendChild(d);
+<div class="card">
+<div class="card-title">Pending Withdraw</div>
+<div class="card-value" id="pendingWithdraw">0</div>
+</div>
 
-    d.querySelector(".nameInput").oninput=e=>slots[i].name=e.target.value.toUpperCase();
-    d.querySelector(".statusSel").onchange=e=>{
-      slots[i].status=e.target.value;
-      renderAdmin();
-    }
-  });
-}
+</div>
 
-/* PUSH UPDATE (FIXED - NO PERMISSION ERROR) */
-document.getElementById("pushBtn").onclick=()=>{
+<!-- ===========================
+     ADMIN MENU
+=========================== -->
 
-  const updates={};
+<div class="menu">
 
-  slots.forEach((s,i)=>{
-    updates["slots/Slot "+(i+1)]={
-      slot:s.slot,
-      name:s.name||"PLAYER",
-      status:s.status
-    };
-  });
+<button onclick="location.href='user.html'">
+👥 User Manager
+</button>
 
-  db.ref().update(updates)
-    .then(()=>alert("✅ Live Updated Successfully"))
-    .catch(err=>alert("❌ "+err.message));
+<button onclick="location.href='recharge.html'">
+💰 Recharge Requests
+</button>
+
+<button onclick="location.href='withdraw.html'">
+🏦 Withdraw Requests
+</button>
+
+<button onclick="location.href='recharge-history.html'">
+📜 Recharge History
+</button>
+
+<button onclick="location.href='withdraw-history.html'">
+📋 Withdraw History
+</button>
+
+<button onclick="location.href='wallet-history.html'">
+💳 Wallet History
+</button>
+
+</div>
+
+<!-- ===========================
+     PAYMENT SETTINGS
+=========================== -->
+
+<div class="settings">
+
+<h2>⚙ Payment Settings</h2>
+
+<input
+type="text"
+id="upiId"
+placeholder="Enter UPI ID (Example: bgmi@ibl)">
+
+<input
+type="text"
+id="upiName"
+placeholder="Enter Payee Name (Example: BGMI Tournament)">
+
+<button onclick="saveUPI()">
+💾 Save Payment Details
+</button>
+
+</div>
+
+<!-- ===========================
+     LOADING
+=========================== -->
+
+<div class="loading" id="loading">
+
+<div class="loader"></div>
+
+</div>
+
+</div>
+
+<!-- ===========================
+     FIREBASE SCRIPT
+=========================== -->
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged,
+signOut
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+onValue,
+get,
+set,
+update
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+/* ===========================
+   FIREBASE CONFIG
+=========================== */
+
+const firebaseConfig = {
+
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+
+authDomain:"incoinpaysliveearning.firebaseapp.com",
+
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+
+projectId:"incoinpaysliveearning",
+
+storageBucket:"incoinpaysliveearning.firebasestorage.app",
+
+messagingSenderId:"971873814750",
+
+appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
+
 };
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+const ADMIN_UID = "VIAP56vYwndWPhJxktn0lRPTWnS2";
+
+/* ===========================
+   LOGIN
+=========================== */
+
+window.login = function(){
+
+const email = document.getElementById("email").value.trim();
+const password = document.getElementById("password").value;
+
+if(email==="" || password===""){
+alert("Enter Email & Password");
+return;
+}
+
+document.getElementById("loading").style.display="flex";
+
+signInWithEmailAndPassword(auth,email,password)
+
+.then(()=>{
+
+document.getElementById("loading").style.display="none";
+document.getElementById("password").value="";
+
+})
+
+.catch((error)=>{
+
+document.getElementById("loading").style.display="none";
+
+alert(error.message);
+
+});
+
+};
+
+/* ===========================
+   LOGOUT
+=========================== */
+
+window.logout=function(){
+
+signOut(auth);
+
+};
+
+/* ===========================
+   AUTH CHECK
+=========================== */
+
+onAuthStateChanged(auth,(user)=>{
+
+if(!user){
+
+document.getElementById("loginBox").style.display="flex";
+document.getElementById("dashboard").style.display="none";
+
+return;
+
+}
+
+if(user.uid!==ADMIN_UID){
+
+alert("Access Denied");
+
+signOut(auth);
+
+return;
+
+}
+
+document.getElementById("loginBox").style.display="none";
+document.getElementById("dashboard").style.display="block";
+
+loadDashboard();
+
+loadUPI();
+
+});
+
+/* ===========================
+   DASHBOARD
+=========================== */
+
+function loadDashboard(){
+
+onValue(ref(db,"users"),(snap)=>{
+
+let totalUsers=0;
+let totalWallet=0;
+
+if(snap.exists()){
+
+snap.forEach((child)=>{
+
+totalUsers++;
+
+totalWallet+=Number(child.val().wallet||0);
+
+});
+
+}
+
+document.getElementById("totalUsers").innerText=totalUsers;
+
+document.getElementById("totalWallet").innerText="₹"+Math.floor(totalWallet);
+
+});
+
+onValue(ref(db,"rechargeRequests"),(snap)=>{
+
+let pending=0;
+
+if(snap.exists()){
+
+snap.forEach((child)=>{
+
+if(child.val().status==="Pending"){
+
+pending++;
+
+}
+
+});
+
+}
+
+document.getElementById("pendingRecharge").innerText=pending;
+
+});
+
+onValue(ref(db,"withdrawRequests"),(snap)=>{
+
+let pending=0;
+
+if(snap.exists()){
+
+snap.forEach((child)=>{
+
+if(child.val().status==="Pending"){
+
+pending++;
+
+}
+
+});
+
+}
+
+document.getElementById("pendingWithdraw").innerText=pending;
+
+});
+
+}
+
+/* ===========================
+   LOAD UPI
+=========================== */
+
+function loadUPI(){
+
+onValue(ref(db,"config/payment"),(snap)=>{
+
+if(!snap.exists()) return;
+
+const data=snap.val();
+
+document.getElementById("upiId").value=data.upi||"";
+
+document.getElementById("upiName").value=data.name||"";
+
+});
+
+}
+
+/* ===========================
+   SAVE UPI
+=========================== */
+
+window.saveUPI = async function(){
+
+const upi=document.getElementById("upiId").value.trim();
+
+const name=document.getElementById("upiName").value.trim();
+
+if(upi===""){
+
+alert("Enter UPI ID");
+
+return;
+
+}
+
+document.getElementById("loading").style.display="flex";
+
+try{
+
+await set(ref(db,"config/payment"),{
+
+upi:upi,
+
+name:name
+
+});
+
+document.getElementById("loading").style.display="none";
+
+alert("Payment Details Saved Successfully");
+
+}catch(error){
+
+document.getElementById("loading").style.display="none";
+
+console.log(error);
+
+alert(error.message);
+
+}
+
+};
+
 </script>
 
 </body>
