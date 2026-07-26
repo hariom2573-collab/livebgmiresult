@@ -13,11 +13,9 @@ content="#07111d">
 
 <title>BGMI Duo Scrims</title>
 
-<link rel="manifest"
-href="manifest.json">
+<link rel="manifest" href="manifest.json">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
@@ -29,19 +27,22 @@ font-family:'Poppins',sans-serif;
 -webkit-tap-highlight-color:transparent;
 }
 
+html{
+scroll-behavior:smooth;
+}
+
 body{
 background:#050B18;
 color:#fff;
 overflow-x:hidden;
+min-height:100vh;
 }
 
 body::-webkit-scrollbar{
 display:none;
 }
 
-/* ==========================
-BACKGROUND
-========================== */
+/* Background */
 
 body::before{
 
@@ -58,13 +59,9 @@ width:100%;
 height:100%;
 
 background:
-
 radial-gradient(circle at 20% 10%,rgba(34,197,94,.20),transparent 35%),
-
 radial-gradient(circle at 80% 15%,rgba(37,99,235,.18),transparent 35%),
-
 radial-gradient(circle at 50% 100%,rgba(147,51,234,.18),transparent 40%),
-
 #050B18;
 
 z-index:-3;
@@ -93,13 +90,9 @@ animation:moveGlow 10s infinite alternate;
 .glow1{
 
 width:220px;
-
 height:220px;
-
 background:#22c55e;
-
 left:-80px;
-
 top:-80px;
 
 }
@@ -107,15 +100,10 @@ top:-80px;
 .glow2{
 
 width:240px;
-
 height:240px;
-
 background:#2563eb;
-
 right:-90px;
-
 bottom:-90px;
-
 animation-delay:2s;
 
 }
@@ -130,18 +118,13 @@ transform:translate(40px,-20px);
 
 }
 
-/* ==========================
-HEADER
-========================== */
+/* HEADER */
 
 .header{
 
 padding:18px;
-
 display:flex;
-
 justify-content:space-between;
-
 align-items:center;
 
 }
@@ -149,23 +132,14 @@ align-items:center;
 .back{
 
 width:48px;
-
 height:48px;
-
 border-radius:15px;
-
 background:rgba(255,255,255,.06);
-
 display:flex;
-
 justify-content:center;
-
 align-items:center;
-
 font-size:22px;
-
 cursor:pointer;
-
 backdrop-filter:blur(15px);
 
 }
@@ -173,7 +147,6 @@ backdrop-filter:blur(15px);
 .title{
 
 font-size:22px;
-
 font-weight:700;
 
 }
@@ -181,35 +154,23 @@ font-weight:700;
 .wallet{
 
 padding:10px 18px;
-
 border-radius:15px;
-
 background:#22c55e;
-
 font-weight:bold;
-
 font-size:14px;
+color:#fff;
 
 }
 
-/* ==========================
-HERO
-========================== */
+/* HERO */
 
 .hero{
 
 margin:18px;
-
 border-radius:28px;
-
 overflow:hidden;
-
-background:
-
-linear-gradient(135deg,#2563eb,#312e81);
-
+background:linear-gradient(135deg,#2563eb,#312e81);
 box-shadow:0 15px 35px rgba(0,0,0,.35);
-
 position:relative;
 
 }
@@ -217,19 +178,12 @@ position:relative;
 .hero::before{
 
 content:"";
-
 position:absolute;
-
 width:240px;
-
 height:240px;
-
 background:rgba(255,255,255,.08);
-
 border-radius:50%;
-
 right:-120px;
-
 top:-100px;
 
 }
@@ -237,17 +191,11 @@ top:-100px;
 .banner{
 
 height:210px;
-
 display:flex;
-
 justify-content:center;
-
 align-items:center;
-
 font-size:85px;
-
 position:relative;
-
 z-index:2;
 
 }
@@ -255,9 +203,7 @@ z-index:2;
 .heroContent{
 
 padding:22px;
-
 position:relative;
-
 z-index:2;
 
 }
@@ -265,15 +211,10 @@ z-index:2;
 .mode{
 
 display:inline-block;
-
 padding:8px 18px;
-
 background:rgba(255,255,255,.15);
-
 border-radius:30px;
-
 font-size:12px;
-
 margin-bottom:15px;
 
 }
@@ -281,7 +222,6 @@ margin-bottom:15px;
 .heroTitle{
 
 font-size:28px;
-
 font-weight:800;
 
 }
@@ -289,31 +229,21 @@ font-weight:800;
 .heroText{
 
 margin-top:8px;
-
 font-size:14px;
-
 color:#dbeafe;
-
 line-height:22px;
 
 }
 
-/* ==========================
-INFO CARD
-========================== */
+/* MATCH INFO */
 
 .infoCard{
 
 margin:18px;
-
 background:rgba(255,255,255,.05);
-
 backdrop-filter:blur(20px);
-
 border-radius:22px;
-
 padding:20px;
-
 border:1px solid rgba(255,255,255,.08);
 
 }
@@ -321,11 +251,8 @@ border:1px solid rgba(255,255,255,.08);
 .infoGrid{
 
 display:grid;
-
 grid-template-columns:repeat(2,1fr);
-
 gap:15px;
-
 margin-top:18px;
 
 }
@@ -333,11 +260,8 @@ margin-top:18px;
 .box{
 
 background:#111827;
-
 padding:18px;
-
 border-radius:18px;
-
 text-align:center;
 
 }
@@ -345,7 +269,6 @@ text-align:center;
 .boxTitle{
 
 font-size:12px;
-
 color:#94a3b8;
 
 }
@@ -353,11 +276,8 @@ color:#94a3b8;
 .boxValue{
 
 margin-top:8px;
-
 font-size:20px;
-
 font-weight:700;
-
 color:#22c55e;
 
 }
@@ -365,7 +285,6 @@ color:#22c55e;
 .live{
 
 color:#22c55e;
-
 animation:pulse 1.2s infinite;
 
 }
@@ -391,7 +310,6 @@ font-size:24px;
 .banner{
 
 height:180px;
-
 font-size:70px;
 
 }
@@ -401,33 +319,25 @@ font-size:70px;
 </style>
 
 </head>
-
 <body>
 
 <div class="glow1"></div>
-
 <div class="glow2"></div>
 
 <!-- HEADER -->
 
 <div class="header">
 
-
-
-
+<div class="back" onclick="history.back()">
+←
 </div>
 
 <div class="title">
-
 DUO SCRIMS
-
 </div>
 
-<div class="wallet"
-id="walletBalance">
-
+<div class="wallet" id="walletBalance">
 ₹0
-
 </div>
 
 </div>
@@ -437,29 +347,21 @@ id="walletBalance">
 <div class="hero">
 
 <div class="banner">
-
 🎮
-
 </div>
 
 <div class="heroContent">
 
 <div class="mode">
-
 🔥 BGMI DUO MATCH
-
 </div>
 
 <div class="heroTitle">
-
 Daily Duo Scrims
-
 </div>
 
 <div class="heroText">
-
 Join the premium BGMI Duo custom room and compete against the best teams to win exciting cash prizes.
-
 </div>
 
 </div>
@@ -471,79 +373,45 @@ Join the premium BGMI Duo custom room and compete against the best teams to win 
 <div class="infoCard">
 
 <h2>
-
 📋 Match Details
-
 </h2>
 
 <div class="infoGrid">
 
 <div class="box">
-
 <div class="boxTitle">
-
 Entry Fee
-
 </div>
-
-<div class="boxValue"
-id="entryFee">
-
+<div class="boxValue" id="entryFee">
 ₹20
-
 </div>
-
 </div>
 
 <div class="box">
-
 <div class="boxTitle">
-
 Prize Pool
-
 </div>
-
-<div class="boxValue"
-id="prizePool">
-
+<div class="boxValue" id="prizePool">
 ₹500
-
 </div>
-
-</div>
-
-<div class="box">
-
-<div class="boxTitle">
-
-Slots
-
-</div>
-
-<div class="boxValue"
-id="slotCount">
-
-0/25
-
-</div>
-
 </div>
 
 <div class="box">
-
 <div class="boxTitle">
+Booked Slots
+</div>
+<div class="boxValue" id="slotCount">
+0 / 25
+</div>
+</div>
 
+<div class="box">
+<div class="boxTitle">
 Status
-
 </div>
-
-<div class="boxValue live"
-id="matchStatus">
-
+<div class="boxValue live" id="matchStatus">
 LIVE
-
 </div>
-
 </div>
 
 </div>
@@ -555,256 +423,153 @@ LIVE
 
 <style>
 
-/* ===============================
-SECTION TITLE
-=============================== */
+/* SECTION */
 
 .section{
-
 margin:20px 18px 10px;
-
 font-size:22px;
-
 font-weight:700;
-
 }
 
-/* ===============================
-REGISTER CARD
-=============================== */
+/* CARD */
 
 .registerCard{
-
 margin:18px;
-
 padding:22px;
-
 border-radius:24px;
-
 background:rgba(255,255,255,.05);
-
 backdrop-filter:blur(18px);
-
 border:1px solid rgba(255,255,255,.08);
-
 box-shadow:0 15px 30px rgba(0,0,0,.25);
-
 }
 
-/* Inputs */
+/* INPUT */
 
 .inputBox{
-
 margin-bottom:18px;
-
 }
 
 .inputBox label{
-
 display:block;
-
 margin-bottom:8px;
-
 font-size:14px;
-
 color:#94a3b8;
-
 }
 
 .input{
-
 width:100%;
-
 height:54px;
-
 padding:0 18px;
-
 border:none;
-
 outline:none;
-
 border-radius:16px;
-
 background:#111827;
-
 color:#fff;
-
 font-size:15px;
-
 }
 
 .input:focus{
-
 border:1px solid #22c55e;
-
 }
 
-/* Register Button */
+/* BUTTON */
 
 .registerBtn{
-
 width:100%;
-
 height:56px;
-
 border:none;
-
 border-radius:18px;
-
 background:linear-gradient(135deg,#22c55e,#16a34a);
-
 color:#fff;
-
 font-size:17px;
-
 font-weight:700;
-
 cursor:pointer;
-
 transition:.3s;
-
 }
 
 .registerBtn:active{
-
 transform:scale(.98);
-
 }
 
-/* Rules */
+/* RULES */
 
 .rules{
-
 margin-top:20px;
-
 padding:18px;
-
 border-radius:18px;
-
 background:#111827;
-
 line-height:26px;
-
 font-size:14px;
-
 color:#cbd5e1;
-
 }
 
 .rules h3{
-
 margin-bottom:12px;
-
 color:#22c55e;
-
 }
 
 </style>
 
-<!-- ===============================
-PLAYER DETAILS
-=============================== -->
-
 <div class="section">
-
 👤 Player Registration
-
 </div>
 
 <div class="registerCard">
 
 <div class="inputBox">
-
-<label>
-
-Player Name
-
-</label>
-
+<label>Player Name</label>
 <input
 type="text"
 id="playerName"
 class="input"
 placeholder="Enter Player Name">
-
 </div>
 
 <div class="inputBox">
-
-<label>
-
-BGMI ID
-
-</label>
-
+<label>BGMI ID</label>
 <input
 type="text"
 id="bgmiId"
 class="input"
 placeholder="Enter BGMI ID">
-
 </div>
 
 <div class="inputBox">
-
-<label>
-
-Mobile Number
-
-</label>
-
+<label>Mobile Number</label>
 <input
 type="tel"
 id="mobile"
 class="input"
 maxlength="10"
 placeholder="Enter Mobile Number">
-
 </div>
 
 <div class="inputBox">
-
-<label>
-
-Team Name
-
-</label>
-
+<label>Team Name</label>
 <input
 type="text"
 id="teamName"
 class="input"
 placeholder="Enter Team Name">
-
 </div>
 
 <button
-class="registerBtn"
-id="registerBtn">
-
+id="registerBtn"
+class="registerBtn">
 🎮 Register Now (₹20)
-
 </button>
 
 <div class="rules">
 
-<h3>
-
-📋 Tournament Rules
-
-</h3>
+<h3>📋 Tournament Rules</h3>
 
 • Entry Fee ₹20 only.<br>
-
 • Wallet balance must be at least ₹20.<br>
-
+• Select one slot before booking.<br>
 • Duplicate registration is not allowed.<br>
-
-• Room ID & Password will be available before match start.<br>
-
+• Room ID & Password will unlock before match.<br>
 • Any hacks or unfair gameplay will result in a permanent ban.<br>
-
-• Refund is not available after successful registration.
+• No refund after successful booking.
 
 </div>
 
@@ -815,432 +580,221 @@ id="registerBtn">
 
 <style>
 
-/* ===============================
-SLOT SECTION
-=============================== */
-
 .slotSection{
-
 margin:20px 18px;
-
 }
 
 .slotTitle{
-
-font-size:22px;
-
-font-weight:700;
-
-margin-bottom:18px;
-
 display:flex;
-
 justify-content:space-between;
-
 align-items:center;
-
+margin-bottom:18px;
+font-size:22px;
+font-weight:700;
 }
 
 .slotCounter{
-
 background:#22c55e;
-
 padding:8px 16px;
-
-border-radius:25px;
-
+border-radius:30px;
 font-size:13px;
-
 font-weight:bold;
-
 }
-
-/* ===============================
-SLOT GRID
-=============================== */
 
 .slotGrid{
-
 display:grid;
-
 grid-template-columns:repeat(5,1fr);
-
 gap:12px;
-
 }
 
-/* Slot */
-
 .slot{
-
 height:70px;
-
 border-radius:18px;
-
 display:flex;
-
 justify-content:center;
-
 align-items:center;
-
 flex-direction:column;
-
-font-weight:700;
-
+font-weight:bold;
 cursor:pointer;
-
 transition:.25s;
-
 user-select:none;
-
 }
 
 .slot:hover{
-
 transform:translateY(-5px);
-
 }
-
-/* Available */
 
 .available{
-
 background:linear-gradient(135deg,#16a34a,#22c55e);
-
 box-shadow:0 0 15px rgba(34,197,94,.35);
-
 }
-
-/* Booked */
 
 .booked{
-
 background:linear-gradient(135deg,#dc2626,#991b1b);
-
-opacity:.9;
-
 }
-
-/* Selected */
 
 .selected{
-
 background:linear-gradient(135deg,#2563eb,#1d4ed8);
-
-box-shadow:0 0 20px rgba(37,99,235,.40);
-
 }
 
-/* Slot Number */
-
 .slotNo{
-
 font-size:20px;
-
 }
 
 .slotText{
-
-margin-top:5px;
-
 font-size:10px;
-
-opacity:.9;
-
+margin-top:5px;
 }
 
-/* ===============================
-MATCH INFO CARD
-=============================== */
-
 .matchCard{
-
-margin-top:25px;
-
-background:#111827;
-
+margin-top:22px;
 padding:18px;
-
+background:#111827;
 border-radius:20px;
-
-line-height:28px;
-
 }
 
 .matchCard h3{
-
-margin-bottom:10px;
-
+margin-bottom:12px;
 color:#22c55e;
-
 }
 
 .matchCard p{
-
-color:#cbd5e1;
-
+margin:8px 0;
 font-size:14px;
-
+color:#cbd5e1;
 }
 
-/* ===============================
-POPUP
-=============================== */
-
 .slotPopup{
-
 position:fixed;
-
 left:0;
-
 top:0;
-
 width:100%;
-
 height:100%;
-
 display:none;
-
 justify-content:center;
-
 align-items:center;
-
 background:rgba(0,0,0,.75);
-
 backdrop-filter:blur(6px);
-
 z-index:9999;
-
 }
 
 .popupCard{
-
 width:92%;
-
 max-width:360px;
-
 background:#111827;
-
 padding:22px;
-
-border-radius:22px;
-
+border-radius:20px;
 text-align:center;
-
 }
 
 .popupCard h2{
-
 margin-bottom:15px;
-
 }
 
 .popupCard p{
-
 margin:12px 0;
-
-color:#cbd5e1;
-
 }
 
 .popupBtn{
-
-margin-top:18px;
-
 width:100%;
-
 height:50px;
-
+margin-top:12px;
 border:none;
-
-border-radius:15px;
-
-background:#22c55e;
-
-color:#fff;
-
+border-radius:14px;
 font-size:16px;
-
 font-weight:bold;
-
 cursor:pointer;
-
+background:#22c55e;
+color:#fff;
 }
 
 .closeBtn{
-
-margin-top:10px;
-
 background:#ef4444;
-
-}
-
-@media(max-width:480px){
-
-.slot{
-
-height:62px;
-
-}
-
-.slotNo{
-
-font-size:18px;
-
-}
-
 }
 
 </style>
-
-<!-- ===============================
-LIVE SLOT BOOKING
-=============================== -->
 
 <div class="slotSection">
 
 <div class="slotTitle">
 
-<span>
+<span>🎯 Select Slot</span>
 
-🎯 Select Slot
-
-</span>
-
-<span
-class="slotCounter"
-id="liveSlots">
-
+<span class="slotCounter" id="liveSlots">
 0 / 25
-
 </span>
 
 </div>
 
-<div
-class="slotGrid"
-id="slotGrid">
+<div id="slotGrid" class="slotGrid">
 
-<!-- Firebase se slots load honge -->
+<!-- Firebase Live Slots -->
 
 </div>
 
 <div class="matchCard">
 
-<h3>
+<h3>📢 Match Information</h3>
 
-📢 Match Information
-
-</h3>
-
-<p>
-
-🗓 Date :
-<span id="matchDate">
-Today
-</span>
-
+<p>🗓 Date :
+<span id="matchDate">Today</span>
 </p>
 
-<p>
-
-⏰ Time :
-<span id="matchTime">
-08:00 PM
-</span>
-
+<p>⏰ Time :
+<span id="matchTime">08:00 PM</span>
 </p>
 
-<p>
-
-🌐 Map :
-<span id="matchMap">
-Erangel
-</span>
-
+<p>🌍 Map :
+<span id="matchMap">Erangel</span>
 </p>
 
-<p>
-
-🎮 Perspective :
-<span id="matchMode">
-TPP
-</span>
-
+<p>🎮 Mode :
+<span id="matchMode">TPP Duo</span>
 </p>
 
-<p>
-
-👥 Total Slots :
-25 Teams
-
-</p>
+<p>👥 Total Slots : 25 Teams</p>
 
 </div>
 
 </div>
 
-<!-- ===============================
-SLOT POPUP
-=============================== -->
+<!-- SLOT CONFIRM POPUP -->
 
-<div
-class="slotPopup"
-id="slotPopup">
+<div class="slotPopup" id="slotPopup">
 
 <div class="popupCard">
 
-<h2>
-
-🎮 Confirm Slot
-
-</h2>
+<h2>🎮 Confirm Booking</h2>
 
 <p>
 
 Selected Slot :
-
-<b id="selectedSlotNo">
-
-1
-
-</b>
+<b id="selectedSlotNo">1</b>
 
 </p>
 
 <p>
 
 Entry Fee :
-
-<b>
-
-₹20
-
-</b>
+<b>₹20</b>
 
 </p>
 
-<button
-class="popupBtn"
-id="confirmSlot">
-
+<button id="confirmSlot" class="popupBtn">
 Confirm Booking
-
 </button>
 
 <button
 class="popupBtn closeBtn"
 onclick="closeSlotPopup()">
-
 Cancel
-
 </button>
 
 </div>
 
 </div>
 <!-- ==========================================
-        PART 4 - FIREBASE REALTIME BOOKING
+        PART 4A - FIREBASE SETUP
 ========================================== -->
 
 <script type="module">
@@ -1248,2596 +802,403 @@ Cancel
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
 import {
-getAuth,
-onAuthStateChanged
+  getAuth,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 import {
-getDatabase,
-ref,
-get,
-set,
-update,
-onValue
+  getDatabase,
+  ref,
+  get,
+  set,
+  update,
+  push,
+  onValue,
+  runTransaction
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-/* ==========================================
+/* =========================
    FIREBASE CONFIG
-========================================== */
+========================= */
 
-const firebaseConfig={
+const firebaseConfig = {
 
-apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+  apiKey: "AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
 
-authDomain:"incoinpaysliveearning.firebaseapp.com",
+  authDomain: "incoinpaysliveearning.firebaseapp.com",
 
-databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+  databaseURL: "https://incoinpaysliveearning-default-rtdb.firebaseio.com",
 
-projectId:"incoinpaysliveearning",
+  projectId: "incoinpaysliveearning",
 
-storageBucket:"incoinpaysliveearning.firebasestorage.app",
+  storageBucket: "incoinpaysliveearning.firebasestorage.app",
 
-messagingSenderId:"971873814750",
+  messagingSenderId: "971873814750",
 
-appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
+  appId: "1:971873814750:web:7418c7da119e4725ed9a4f"
 
 };
 
-const app=initializeApp(firebaseConfig);
+/* =========================
+   INITIALIZE
+========================= */
 
-const auth=getAuth(app);
+const app = initializeApp(firebaseConfig);
 
-const db=getDatabase(app);
+const auth = getAuth(app);
 
-/* ==========================================
-   GLOBAL
-========================================== */
+const db = getDatabase(app);
 
-let currentUser=null;
+/* =========================
+   GLOBAL VARIABLES
+========================= */
 
-let selectedSlot=null;
+let currentUser = null;
 
-/* ==========================================
+let selectedSlot = null;
+
+const ENTRY_FEE = 20;
+
+const TOTAL_SLOTS = 25;
+
+/* =========================
    LOGIN CHECK
-========================================== */
+========================= */
 
-onAuthStateChanged(auth,(user)=>{
+onAuthStateChanged(auth, (user) => {
 
-if(!user){
+  if (!user) {
 
-location.href="index.html";
+    location.href = "index.html";
 
-return;
+    return;
 
-}
+  }
 
-currentUser=user;
+  currentUser = user;
 
-loadUser();
+  loadUser();
 
-loadSlots();
+  loadSlots();
 
 });
-
 /* ==========================================
-   USER DATA
+   LOAD USER WALLET
 ========================================== */
 
-function loadUser(){
+function loadUser() {
 
-onValue(ref(db,"users/"+currentUser.uid),(snap)=>{
+  const userRef = ref(db, "users/" + currentUser.uid);
 
-if(!snap.exists()) return;
+  onValue(userRef, (snap) => {
 
-const data=snap.val();
+    if (!snap.exists()) return;
 
-document.getElementById("walletBalance").innerHTML=
-"₹"+Math.floor(Number(data.wallet||0));
+    const data = snap.val();
 
-});
+    document.getElementById("walletBalance").innerHTML =
+      "₹" + Math.floor(Number(data.wallet || 0));
 
-}
-
-/* ==========================================
-   LOAD SLOT
-========================================== */
-
-function loadSlots(){
-
-const grid=document.getElementById("slotGrid");
-
-onValue(ref(db,"duoSlots"),(snap)=>{
-
-grid.innerHTML="";
-
-let booked=0;
-
-for(let i=1;i<=25;i++){
-
-let data=null;
-
-if(snap.exists()){
-
-data=snap.child(i).val();
-
-}
-
-const bookedSlot=data!=null;
-
-if(bookedSlot) booked++;
-
-grid.innerHTML+=`
-
-<div
-
-class="slot ${bookedSlot?'booked':'available'}"
-
-onclick="selectSlot(${i},${bookedSlot})">
-
-<div class="slotNo">
-
-${i}
-
-</div>
-
-<div class="slotText">
-
-${bookedSlot?'Booked':'Open'}
-
-</div>
-
-</div>
-
-`;
-
-}
-
-document.getElementById("liveSlots").innerHTML=
-
-booked+" / 25";
-
-});
+  });
 
 }
 
 /* ==========================================
+   LOAD LIVE SLOTS
+========================================== */
+
+function loadSlots() {
+
+  const grid = document.getElementById("slotGrid");
+
+  const slotRef = ref(db, "duoSlots");
+
+  onValue(slotRef, (snapshot) => {
+
+    grid.innerHTML = "";
+
+    let booked = 0;
+
+    for (let i = 1; i <= TOTAL_SLOTS; i++) {
+
+      const slotData = snapshot.child(String(i)).val();
+
+      const isBooked = slotData != null;
+
+      if (isBooked) booked++;
+
+      grid.innerHTML += `
+
+      <div class="slot ${isBooked ? "booked" : "available"}"
+           onclick="selectSlot(${i},${isBooked})">
+
+          <div class="slotNo">${i}</div>
+
+          <div class="slotText">
+
+              ${isBooked ? "Booked" : "Open"}
+
+          </div>
+
+      </div>
+
+      `;
+
+    }
+
+    document.getElementById("liveSlots").innerHTML =
+      booked + " / " + TOTAL_SLOTS;
+
+    document.getElementById("slotCount").innerHTML =
+      booked + "/" + TOTAL_SLOTS;
+
+    const bookedCount = document.getElementById("bookedCount");
+
+    if (bookedCount) {
+
+      bookedCount.innerHTML =
+        booked + "/" + TOTAL_SLOTS;
+
+    }
+
+  });
+
+}/* ==========================================
    SLOT SELECT
 ========================================== */
 
-window.selectSlot=function(slot,isBooked){
+window.selectSlot = async function (slotNo, isBooked) {
 
-if(isBooked){
+  if (isBooked) {
 
-alert("This Slot Is Already Booked");
+    alert("❌ This slot is already booked.");
 
-return;
+    return;
 
-}
+  }
 
-selectedSlot=slot;
+  selectedSlot = slotNo;
 
-document.getElementById("selectedSlotNo").innerHTML=slot;
+  document.getElementById("selectedSlotNo").innerText = slotNo;
 
-document.getElementById("slotPopup").style.display="flex";
+  document.getElementById("slotPopup").style.display = "flex";
 
-}
+};
 
 /* ==========================================
    CLOSE POPUP
 ========================================== */
 
-window.closeSlotPopup=function(){
+window.closeSlotPopup = function () {
 
-document.getElementById("slotPopup").style.display="none";
+  document.getElementById("slotPopup").style.display = "none";
 
-}
+};
 
 /* ==========================================
-   REGISTER BUTTON
+   CLOSE POPUP WHEN CLICK OUTSIDE
 ========================================== */
 
-document.getElementById("confirmSlot").onclick=
+const popup = document.getElementById("slotPopup");
 
-async function(){
+popup.addEventListener("click", function (e) {
 
-if(selectedSlot==null){
+  if (e.target === popup) {
 
-alert("Select Slot");
+    closeSlotPopup();
 
-return;
-
-}
-
-const name=document.getElementById("playerName").value.trim();
-
-const bgmi=document.getElementById("bgmiId").value.trim();
-
-const mobile=document.getElementById("mobile").value.trim();
-
-const team=document.getElementById("teamName").value.trim();
-
-if(name==""||bgmi==""||mobile==""||team==""){
-
-alert("Fill All Details");
-
-return;
-
-}
-
-const userRef=ref(db,"users/"+currentUser.uid);
-
-const userSnap=await get(userRef);
-
-if(!userSnap.exists()){
-
-alert("User Not Found");
-
-return;
-
-}
-
-const user=userSnap.val();
-
-const wallet=Number(user.wallet||0);
-
-if(wallet<20){
-
-alert("Insufficient Wallet");
-
-return;
-
-}
-
-/* Duplicate Check */
-
-const myBooking=await get(ref(db,
-
-"duoBookings/"+currentUser.uid));
-
-if(myBooking.exists()){
-
-alert("You Already Registered");
-
-return;
-
-}
-
-/* Slot Check */
-
-const slotRef=ref(db,
-
-"duoSlots/"+selectedSlot);
-
-const slotSnap=await get(slotRef);
-
-if(slotSnap.exists()){
-
-alert("Slot Already Taken");
-
-return;
-
-}
-
-/* Wallet Cut */
-
-await update(userRef,{
-
-wallet:wallet-20
+  }
 
 });
 
-/* Save Slot */
+/* ==========================================
+   BUTTON LOADING
+========================================== */
 
-await set(slotRef,{
+function setBookingLoading(state) {
 
-uid:currentUser.uid,
+  const btn = document.getElementById("confirmSlot");
 
-name:name,
+  if (!btn) return;
 
-bgmi:bgmi,
+  if (state) {
 
-mobile:mobile,
+    btn.disabled = true;
 
-team:team,
+    btn.innerHTML = "Booking...";
 
-slot:selectedSlot,
+    btn.style.opacity = "0.7";
 
-time:Date.now()
+  } else {
 
-});
+    btn.disabled = false;
 
-/* Save Booking */
+    btn.innerHTML = "Confirm Booking";
 
-await set(
+    btn.style.opacity = "1";
 
-ref(db,"duoBookings/"+currentUser.uid),
+  }
 
-{
+}
+/* ==========================================
+   CONFIRM BOOKING
+========================================== */
 
-uid:currentUser.uid,
+document.getElementById("confirmSlot").onclick = async function () {
 
-slot:selectedSlot,
+  if (!currentUser) {
+    alert("Please Login First");
+    return;
+  }
 
-name:name,
+  if (selectedSlot == null) {
+    alert("Please Select Slot");
+    return;
+  }
 
-team:team,
+  const name = document.getElementById("playerName").value.trim();
+  const bgmi = document.getElementById("bgmiId").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
+  const team = document.getElementById("teamName").value.trim();
 
-bgmi:bgmi,
+  if (!name || !bgmi || !mobile || !team) {
+    alert("Please Fill All Details");
+    return;
+  }
 
-mobile:mobile,
+  setBookingLoading(true);
 
-entry:20,
+  try {
 
-status:"Booked",
+    /* ===========================
+       USER DATA
+    =========================== */
 
-created:Date.now()
+    const userRef = ref(db, "users/" + currentUser.uid);
 
-});
+    const userSnap = await get(userRef);
 
-closeSlotPopup();
+    if (!userSnap.exists()) {
+      throw new Error("User not found.");
+    }
 
-alert("🎉 Registration Successful");
+    const user = userSnap.val();
 
+    const wallet = Number(user.wallet || 0);
+
+    if (wallet < ENTRY_FEE) {
+      throw new Error("Insufficient Wallet Balance.");
+    }
+
+    /* ===========================
+       DUPLICATE CHECK
+    =========================== */
+
+    const bookingRef = ref(db, "duoBookings/" + currentUser.uid);
+
+    const bookingSnap = await get(bookingRef);
+
+    if (bookingSnap.exists()) {
+      throw new Error("You have already registered.");
+    }
+
+    /* ===========================
+       SLOT CHECK
+    =========================== */
+
+    const slotRef = ref(db, "duoSlots/" + selectedSlot);
+
+    const slotSnap = await get(slotRef);
+
+    if (slotSnap.exists()) {
+      throw new Error("This slot has already been booked.");
+    }
+
+    /* ===========================
+       CUT WALLET
+    =========================== */
+
+    await update(userRef, {
+      wallet: wallet - ENTRY_FEE
+    });
+
+    /* ===========================
+       SAVE SLOT
+    =========================== */
+
+    await set(slotRef, {
+      uid: currentUser.uid,
+      slot: selectedSlot,
+      name: name,
+      bgmi: bgmi,
+      mobile: mobile,
+      team: team,
+      entry: ENTRY_FEE,
+      status: "Booked",
+      created: Date.now()
+    });
+
+    /* ===========================
+       SAVE BOOKING
+    =========================== */
+
+    await set(bookingRef, {
+      uid: currentUser.uid,
+      slot: selectedSlot,
+      name: name,
+      bgmi: bgmi,
+      mobile: mobile,
+      team: team,
+      entry: ENTRY_FEE,
+      status: "Booked",
+      created: Date.now()
+    });
+
+    /* ===========================
+       SAVE HISTORY
+    =========================== */
+
+    await push(ref(db, "walletHistory/" + currentUser.uid), {
+      type: "Tournament Entry",
+      amount: -ENTRY_FEE,
+      status: "Success",
+      slot: selectedSlot,
+      time: Date.now()
+    });
+
+    closeSlotPopup();
+
+    if (document.getElementById("successPopup")) {
+      document.getElementById("successPopup").style.display = "flex";
+    } else {
+      alert("🎉 Registration Successful");
+    }
+
+  } catch (err) {
+
+    alert(err.message);
+
+  } finally {
+
+    setBookingLoading(false);
+
+  }
+
+}; // confirmSlot function end
+
+// =========================
+// REGISTER BUTTON
+// =========================
+
+document.getElementById("registerBtn").onclick = () => {
+
+    if (selectedSlot == null) {
+        alert("Please Select Slot First");
+        return;
+    }
+
+    document.getElementById("slotPopup").style.display = "flex";
 };
-
-</script>
-<!-- ==========================================
-        PART 5 - ROOM DETAILS + COUNTDOWN
-========================================== -->
-
-<style>
-
-.roomCard{
-margin:18px;
-padding:20px;
-background:#111827;
-border-radius:22px;
-border:1px solid rgba(255,255,255,.08);
-display:none;
-box-shadow:0 15px 35px rgba(0,0,0,.35);
-}
-
-.roomTitle{
-font-size:22px;
-font-weight:bold;
-color:#22c55e;
-margin-bottom:18px;
-}
-
-.roomItem{
-display:flex;
-justify-content:space-between;
-padding:12px;
-margin:10px 0;
-background:#1f2937;
-border-radius:12px;
-}
-
-.roomLabel{
-color:#94a3b8;
-}
-
-.roomValue{
-font-weight:bold;
-}
-
-.countdown{
-margin:18px;
-padding:20px;
-background:#2563eb;
-border-radius:20px;
-text-align:center;
-}
-
-.countTitle{
-font-size:16px;
-}
-
-.countTime{
-font-size:38px;
-font-weight:bold;
-margin-top:10px;
-}
-
-.successPopup{
-display:none;
-position:fixed;
-left:0;
-top:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.75);
-justify-content:center;
-align-items:center;
-z-index:99999;
-}
-
-.successBox{
-width:90%;
-max-width:330px;
-background:#111827;
-padding:25px;
-border-radius:20px;
-text-align:center;
-}
-
-.okBtn{
-margin-top:20px;
-width:100%;
-height:50px;
-background:#22c55e;
-border:none;
-border-radius:12px;
-color:#fff;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-}
-
-</style>
-
-<div class="countdown">
-
-<div class="countTitle">
-⏳ Room Unlock Countdown
-</div>
-
-<div id="countdown" class="countTime">
-00:00:00
-</div>
-
-</div>
-
-<div class="roomCard" id="roomCard">
-
-<div class="roomTitle">
-🎮 Room Details
-</div>
-
-<div class="roomItem">
-<span class="roomLabel">Room ID</span>
-<span id="roomId">Loading...</span>
-</div>
-
-<div class="roomItem">
-<span class="roomLabel">Password</span>
-<span id="roomPass">Loading...</span>
-</div>
-
-<div class="roomItem">
-<span class="roomLabel">Map</span>
-<span id="roomMap">Erangel</span>
-</div>
-
-<div class="roomItem">
-<span class="roomLabel">Time</span>
-<span id="roomTime">08:00 PM</span>
-</div>
-
-</div>
-
-<div id="successPopup" class="successPopup">
-
-<div class="successBox">
-
-<h2>✅ Registration Successful</h2>
-
-<p>Your slot has been booked successfully.</p>
-
-<button class="okBtn" onclick="closeSuccess()">
-Continue
-</button>
-
-</div>
-
-</div>
-
-<script>
-
-/* db variable Part-4 se aa raha hai */
-
-onValue(ref(db,"duoRoom"),(snap)=>{
-
-if(!snap.exists()) return;
-
-const room=snap.val();
-
-document.getElementById("roomId").innerHTML=room.roomId||"-";
-
-document.getElementById("roomPass").innerHTML=room.password||"-";
-
-document.getElementById("roomMap").innerHTML=room.map||"Erangel";
-
-document.getElementById("roomTime").innerHTML=room.time||"-";
-
-});
-
-onValue(ref(db,"duoRoom/openTime"),(snap)=>{
-
-if(!snap.exists()) return;
-
-startCountdown(snap.val());
-
-});
-
-function startCountdown(target){
-
-const timer=setInterval(()=>{
-
-let diff=target-Date.now();
-
-if(diff<=0){
-
-clearInterval(timer);
-
-document.getElementById("countdown").innerHTML="ROOM OPEN";
-
-document.getElementById("roomCard").style.display="block";
-
-return;
-
-}
-
-let h=Math.floor(diff/3600000);
-
-let m=Math.floor((diff%3600000)/60000);
-
-let s=Math.floor((diff%60000)/1000);
-
-if(h<10)h="0"+h;
-if(m<10)m="0"+m;
-if(s<10)s="0"+s;
-
-document.getElementById("countdown").innerHTML=h+":"+m+":"+s;
-
-},1000);
-
-}
-
-function showSuccess(){
-
-document.getElementById("successPopup").style.display="flex";
-
-}
-
-function closeSuccess(){
-
-document.getElementById("successPopup").style.display="none";
-
-}
-
-</script>
-<!-- ==========================================
-        PART 6 - LIVE SYSTEM
-========================================== -->
-
-<style>
-
-.liveBar{
-margin:18px;
-height:52px;
-background:#111827;
-border-radius:16px;
-display:flex;
-align-items:center;
-overflow:hidden;
-}
-
-.liveTag{
-width:85px;
-height:100%;
-background:#22c55e;
-display:flex;
-justify-content:center;
-align-items:center;
-font-weight:bold;
-color:#fff;
-}
-
-.liveText{
-flex:1;
-padding-left:100%;
-white-space:nowrap;
-animation:marquee 15s linear infinite;
-}
-
-@keyframes marquee{
-0%{transform:translateX(0);}
-100%{transform:translateX(-100%);}
-}
-
-.statusCard{
-margin:18px;
-padding:18px;
-background:#111827;
-border-radius:18px;
-display:flex;
-justify-content:space-between;
-}
-
-.onlineCard{
-margin:18px;
-padding:20px;
-background:#2563eb;
-border-radius:20px;
-text-align:center;
-}
-
-.onlineNumber{
-font-size:38px;
-font-weight:bold;
-margin-top:10px;
-}
-
-</style>
-
-<div class="liveBar">
-
-<div class="liveTag">
-LIVE
-</div>
-
-<div id="announcement" class="liveText">
-
-Welcome To BGMI
-
-</div>
-
-</div>
-
-<div class="statusCard">
-
-<div>
-
-<div>Registration</div>
-
-<b id="registrationStatus">
-
-OPEN
-
-</b>
-
-</div>
-
-<div>
-
-<div>Booked</div>
-
-<b id="bookedCount">
-
-0/25
-
-</b>
-
-</div>
-
-</div>
-
-<div class="onlineCard">
-
-<h3>
-
-🟢 Players Online
-
-</h3>
-
-<div id="onlinePlayers" class="onlineNumber">
-
-0
-
-</div>
-
-</div>
-
-<script>
-
-/* Announcement */
-
-onValue(ref(db,"announcement"),function(snap){
-
-if(snap.exists()){
-
-document.getElementById("announcement").innerHTML=snap.val();
-
-}
-
-});
-
-/* Online */
-
-onValue(ref(db,"onlinePlayers"),function(snap){
-
-if(snap.exists()){
-
-document.getElementById("onlinePlayers").innerHTML=snap.val();
-
-}
-
-});
-
-/* Status */
-
-onValue(ref(db,"duoStatus"),function(snap){
-
-if(!snap.exists()) return;
-
-const data=snap.val();
-
-document.getElementById("registrationStatus").innerHTML=
-
-data.open ? "OPEN" : "CLOSED";
-
-});
-
-/* Slots */
-
-onValue(ref(db,"duoSlots"),function(snap){
-
-let total=0;
-
-if(snap.exists()){
-
-snap.forEach(()=>{
-
-total++;
-
-});
-
-}
-
-document.getElementById("bookedCount").innerHTML=
-
-total+"/25";
-
-/* Button Check */
-
-const btn=document.getElementById("confirmSlot");
-
-if(btn){
-
-if(total>=25){
-
-btn.disabled=true;
-
-btn.innerHTML="ROOM FULL";
-
-btn.style.background="#ef4444";
-
-}else{
-
-btn.disabled=false;
-
-btn.innerHTML="BOOK SLOT";
-
-btn.style.background="#22c55e";
-
-}
-
-}
-
-});
-
-</script>
-<!-- ==========================================
-        PART 7 - PREMIUM FINAL UI
-========================================== -->
-
-<style>
-
-/* Floating Support */
-
-.supportBtn{
-position:fixed;
-right:18px;
-bottom:90px;
-width:60px;
-height:60px;
-border-radius:50%;
-background:linear-gradient(135deg,#22c55e,#16a34a);
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:28px;
-box-shadow:0 0 25px rgba(34,197,94,.45);
-cursor:pointer;
-z-index:999;
-animation:floatBtn 2s infinite;
-}
-
-@keyframes floatBtn{
-
-0%{transform:translateY(0);}
-50%{transform:translateY(-8px);}
-100%{transform:translateY(0);}
-
-}
-
-/* Bottom Navigation */
-
-.bottomNav{
-
-position:fixed;
-left:0;
-bottom:0;
-width:100%;
-height:72px;
-background:#0f172a;
-display:flex;
-justify-content:space-around;
-align-items:center;
-border-top:1px solid rgba(255,255,255,.08);
-z-index:999;
-
-}
-
-.bottomNav a{
-
-text-decoration:none;
-color:#94a3b8;
-display:flex;
-flex-direction:column;
-align-items:center;
-font-size:12px;
-transition:.3s;
-
-}
-
-.bottomNav a.active{
-
-color:#22c55e;
-
-}
-
-.bottomNav span{
-
-font-size:24px;
-margin-bottom:4px;
-
-}
-
-/* Loader */
-
-#pageLoader{
-
-position:fixed;
-left:0;
-top:0;
-width:100%;
-height:100%;
-background:#07111d;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:999999;
-
-}
-
-.loader{
-
-width:60px;
-height:60px;
-border-radius:50%;
-border:5px solid rgba(255,255,255,.1);
-border-top:5px solid #22c55e;
-animation:spin 1s linear infinite;
-
-}
-
-@keyframes spin{
-
-100%{
-transform:rotate(360deg);
-}
-
-}
-
-/* Footer */
-
-.footer{
-
-padding:25px;
-padding-bottom:100px;
-text-align:center;
-color:#94a3b8;
-font-size:13px;
-
-}
-
-.footer h3{
-
-color:#22c55e;
-margin-bottom:10px;
-
-}
-
-</style>
-
-<!-- Loader -->
-
-<div id="pageLoader">
-
-<div class="loader"></div>
-
-</div>
-
-<!-- Floating Button -->
-
-<div class="supportBtn"
-
-onclick="location.href='support.html'">
-
-💬
-
-</div>
-
-<!-- Bottom Nav -->
-
-<div class="bottomNav">
-
-<a href="dashboard.html">
-
-<span>🏠</span>
-
-Home
-
-</a>
-
-<a href="wallet.html">
-
-<span>💳</span>
-
-Wallet
-
-</a>
-
-<a href="history.html">
-
-<span>📜</span>
-
-History
-
-</a>
-
-<a href="profile.html">
-
-<span>👤</span>
-
-Profile
-
-</a>
-
-</div>
-
-<!-- Footer -->
-
-<div class="footer">
-
-<h3>
-
-BGMI ESPORTS
-
-</h3>
-
-<p>
-
-Daily Duo • Squad • Tournament
-
-</p>
-
-<p>
-
-© 2026 All Rights Reserved
-
-</p>
-
-</div>
-
-<script>
-
-/* Hide Loader */
-
-window.addEventListener("load",function(){
-
-setTimeout(function(){
-
-const loader=document.getElementById("pageLoader");
-
-if(loader){
-
-loader.style.display="none";
-
-}
-
-},700);
-
-});
-
-/* Active Navigation */
-
-document.querySelectorAll(".bottomNav a").forEach(function(link){
-
-if(link.href===window.location.href){
-
-link.classList.add("active");
-
-}
-
-});
-
-/* Button Animation */
-
-document.querySelectorAll("button").forEach(function(btn){
-
-btn.addEventListener("click",function(){
-
-btn.style.transform="scale(.95)";
-
-setTimeout(function(){
-
-btn.style.transform="scale(1)";
-
-},120);
-
-});
-
-});
-
-/* Internet Status */
-
-window.addEventListener("offline",function(){
-
-alert("❌ Internet Connection Lost");
-
-});
-
-window.addEventListener("online",function(){
-
-console.log("Internet Connected");
-
-});
-
-/* Disable Right Click */
-
-document.addEventListener("contextmenu",function(e){
-
-e.preventDefault();
-
-});
-
-</script>
-<!-- ==========================================
-        PART 8 - ROOM OPEN + COPY + SHARE
-========================================== -->
-
-<style>
-
-/* ROOM INFO */
-
-.roomBox{
-display:none;
-margin:18px;
-background:#111827;
-border-radius:20px;
-padding:18px;
-border:1px solid rgba(255,255,255,.08);
-box-shadow:0 10px 25px rgba(0,0,0,.25);
-}
-
-.roomTitle{
-font-size:20px;
-font-weight:bold;
-color:#22c55e;
-margin-bottom:15px;
-}
-
-.roomRow{
-display:flex;
-justify-content:space-between;
-margin:10px 0;
-padding:12px;
-background:#1f2937;
-border-radius:12px;
-}
-
-.roomKey{
-color:#94a3b8;
-}
-
-.roomValue{
-font-weight:bold;
-word-break:break-all;
-}
-
-.roomButtons{
-display:flex;
-gap:10px;
-margin-top:18px;
-}
-
-.roomButtons button{
-flex:1;
-height:48px;
-border:none;
-border-radius:12px;
-font-size:15px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.copyBtn{
-background:#2563eb;
-color:#fff;
-}
-
-.shareBtn{
-background:#22c55e;
-color:#fff;
-}
-
-</style>
-
-<div class="roomBox" id="roomBox">
-
-<div class="roomTitle">
-🎮 Custom Room Details
-</div>
-
-<div class="roomRow">
-<span class="roomKey">Room ID</span>
-<span class="roomValue" id="roomID">Loading...</span>
-</div>
-
-<div class="roomRow">
-<span class="roomKey">Password</span>
-<span class="roomValue" id="roomPassword">Loading...</span>
-</div>
-
-<div class="roomRow">
-<span class="roomKey">Map</span>
-<span class="roomValue" id="roomMap">Erangel</span>
-</div>
-
-<div class="roomRow">
-<span class="roomKey">Time</span>
-<span class="roomValue" id="roomTime">8:00 PM</span>
-</div>
-
-<div class="roomButtons">
-
-<button
-class="copyBtn"
-onclick="copyRoom()">
-Copy
-</button>
-
-<button
-class="shareBtn"
-onclick="shareRoom()">
-Share
-</button>
-
-</div>
-
-</div>
-
-<script type="module">
-
-import {
-ref,
-onValue
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-/* ============================
-ROOM DETAILS
-============================ */
-
-onValue(ref(db,"duoRoom"),(snap)=>{
-
-if(!snap.exists()) return;
-
-const d=snap.val();
-
-document.getElementById("roomID").innerHTML=d.roomId||"-";
-document.getElementById("roomPassword").innerHTML=d.password||"-";
-document.getElementById("roomMap").innerHTML=d.map||"Erangel";
-document.getElementById("roomTime").innerHTML=d.time||"-";
-
-const open=d.open===true;
-
-if(open){
-document.getElementById("roomBox").style.display="block";
-}else{
-document.getElementById("roomBox").style.display="none";
-}
-
-});
-
-/* ============================
-COPY ROOM
-============================ */
-
-window.copyRoom=async function(){
-
-const text=
-
-"ROOM ID : "+
-document.getElementById("roomID").innerText+
-
-"\nPASSWORD : "+
-document.getElementById("roomPassword").innerText;
-
-await navigator.clipboard.writeText(text);
-
-alert("Room Details Copied");
-
-};
-
-/* ============================
-SHARE ROOM
-============================ */
-
-window.shareRoom=async function(){
-
-const text=
-
-"🎮 BGMI ROOM\n\nROOM ID : "+
-document.getElementById("roomID").innerText+
-
-"\nPASSWORD : "+
-document.getElementById("roomPassword").innerText;
-
-if(navigator.share){
-
-navigator.share({
-title:"BGMI Room",
-text:text
-});
-
-}else{
-
-navigator.clipboard.writeText(text);
-alert("Copied");
-
-}
-
-};
-
-</script>
-<!-- ==========================================
-        PART 9 - REALTIME FIREBASE SYSTEM
-========================================== -->
-
-<script type="module">
-
-import {
-getAuth,
-onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-import {
-ref,
-onValue,
-get,
-update,
-push
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-/* app aur db Part 1 se use honge */
-
-/* ===============================
-   USER LOGIN CHECK
-=============================== */
-
-onAuthStateChanged(auth, async(user)=>{
-
-if(!user){
-
-location.href="index.html";
-return;
-
-}
-
-const userRef=ref(db,"users/"+user.uid);
-
-onValue(userRef,(snap)=>{
-
-if(!snap.exists()) return;
-
-const data=snap.val();
-
-if(document.getElementById("playerName")){
-
-document.getElementById("playerName").innerHTML=
-data.name || "Player";
-
-}
-
-if(document.getElementById("walletBalance")){
-
-document.getElementById("walletBalance").innerHTML=
-"₹"+Math.floor(Number(data.wallet||0));
-
-}
-
-});
-
-/* Check Already Registered */
-
-const slotRef=ref(db,"duoSlots/"+user.uid);
-
-onValue(slotRef,(slot)=>{
-
-if(slot.exists()){
-
-const d=slot.val();
-
-document.getElementById("registerBtn").innerHTML=
-"REGISTERED";
-
-document.getElementById("registerBtn").disabled=true;
-
-document.getElementById("registerBtn").style.background="#16a34a";
-
-if(document.getElementById("slotNumber")){
-
-document.getElementById("slotNumber").innerHTML=
-d.slot;
-
-}
-
-}
-
-});
-
-});
-
-/* ===============================
-REGISTER
-=============================== */
-
-window.registerNow=async function(){
-
-const user=auth.currentUser;
-
-if(!user){
-
-alert("Login Required");
-
-return;
-
-}
-
-const userSnap=await get(ref(db,"users/"+user.uid));
-
-if(!userSnap.exists()){
-
-alert("User Not Found");
-
-return;
-
-}
-
-const userData=userSnap.val();
-
-let wallet=Number(userData.wallet||0);
-
-const entry=20;
-
-if(wallet<entry){
-
-alert("Insufficient Wallet");
-
-return;
-
-}
-
-/* Already Registered */
-
-const already=await get(ref(db,"duoSlots/"+user.uid));
-
-if(already.exists()){
-
-alert("Already Registered");
-
-return;
-
-}
-
-/* Count Slots */
-
-const slotSnap=await get(ref(db,"duoSlots"));
-
-let total=0;
-
-if(slotSnap.exists()){
-
-slotSnap.forEach(()=>{
-
-total++;
-
-});
-
-}
-
-if(total>=25){
-
-alert("Room Full");
-
-return;
-
-}
-
-const slotNo=total+1;
-
-/* Cut Wallet */
-
-await update(ref(db,"users/"+user.uid),{
-
-wallet:wallet-entry
-
-});
-
-/* Save Slot */
-
-await update(ref(db,"duoSlots/"+user.uid),{
-
-uid:user.uid,
-
-slot:slotNo,
-
-name:userData.name,
-
-bgmi:userData.bgmi,
-
-mobile:userData.mobile,
-
-time:Date.now()
-
-});
-
-/* History */
-
-await push(ref(db,"history/"+user.uid),{
-
-type:"DUO",
-
-amount:-entry,
-
-slot:slotNo,
-
-status:"Booked",
-
-time:Date.now()
-
-});
-
-alert("Registration Successful");
-
-location.reload();
-
-};
-
-</script>
-<!-- ==========================================
-        PART 10 - ROOM ID UNLOCK SYSTEM
-========================================== -->
-
-<style>
-
-/* ===============================
-ROOM DETAILS
-=============================== */
-
-.roomCard{
-
-display:none;
-
-margin:18px;
-
-padding:20px;
-
-background:#111827;
-
-border-radius:22px;
-
-border:1px solid rgba(255,255,255,.08);
-
-box-shadow:0 15px 35px rgba(0,0,0,.35);
-
-animation:fadeRoom .4s;
-
-}
-
-@keyframes fadeRoom{
-
-from{
-opacity:0;
-transform:translateY(25px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
-
-}
-
-.roomTitle{
-
-font-size:22px;
-
-font-weight:bold;
-
-color:#22c55e;
-
-margin-bottom:20px;
-
-}
-
-.roomItem{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-margin:12px 0;
-
-padding:14px;
-
-background:#1f2937;
-
-border-radius:14px;
-
-}
-
-.roomLabel{
-
-color:#94a3b8;
-
-}
-
-.roomValue{
-
-font-size:17px;
-
-font-weight:bold;
-
-}
-
-.copyBtn{
-
-margin-left:10px;
-
-padding:8px 15px;
-
-border:none;
-
-border-radius:10px;
-
-background:#22c55e;
-
-color:#fff;
-
-cursor:pointer;
-
-font-weight:bold;
-
-}
-
-.roomBtns{
-
-display:flex;
-
-gap:10px;
-
-margin-top:20px;
-
-}
-
-.roomBtns button{
-
-flex:1;
-
-height:50px;
-
-border:none;
-
-border-radius:14px;
-
-font-size:15px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-}
-
-.joinBtn{
-
-background:#22c55e;
-
-color:#fff;
-
-}
-
-.shareBtn{
-
-background:#2563eb;
-
-color:#fff;
-
-}
-
-</style>
-
-<!-- ===============================
-ROOM CARD
-=============================== -->
-
-<div
-class="roomCard"
-id="roomCard">
-
-<div class="roomTitle">
-
-🎮 BGMI CUSTOM ROOM
-
-</div>
-
-<div class="roomItem">
-
-<span class="roomLabel">
-
-Room ID
-
-</span>
-
-<div>
-
-<span
-id="roomId"
-class="roomValue">
-
-******
-
-</span>
-
-<button
-class="copyBtn"
-onclick="copyRoom('roomId')">
-
-COPY
-
-</button>
-
-</div>
-
-</div>
-
-<div class="roomItem">
-
-<span class="roomLabel">
-
-Password
-
-</span>
-
-<div>
-
-<span
-id="roomPassword"
-class="roomValue">
-
-******
-
-</span>
-
-<button
-class="copyBtn"
-onclick="copyRoom('roomPassword')">
-
-COPY
-
-</button>
-
-</div>
-
-</div>
-
-<div class="roomItem">
-
-<span class="roomLabel">
-
-Map
-
-</span>
-
-<span
-id="roomMap"
-class="roomValue">
-
-ERANGEL
-
-</span>
-
-</div>
-
-<div class="roomItem">
-
-<span class="roomLabel">
-
-Start Time
-
-</span>
-
-<span
-id="roomTime"
-class="roomValue">
-
-08:00 PM
-
-</span>
-
-</div>
-
-<div class="roomBtns">
-
-<button
-class="joinBtn"
-onclick="window.open('https://www.battlegroundsmobileindia.com/')">
-
-OPEN BGMI
-
-</button>
-
-<button
-class="shareBtn"
-onclick="shareRoom()">
-
-SHARE
-
-</button>
-
-</div>
-
-</div>
-
-<script type="module">
-
-import {
-
-ref,
-onValue
-
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-/* ===============================
-ROOM DATA
-=============================== */
-
-onValue(ref(db,"duoRoom"),(snap)=>{
-
-if(!snap.exists()) return;
-
-const room=snap.val();
-
-document.getElementById("roomId").innerHTML=
-room.roomId;
-
-document.getElementById("roomPassword").innerHTML=
-room.password;
-
-document.getElementById("roomMap").innerHTML=
-room.map;
-
-document.getElementById("roomTime").innerHTML=
-room.time;
-
-});
-
-/* ===============================
-ROOM UNLOCK
-=============================== */
-
-onValue(ref(db,"duoRoom/openTime"),(snap)=>{
-
-if(!snap.exists()) return;
-
-const target=snap.val();
-
-const timer=setInterval(()=>{
-
-const diff=target-Date.now();
-
-if(diff<=0){
-
-clearInterval(timer);
-
-document.getElementById("roomCard").style.display="block";
-
-const cd=document.getElementById("countdown");
-
-if(cd){
-
-cd.innerHTML="ROOM OPEN";
-
-}
-
-}
-
-},1000);
-
-});
-
-/* ===============================
-COPY
-=============================== */
-
-window.copyRoom=function(id){
-
-const text=document.getElementById(id).innerText;
-
-navigator.clipboard.writeText(text);
-
-alert("Copied : "+text);
-
-}
-
-/* ===============================
-SHARE
-=============================== */
-
-window.shareRoom=function(){
-
-const id=document.getElementById("roomId").innerText;
-
-const pass=document.getElementById("roomPassword").innerText;
-
-const msg=
-
-"🎮 BGMI CUSTOM ROOM\n\nRoom ID : "+id+
-
-"\nPassword : "+pass;
-
-if(navigator.share){
-
-navigator.share({
-
-title:"BGMI Room",
-
-text:msg
-
-});
-
-}else{
-
-navigator.clipboard.writeText(msg);
-
-alert("Room Details Copied");
-
-}
-
-}
-
-</script>
-<!-- ==========================================
-        PART 11 - AUTO ROOM CLOSE + WAITING LIST
-========================================== -->
-
-<style>
-
-/* ===============================
-WAITING CARD
-=============================== */
-
-.waitCard{
-
-display:none;
-
-margin:18px;
-
-padding:22px;
-
-background:#111827;
-
-border-radius:22px;
-
-border:1px solid rgba(255,255,255,.08);
-
-box-shadow:0 15px 35px rgba(0,0,0,.30);
-
-text-align:center;
-
-}
-
-.waitTitle{
-
-font-size:24px;
-
-font-weight:bold;
-
-color:#f59e0b;
-
-}
-
-.waitText{
-
-margin-top:12px;
-
-color:#cbd5e1;
-
-line-height:24px;
-
-}
-
-.waitBtn{
-
-margin-top:20px;
-
-width:100%;
-
-height:52px;
-
-border:none;
-
-border-radius:15px;
-
-background:#22c55e;
-
-color:#fff;
-
-font-size:16px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-}
-
-/* ===============================
-MATCH CLOSED
-=============================== */
-
-.matchClosed{
-
-display:none;
-
-margin:18px;
-
-padding:25px;
-
-border-radius:20px;
-
-background:#dc2626;
-
-text-align:center;
-
-font-size:20px;
-
-font-weight:bold;
-
-animation:blink 1s infinite;
-
-}
-
-@keyframes blink{
-
-50%{
-
-opacity:.6;
-
-}
-
-}
-
-</style>
-
-<!-- Waiting -->
-
-<div
-class="waitCard"
-id="waitingCard">
-
-<div class="waitTitle">
-
-⌛ Waiting List
-
-</div>
-
-<div
-class="waitText"
-id="waitingText">
-
-You are waiting...
-
-</div>
-
-<button
-class="waitBtn"
-onclick="location.reload()">
-
-Refresh
-
-</button>
-
-</div>
-
-<!-- Closed -->
-
-<div
-class="matchClosed"
-id="matchClosed">
-
-🚫 Registration Closed
-
-</div>
-
-<script type="module">
-
-import {
-
-ref,
-onValue,
-get,
-set,
-push
-
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-/* ===============================
-LIVE SLOT COUNT
-=============================== */
-
-onValue(ref(db,"duoSlots"),(snap)=>{
-
-let total=0;
-
-if(snap.exists()){
-
-snap.forEach(()=>{
-
-total++;
-
-});
-
-}
-
-const btn=document.getElementById("registerBtn");
-
-if(total>=25){
-
-if(btn){
-
-btn.disabled=true;
-
-btn.innerHTML="ROOM FULL";
-
-btn.style.background="#ef4444";
-
-}
-
-}
-
-});
-
-/* ===============================
-REGISTER CLOSED
-=============================== */
-
-onValue(ref(db,"duoStatus/open"),(snap)=>{
-
-if(!snap.exists()) return;
-
-const open=snap.val();
-
-if(!open){
-
-document.getElementById("matchClosed").style.display="block";
-
-const btn=document.getElementById("registerBtn");
-
-if(btn){
-
-btn.disabled=true;
-
-btn.innerHTML="REGISTRATION CLOSED";
-
-btn.style.background="#6b7280";
-
-}
-
-}
-
-});
-
-/* ===============================
-WAITING LIST
-=============================== */
-
-window.joinWaiting=async function(){
-
-const user=auth.currentUser;
-
-if(!user){
-
-alert("Login Required");
-
-return;
-
-}
-
-const userSnap=await get(ref(db,"users/"+user.uid));
-
-if(!userSnap.exists()) return;
-
-const d=userSnap.val();
-
-await push(ref(db,"duoWaiting"),{
-
-uid:user.uid,
-
-name:d.name||"Player",
-
-bgmi:d.bgmi||"",
-
-time:Date.now()
-
-});
-
-document.getElementById("waitingCard").style.display="block";
-
-document.getElementById("waitingText").innerHTML=
-
-"✅ You have been added to the waiting list.";
-
-};
-
-/* ===============================
-AUTO NEXT MATCH
-=============================== */
-
-onValue(ref(db,"nextMatch"),(snap)=>{
-
-if(!snap.exists()) return;
-
-const data=snap.val();
-
-if(data.open){
-
-document.getElementById("matchClosed").style.display="none";
-
-const btn=document.getElementById("registerBtn");
-
-if(btn){
-
-btn.disabled=false;
-
-btn.innerHTML="REGISTER NOW";
-
-btn.style.background="#22c55e";
-
-}
-
-}
-
-});
-
-</script>
-<!-- ==========================================
-        PART 12 - SUCCESS + HISTORY + MY SLOT
-========================================== -->
-
-<style>
-
-/* ===============================
-SUCCESS POPUP
-=============================== */
-
-#successPopup{
-position:fixed;
-left:0;
-top:0;
-width:100%;
-height:100%;
-display:none;
-justify-content:center;
-align-items:center;
-background:rgba(0,0,0,.75);
-backdrop-filter:blur(8px);
-z-index:99999;
-}
-
-.successBox{
-width:92%;
-max-width:340px;
-background:#111827;
-border-radius:22px;
-padding:25px;
-text-align:center;
-animation:popup .35s;
-}
-
-@keyframes popup{
-from{
-transform:scale(.75);
-opacity:0;
-}
-to{
-transform:scale(1);
-opacity:1;
-}
-}
-
-.successIcon{
-font-size:70px;
-margin-bottom:15px;
-animation:rotate 1s infinite alternate;
-}
-
-@keyframes rotate{
-from{
-transform:rotate(-8deg);
-}
-to{
-transform:rotate(8deg);
-}
-}
-
-.successTitle{
-font-size:24px;
-font-weight:bold;
-color:#22c55e;
-}
-
-.successText{
-margin-top:10px;
-color:#cbd5e1;
-line-height:24px;
-}
-
-.successBtn{
-margin-top:22px;
-width:100%;
-height:52px;
-border:none;
-border-radius:14px;
-background:#22c55e;
-color:#fff;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-}
-
-/* ===============================
-MY SLOT CARD
-=============================== */
-
-.mySlot{
-
-display:none;
-
-margin:18px;
-
-padding:20px;
-
-background:#111827;
-
-border-radius:22px;
-
-border:1px solid rgba(255,255,255,.08);
-
-box-shadow:0 15px 30px rgba(0,0,0,.30);
-
-}
-
-.slotHeading{
-
-font-size:22px;
-
-font-weight:bold;
-
-color:#22c55e;
-
-margin-bottom:15px;
-
-}
-
-.slotItem{
-
-display:flex;
-
-justify-content:space-between;
-
-margin:10px 0;
-
-padding:12px;
-
-background:#1f2937;
-
-border-radius:12px;
-
-}
-
-</style>
-
-<!-- SUCCESS -->
-
-<div id="successPopup">
-
-<div class="successBox">
-
-<div class="successIcon">
-🏆
-</div>
-
-<div class="successTitle">
-
-Registration Successful
-
-</div>
-
-<div class="successText">
-
-Your Duo Slot has been booked successfully.
-
-Room details will unlock automatically.
-
-</div>
-
-<button
-class="successBtn"
-onclick="closeSuccess()">
-
-CONTINUE
-
-</button>
-
-</div>
-
-</div>
-
-<!-- MY SLOT -->
-
-<div
-class="mySlot"
-id="mySlot">
-
-<div class="slotHeading">
-
-🎮 My Slot
-
-</div>
-
-<div class="slotItem">
-
-<span>Slot No</span>
-
-<b id="slotNo">--</b>
-
-</div>
-
-<div class="slotItem">
-
-<span>Player</span>
-
-<b id="slotPlayer">--</b>
-
-</div>
-
-<div class="slotItem">
-
-<span>BGMI ID</span>
-
-<b id="slotBgmi">--</b>
-
-</div>
-
-<div class="slotItem">
-
-<span>Status</span>
-
-<b style="color:#22c55e;">
-CONFIRMED
-</b>
-
-</div>
-
-</div>
-
-<script type="module">
-
-import{
-
-ref,
-push,
-set,
-get,
-onValue
-
-}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-/* ===============================
-REGISTER
-=============================== */
-
-window.registerTournament=async function(){
-
-const user=auth.currentUser;
-
-if(!user){
-
-alert("Login First");
-
-return;
-
-}
-
-const userSnap=await get(ref(db,"users/"+user.uid));
-
-if(!userSnap.exists()) return;
-
-const data=userSnap.val();
-
-/* Slot Count */
-
-const slotSnap=await get(ref(db,"duoSlots"));
-
-let total=0;
-
-if(slotSnap.exists()){
-
-slotSnap.forEach(()=>{
-
-total++;
-
-});
-
-}
-
-if(total>=25){
-
-joinWaiting();
-
-return;
-
-}
-
-const slotNo=total+1;
-
-/* Save Slot */
-
-await set(ref(db,"duoSlots/"+user.uid),{
-
-uid:user.uid,
-
-slot:slotNo,
-
-name:data.name,
-
-bgmi:data.bgmi,
-
-time:Date.now()
-
-});
-
-/* Save History */
-
-await push(ref(db,"history/"+user.uid),{
-
-type:"DUO",
-
-status:"Booked",
-
-slot:slotNo,
-
-amount:20,
-
-time:Date.now()
-
-});
-
-/* Show Card */
-
-document.getElementById("slotNo").innerHTML=slotNo;
-
-document.getElementById("slotPlayer").innerHTML=data.name;
-
-document.getElementById("slotBgmi").innerHTML=data.bgmi;
-
-document.getElementById("mySlot").style.display="block";
-
-document.getElementById("successPopup").style.display="flex";
-
-};
-
-/* ===============================
-LOAD SLOT
-=============================== */
-
-onValue(ref(db,"duoSlots"),(snap)=>{
-
-if(!auth.currentUser) return;
-
-if(!snap.exists()) return;
-
-snap.forEach((child)=>{
-
-const d=child.val();
-
-if(d.uid==auth.currentUser.uid){
-
-document.getElementById("slotNo").innerHTML=d.slot;
-
-document.getElementById("slotPlayer").innerHTML=d.name;
-
-document.getElementById("slotBgmi").innerHTML=d.bgmi;
-
-document.getElementById("mySlot").style.display="block";
-
-}
-
-});
-
-});
-
-/* ===============================
-SUCCESS CLOSE
-=============================== */
-
-window.closeSuccess=function(){
-
-document.getElementById("successPopup").style.display="none";
-
-};
-
-</script>
-<!-- ==========================================
-        PART 13 - END FILE
-========================================== -->
-
-<script>
-
-/* Prevent Double Back */
-
-history.pushState(null,null,location.href);
-
-window.onpopstate=function(){
-
-history.go(1);
-
-};
-
-/* PWA Install */
-
-window.addEventListener("beforeinstallprompt",(e)=>{
-
-e.preventDefault();
-
-window.deferredPrompt=e;
-
-});
-
-/* Disable Zoom */
-
-document.addEventListener("gesturestart",function(e){
-
-e.preventDefault();
-
-});
-
-/* Smooth Scroll */
-
-window.scrollTo({
-
-top:0,
-
-behavior:"smooth"
-
-});
-
-console.log("✅ BGMI Duo Scrims Loaded Successfully");
 
 </script>
 
