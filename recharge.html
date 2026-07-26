@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>Recharge Requests</title>
+
+<link rel="manifest"
+href="manifest.json">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#020617;
+color:#fff;
+overflow-x:hidden;
+}
+
+body::-webkit-scrollbar{
+display:none;
+}
+
+/* Loading */
+
+.loading{
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#020617;
+z-index:9999;
+}
+
+.loader{
+width:45px;
+height:45px;
+border-radius:50%;
+border:4px solid #334155;
+border-top:4px solid #22c55e;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+
+/* Header */
+
+.header{
+height:65px;
+background:#111827;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 18px;
+border-bottom:1px solid #1f2937;
+position:sticky;
+top:0;
+z-index:100;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+color:#22c55e;
+}
+
+.backBtn{
+padding:10px 18px;
+border:none;
+border-radius:10px;
+background:#2563eb;
+color:#fff;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* Card */
+
+.dashboard{
+width:95%;
+margin:20px auto;
+}
+
+.card{
+background:#111827;
+padding:20px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.35);
+}
+
+.card-title{
+font-size:14px;
+color:#94a3b8;
+}
+
+.card-value{
+margin-top:10px;
+font-size:30px;
+font-weight:bold;
+color:#22c55e;
+}
+
+/* Section */
+
+.section{
+width:95%;
+margin:20px auto;
+}
+
+.section-title{
+font-size:22px;
+font-weight:bold;
+margin-bottom:15px;
+color:#22c55e;
+}
+
+/* Table */
+
+.table{
+background:#111827;
+border-radius:15px;
+overflow:hidden;
+}
+
+.table-head{
+display:grid;
+grid-template-columns:1.3fr 1fr 1fr 1.2fr 1.5fr;
+padding:14px;
+background:#1e293b;
+font-weight:bold;
+color:#22c55e;
+}
+
+.table-row{
+display:grid;
+grid-template-columns:1.3fr 1fr 1fr 1.2fr 1.5fr;
+padding:14px;
+border-top:1px solid #1f2937;
+align-items:center;
+}
+
+/* Buttons */
+
+.btn{
+padding:8px 12px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+margin:2px;
+}
+
+.approve{
+background:#22c55e;
+color:#fff;
+}
+
+.reject{
+background:#ef4444;
+color:#fff;
+}
+
+@media(max-width:768px){
+
+.table-head{
+display:none;
+}
+
+.table-row{
+display:block;
+padding:15px;
+}
+
+.table-row div{
+margin:8px 0;
+}
+
+.logo{
+font-size:18px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="loading" id="loading">
+
+<div class="loader"></div>
+
+</div>
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="logo">
+💰 Recharge Requests
+</div>
+
+<div style="display:flex;gap:10px;">
+
+<button class="backBtn"
+onclick="location.href='recharge-history.html'">
+📜 History
+</button>
+
+
+</div>
+
+</div>
+
+<!-- DASHBOARD -->
+
+<div class="dashboard">
+
+<div class="card">
+
+<div class="card-title">
+Pending Recharge Requests
+</div>
+
+<div class="card-value"
+id="pendingRecharge">
+
+0
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RECHARGE TABLE -->
+
+<div class="section">
+
+<h2 class="section-title">
+
+All Recharge Requests
+
+</h2>
+
+<div class="table">
+
+<div class="table-head">
+
+<div>User</div>
+
+<div>Amount</div>
+
+<div>UTR</div>
+
+<div>Status</div>
+
+<div>Action</div>
+
+</div>
+
+<div id="rechargeTable">
+
+</div>
+
+</div>
+
+</div>
+
+<!-- LOADER END -->
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+
+getDatabase,
+ref,
+onValue,
+get,
+update,
+remove
+
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+/* Firebase Config */
+
+const firebaseConfig = {
+
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+
+authDomain:"incoinpaysliveearning.firebaseapp.com",
+
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+
+projectId:"incoinpaysliveearning",
+
+storageBucket:"incoinpaysliveearning.firebasestorage.app",
+
+messagingSenderId:"971873814750",
+
+appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getDatabase(app);
+
+/* Admin UID */
+
+const ADMIN_UID = "VIAP56vYwndWPhJxktn0lRPTWnS2";
+
+/* Check Admin Login */
+
+onAuthStateChanged(auth,(user)=>{
+
+if(!user){
+
+location.href="admin.html";
+
+return;
+
+}
+
+if(user.uid!==ADMIN_UID){
+
+alert("Access Denied");
+
+location.href="admin.html";
+
+return;
+
+}
+
+document.getElementById("loading").style.display="none";
+
+loadRecharge();
+
+});
+
+/* ===============================
+   LOAD RECHARGE REQUESTS
+================================ */
+
+function loadRecharge(){
+
+const table=document.getElementById("rechargeTable");
+
+onValue(ref(db,"rechargeRequests"),async(snap)=>{
+
+table.innerHTML="";
+
+let pending=0;
+
+if(!snap.exists()){
+
+table.innerHTML="<center style='padding:20px;'>No Recharge Requests</center>";
+
+document.getElementById("pendingRecharge").innerText="0";
+
+return;
+
+}
+
+snap.forEach((child)=>{
+
+const id = child.key;
+
+const data = child.val();
+
+/* Sirf Pending Show */
+
+if(data.status !== "Pending"){
+    return;
+}
+
+pending++;
+
+table.innerHTML += `
+
+<div class="table-row">
+
+<div>${data.email||"No Email"}</div>
+
+<div>₹${data.amount}</div>
+
+<div>${data.utr}</div>
+
+<div>${data.status}</div>
+
+<div>
+
+<button class="btn approve"
+onclick="approveRecharge('${id}')">
+
+Approve
+
+</button>
+
+<button class="btn reject"
+onclick="rejectRecharge('${id}')">
+
+Reject
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("pendingRecharge").innerText=pending;
+
+});
+
+}
+/* ===============================
+   APPROVE RECHARGE
+================================ */
+
+window.approveRecharge = async function(requestId){
+
+try{
+
+const requestRef = ref(db,"rechargeRequests/"+requestId);
+
+const requestSnap = await get(requestRef);
+
+if(!requestSnap.exists()){
+
+alert("Recharge Request Not Found");
+
+return;
+
+}
+
+const request = requestSnap.val();
+
+/* Already Approved */
+
+if(request.status==="Approved"){
+
+alert("Already Approved");
+
+return;
+
+}
+
+/* User Check */
+
+const userRef = ref(db,"users/"+request.uid);
+
+const userSnap = await get(userRef);
+
+if(!userSnap.exists()){
+
+alert("User Not Found");
+
+return;
+
+}
+
+const user = userSnap.val();
+
+const currentWallet = Number(user.wallet || 0);
+
+const rechargeAmount = Number(request.amount || 0);
+
+/* Add Wallet */
+
+await update(userRef,{
+
+wallet : currentWallet + rechargeAmount
+
+});
+
+/* Update Request */
+
+await update(requestRef,{
+
+status:"Approved",
+
+approvedTime:Date.now()
+
+});
+await remove(requestRef);
+loadRecharge();
+
+alert("Recharge Approved Successfully");
+
+
+}catch(error){
+
+console.log(error);
+
+alert(error.message);
+
+}
+
+};
+/* ===============================
+   REJECT RECHARGE
+================================ */
+
+window.rejectRecharge = async function(requestId){
+
+try{
+
+const requestRef = ref(db,"rechargeRequests/"+requestId);
+
+const requestSnap = await get(requestRef);
+
+if(!requestSnap.exists()){
+
+alert("Recharge Request Not Found");
+
+return;
+
+}
+
+const request = requestSnap.val();
+
+/* Already Approved */
+
+if(request.status==="Approved"){
+
+alert("Approved Request Cannot Be Rejected");
+
+return;
+
+}
+
+/* Already Rejected */
+
+if(request.status==="Rejected"){
+
+alert("Already Rejected");
+
+return;
+
+}
+
+/* Update Status */
+
+await update(requestRef,{
+
+status:"Rejected",
+
+rejectedTime:Date.now()
+
+});
+await remove(requestRef);
+
+loadRecharge();
+
+alert("Recharge Rejected Successfully");
+
+}catch(error){
+
+console.log(error);
+
+alert(error.message);
+
+}
+
+};
+
+/* ===============================
+   AUTO HIDE LOADER
+================================ */
+
+window.addEventListener("load",function(){
+
+document.getElementById("loading").style.display="none";
+
+});
+
+</script>
+
+</body>
+
+</html>
