@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BGMI Wallet</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#020617;
+color:#fff;
+overflow-x:hidden;
+padding-bottom:90px;
+}
+
+body::-webkit-scrollbar{
+display:none;
+}
+
+/* Loading */
+
+.loading{
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#020617;
+z-index:99999;
+}
+
+.loader{
+width:50px;
+height:50px;
+border-radius:50%;
+border:5px solid #334155;
+border-top:5px solid #22c55e;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+
+/* Header */
+
+.header{
+height:65px;
+background:#111827;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 18px;
+position:sticky;
+top:0;
+z-index:100;
+border-bottom:1px solid #1f2937;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+color:#22c55e;
+}
+
+/* ATM Wallet Card */
+
+.wallet-card{
+
+width:95%;
+max-width:420px;
+
+margin:20px auto;
+
+padding:22px;
+
+border-radius:22px;
+
+background:linear-gradient(135deg,#0f766e,#14b8a6,#22c55e);
+
+box-shadow:0 15px 35px rgba(0,0,0,.35);
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.wallet-card::before{
+
+content:"";
+
+position:absolute;
+
+right:-60px;
+
+top:-60px;
+
+width:180px;
+
+height:180px;
+
+border-radius:50%;
+
+background:rgba(255,255,255,.08);
+
+}
+
+.wallet-card::after{
+
+content:"";
+
+position:absolute;
+
+left:-40px;
+
+bottom:-40px;
+
+width:130px;
+
+height:130px;
+
+border-radius:50%;
+
+background:rgba(255,255,255,.06);
+
+}
+
+.wallet-title{
+
+font-size:15px;
+
+opacity:.9;
+
+}
+
+.wallet-balance{
+
+margin-top:12px;
+
+font-size:36px;
+
+font-weight:bold;
+
+}
+
+.wallet-chip{
+
+margin-top:20px;
+
+width:60px;
+
+height:42px;
+
+border-radius:8px;
+
+background:linear-gradient(#FFD54F,#F59E0B);
+
+}
+
+.wallet-footer{
+
+margin-top:25px;
+
+display:flex;
+
+justify-content:space-between;
+
+font-size:13px;
+
+}
+
+/* Balance Cards */
+
+.grid{
+
+width:95%;
+
+margin:18px auto;
+
+display:grid;
+
+grid-template-columns:1fr;
+
+gap:15px;
+
+}
+
+.card{
+
+background:#111827;
+
+padding:18px;
+
+border-radius:18px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.30);
+
+}
+
+.card-title{
+
+font-size:13px;
+
+color:#94a3b8;
+
+}
+
+.card-value{
+
+margin-top:8px;
+
+font-size:26px;
+
+font-weight:bold;
+
+color:#22c55e;
+
+}
+/* ===========================
+ACTION BUTTONS
+=========================== */
+
+.action-grid{
+
+width:95%;
+
+margin:20px auto;
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:15px;
+
+}
+
+.action-btn{
+
+height:55px;
+
+border:none;
+
+border-radius:15px;
+
+font-size:16px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+color:#fff;
+
+transition:.3s;
+
+}
+
+.action-btn:active{
+
+transform:scale(.97);
+
+}
+
+.recharge-btn{
+
+background:#22c55e;
+
+}
+
+.withdraw-btn{
+
+background:#2563eb;
+
+}
+
+/* ===========================
+POPUP
+=========================== */
+
+.popup{
+
+position:fixed;
+
+left:0;
+
+top:0;
+
+width:100%;
+
+height:100%;
+
+display:none;
+
+justify-content:center;
+
+align-items:center;
+
+background:rgba(0,0,0,.75);
+
+z-index:9999;
+
+padding:20px;
+
+}
+
+.popup-box{
+
+width:100%;
+
+max-width:380px;
+
+background:#111827;
+
+border-radius:20px;
+
+padding:22px;
+
+box-shadow:0 20px 40px rgba(0,0,0,.45);
+
+}
+
+.popup-box h2{
+
+text-align:center;
+
+color:#22c55e;
+
+margin-bottom:15px;
+
+}
+
+.popup-box input{
+
+width:100%;
+
+padding:13px;
+
+margin-top:12px;
+
+border:none;
+
+border-radius:10px;
+
+background:#1e293b;
+
+color:#fff;
+
+outline:none;
+
+}
+
+.popup-box button{
+
+width:100%;
+
+padding:13px;
+
+margin-top:12px;
+
+border:none;
+
+border-radius:10px;
+
+font-size:15px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+background:#22c55e;
+
+color:#fff;
+
+}
+
+/* TIMER */
+
+.timer-box{
+
+text-align:center;
+
+margin:20px 0;
+
+}
+
+.timer{
+
+font-size:48px;
+
+font-weight:bold;
+
+color:#22c55e;
+
+}
+
+.timer-text{
+
+margin-top:8px;
+
+color:#94a3b8;
+
+}
+
+/* QR */
+
+.qr-box{
+
+display:none;
+
+margin-top:20px;
+
+text-align:center;
+
+}
+
+.qr-box img{
+
+width:220px;
+
+height:220px;
+
+background:#fff;
+
+padding:8px;
+
+border-radius:15px;
+
+}
+
+/* Bottom Navigation */
+
+.bottom-nav{
+
+position:fixed;
+
+left:0;
+
+bottom:0;
+
+width:100%;
+
+height:70px;
+
+background:#111827;
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+align-items:center;
+
+border-top:1px solid #1f2937;
+
+}
+
+.nav-item{
+
+text-align:center;
+
+font-size:12px;
+
+color:#94a3b8;
+
+cursor:pointer;
+
+}
+
+.nav-item.active{
+
+color:#22c55e;
+
+font-weight:bold;
+
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.wallet-balance{
+
+font-size:30px;
+
+}
+
+.logo{
+
+font-size:18px;
+
+}
+
+.card-value{
+
+font-size:22px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Loading -->
+
+<div class="loading" id="loading">
+
+<div class="loader"></div>
+
+</div>
+
+<!-- Header -->
+
+<div class="header">
+
+<div class="logo">
+
+💳 BGMI Wallet
+
+</div>
+
+</div>
+
+<!-- Wallet Card Starts -->
+ <!-- ===========================
+     WALLET CARD
+=========================== -->
+
+<div class="wallet-card">
+
+<div class="wallet-title">
+Available Balance
+</div>
+
+<div class="wallet-balance">
+₹ <span id="walletBalance">0</span>
+</div>
+
+<div class="wallet-chip"></div>
+
+<div class="wallet-footer">
+
+<div>
+
+<div style="font-size:12px;">Wallet Type</div>
+
+<div id="walletType">
+Standard
+</div>
+
+</div>
+
+<div>
+
+<div style="font-size:12px;">Status</div>
+
+<div style="color:#22c55e;">
+ACTIVE
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ===========================
+     BALANCE CARDS
+=========================== -->
+
+<div class="grid">
+
+<div class="card">
+
+<div class="card-title">
+Wallet Balance
+</div>
+
+<div class="card-value">
+₹ <span id="walletCardBalance">0</span>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Today's Recharge
+</div>
+
+<div class="card-value">
+₹ <span id="todayRecharge">0</span>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="card-title">
+Today's Withdraw
+</div>
+
+<div class="card-value">
+₹ <span id="todayWithdraw">0</span>
+</div>
+
+</div>
+
+</div>
+
+<!-- ===========================
+     ACTION BUTTONS
+=========================== -->
+
+<div class="action-grid">
+
+<button
+class="action-btn recharge-btn"
+onclick="openRecharge()">
+
+💰 Recharge
+
+</button>
+
+<button
+class="action-btn withdraw-btn"
+onclick="openWithdraw()">
+
+🏦 Withdraw
+
+</button>
+
+</div>
+
+<!-- ===========================
+     SECURE RECHARGE POPUP
+=========================== -->
+
+<div
+class="popup"
+id="rechargePopup">
+
+<div class="popup-box">
+
+<h2>
+🔒 Secure Recharge
+</h2>
+
+<p
+id="secureMessage"
+style="text-align:center;color:#94a3b8;">
+
+Secure QR will unlock after verification.
+
+</p>
+
+<!-- TIMER -->
+
+<div
+class="timer-box"
+id="timerBox">
+
+<div
+class="timer"
+id="timer">
+
+02:00
+
+</div>
+
+<div
+class="timer-text">
+
+Generating Secure QR...
+
+</div>
+
+</div>
+
+<!-- PAYMENT SECTION -->
+
+<div
+class="qr-box"
+id="paymentSection">
+
+<img
+id="qrImage">
+
+<div
+style="
+margin-top:15px;
+font-size:14px;
+">
+
+UPI ID
+
+</div>
+
+<div
+
+id="upiText"
+
+style="
+margin-top:6px;
+font-size:18px;
+font-weight:bold;
+color:#22c55e;
+word-break:break-all;
+">
+
+Loading...
+
+</div>
+
+<input
+
+type="number"
+
+id="rechargeAmount"
+
+placeholder="Recharge Amount">
+
+<input
+
+type="text"
+
+id="utrNumber"
+
+placeholder="Enter UTR Number">
+
+<button
+
+id="submitRecharge"
+
+onclick="sendRecharge()">
+
+Submit Recharge
+
+</button>
+
+</div>
+
+<button
+
+style="
+margin-top:15px;
+background:#ef4444;
+"
+
+onclick="closeRechargePopup()">
+
+Close
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ===========================
+     WITHDRAW POPUP
+=========================== -->
+
+<div
+class="popup"
+id="withdrawPopup">
+
+<div class="popup-box">
+
+<h2>
+Withdraw Request
+</h2>
+
+<input
+
+type="number"
+
+id="withdrawAmount"
+
+placeholder="Withdraw Amount">
+
+<input
+
+type="text"
+
+id="withdrawUpi"
+
+placeholder="Your UPI ID">
+
+<button
+
+onclick="sendWithdraw()">
+
+Submit Withdraw
+
+</button>
+
+<button
+
+style="background:#ef4444;"
+
+onclick="closeWithdrawPopup()">
+
+Cancel
+
+</button>
+
+</div>
+
+</div>
+
+<!-- ===========================
+     BOTTOM NAVIGATION
+=========================== -->
+
+<div class="bottom-nav">
+
+<div
+class="nav-item"
+onclick="location.href='dashboard.html'">
+
+🏠<br>Home
+
+</div>
+
+<div class="nav-item active">
+
+💳<br>Wallet
+
+</div>
+
+<div
+class="nav-item"
+onclick="location.href='history.html'">
+
+📜<br>History
+
+</div>
+
+<div
+class="nav-item"
+onclick="location.href='profile.html'">
+
+👤<br>Profile
+
+</div>
+
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+onValue,
+push,
+get,
+update
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+/* ===========================
+   FIREBASE CONFIG
+=========================== */
+
+const firebaseConfig = {
+
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+
+authDomain:"incoinpaysliveearning.firebaseapp.com",
+
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+
+projectId:"incoinpaysliveearning",
+
+storageBucket:"incoinpaysliveearning.firebasestorage.app",
+
+messagingSenderId:"971873814750",
+
+appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getDatabase(app);
+
+let currentUser = null;
+let paymentUPI = "";
+
+/* ===========================
+   LOGIN CHECK
+=========================== */
+
+onAuthStateChanged(auth,(user)=>{
+
+if(!user){
+
+location.href="index.html";
+
+return;
+
+}
+
+currentUser = user;
+
+document.getElementById("loading").style.display="none";
+
+/* ===========================
+   LIVE WALLET
+=========================== */
+
+onValue(ref(db,"users/"+user.uid),(snap)=>{
+
+if(!snap.exists()) return;
+
+const data = snap.val();
+
+const wallet = Math.floor(Number(data.wallet || 0));
+
+document.getElementById("walletBalance").innerText = wallet;
+
+document.getElementById("walletCardBalance").innerText = wallet;
+
+document.getElementById("walletType").innerText =
+data.walletType || "Standard";
+
+});
+
+/* ===========================
+   LOAD ADMIN PAYMENT
+=========================== */
+
+onValue(ref(db,"config/payment"),(snap)=>{
+
+if(!snap.exists()) return;
+
+const data = snap.val();
+
+paymentUPI = data.upi || "";
+
+document.getElementById("upiText").innerText = paymentUPI;
+
+});
+
+});
+
+/* ===========================
+   GENERATE QR
+=========================== */
+
+function generateQR(){
+
+if(paymentUPI=="") return;
+
+const upiLink =
+`upi://pay?pa=${paymentUPI}&pn=BGMI Wallet`;
+
+document.getElementById("qrImage").src =
+"https://quickchart.io/qr?size=250&text="+
+encodeURIComponent(upiLink);
+
+}
+/* ===========================
+   120 SECOND SECURE TIMER
+=========================== */
+
+let rechargeTimer = null;
+let seconds = 5;
+
+/* ===========================
+   OPEN RECHARGE POPUP
+=========================== */
+
+window.openRecharge = function(){
+
+document.getElementById("rechargePopup").style.display="flex";
+
+document.getElementById("paymentSection").style.display="none";
+
+document.getElementById("timerBox").style.display="block";
+
+document.getElementById("secureMessage").innerHTML=
+"🔒 Verifying Secure Payment Gateway...";
+
+document.getElementById("timer").style.color="#22c55e";
+
+document.getElementById("timer").innerHTML = "00:05";
+
+seconds=5;
+
+/* Clear Old Timer */
+
+if(rechargeTimer){
+
+clearInterval(rechargeTimer);
+
+}
+
+/* Start Countdown */
+
+rechargeTimer=setInterval(function(){
+
+seconds--;
+
+let min=Math.floor(seconds/5);
+
+let sec=seconds%60;
+
+if(min<10) min="0"+min;
+
+if(sec<10) sec="0"+sec;
+
+document.getElementById("timer").innerHTML = "00:05";
+
+/* Last 30 Seconds */
+
+if(seconds<=2){
+
+document.getElementById("timer").style.color="#ef4444";
+
+}
+
+/* Finish */
+
+if(seconds<=0){
+
+clearInterval(rechargeTimer);
+
+unlockPayment();
+
+}
+
+},1000);
+
+};
+
+/* ===========================
+   UNLOCK PAYMENT
+=========================== */
+
+function unlockPayment(){
+
+generateQR();
+
+document.getElementById("timerBox").style.display="none";
+
+document.getElementById("paymentSection").style.display="block";
+
+document.getElementById("secureMessage").innerHTML=
+
+"✅ QR Code Generated Successfully";
+
+}
+
+/* ===========================
+   CLOSE RECHARGE POPUP
+=========================== */
+
+window.closeRechargePopup=function(){
+
+if(rechargeTimer){
+
+clearInterval(rechargeTimer);
+
+}
+
+document.getElementById("rechargePopup").style.display="none";
+
+document.getElementById("rechargeAmount").value="";
+
+document.getElementById("utrNumber").value="";
+
+};
+
+/* ===========================
+   CLOSE WITHDRAW POPUP
+=========================== */
+
+window.closeWithdrawPopup=function(){
+
+document.getElementById("withdrawPopup").style.display="none";
+
+document.getElementById("withdrawAmount").value="";
+
+document.getElementById("withdrawUpi").value="";
+
+};
+
+/* ===========================
+   CLOSE POPUP ON OUTSIDE CLICK
+=========================== */
+
+window.onclick=function(e){
+
+if(e.target==document.getElementById("rechargePopup")){
+
+closeRechargePopup();
+
+}
+
+if(e.target==document.getElementById("withdrawPopup")){
+
+closeWithdrawPopup();
+
+}
+
+};
+/* ===========================
+   RECHARGE SUBMIT
+=========================== */
+
+window.sendRecharge = async function(){
+
+if(!currentUser){
+
+alert("Please Login First");
+
+return;
+
+}
+
+const amount = Number(document.getElementById("rechargeAmount").value);
+
+const utr = document.getElementById("utrNumber").value.trim().toUpperCase();
+
+/* Validation */
+
+if(isNaN(amount) || amount < 10){
+
+alert("Minimum Recharge Amount ₹10");
+
+return;
+
+}
+
+if(utr.length < 8){
+
+alert("Enter Valid UTR Number");
+
+return;
+
+}
+
+try{
+
+document.getElementById("loading").style.display="flex";
+
+/* ===========================
+   CHECK DUPLICATE UTR
+=========================== */
+
+const rechargeRef = ref(db,"rechargeRequests");
+
+const rechargeSnap = await get(rechargeRef);
+
+let duplicate = false;
+
+if(rechargeSnap.exists()){
+
+rechargeSnap.forEach((child)=>{
+
+const data = child.val();
+
+if((data.utr || "").toUpperCase() === utr){
+
+duplicate = true;
+
+}
+
+});
+
+}
+
+if(duplicate){
+
+document.getElementById("loading").style.display="none";
+
+alert("This UTR Number Is Already Used.");
+
+return;
+
+}
+
+/* ===========================
+   SAVE REQUEST
+=========================== */
+
+await push(rechargeRef,{
+
+uid:currentUser.uid,
+
+email:currentUser.email,
+
+amount:amount,
+
+utr:utr,
+
+status:"Pending",
+
+time:Date.now()
+
+});
+
+/* ===========================
+   SUCCESS
+=========================== */
+
+document.getElementById("loading").style.display="none";
+
+alert("Recharge Request Submitted Successfully.");
+
+closeRechargePopup();
+
+}catch(error){
+
+document.getElementById("loading").style.display="none";
+
+console.log(error);
+
+alert(error.message);
+
+}
+
+};
+/* ===========================
+   WITHDRAW REQUEST
+=========================== */
+
+window.sendWithdraw = async function(){
+
+if(!currentUser){
+
+alert("Please Login First");
+
+return;
+
+}
+
+const amount = Number(document.getElementById("withdrawAmount").value);
+
+const upi = document.getElementById("withdrawUpi").value.trim();
+
+if(isNaN(amount) || amount < 50){
+
+alert("Minimum Withdraw ₹50");
+
+return;
+
+}
+
+if(upi==""){
+
+alert("Enter Your UPI ID");
+
+return;
+
+}
+
+try{
+
+document.getElementById("loading").style.display="flex";
+
+const userRef = ref(db,"users/"+currentUser.uid);
+
+const snap = await get(userRef);
+
+if(!snap.exists()){
+
+throw new Error("User Not Found");
+
+}
+
+const user = snap.val();
+
+const wallet = Number(user.wallet || 0);
+
+if(wallet < amount){
+
+document.getElementById("loading").style.display="none";
+
+alert("Insufficient Wallet Balance");
+
+return;
+
+}
+
+/* Save Withdraw Request */
+
+await push(ref(db,"withdrawRequests"),{
+
+uid:currentUser.uid,
+
+email:currentUser.email,
+
+amount:amount,
+
+upi:upi,
+
+status:"Pending",
+
+time:Date.now()
+
+});
+
+document.getElementById("loading").style.display="none";
+
+alert("Withdraw Request Submitted Successfully");
+
+closeWithdrawPopup();
+
+}catch(error){
+
+document.getElementById("loading").style.display="none";
+
+console.log(error);
+
+alert(error.message);
+
+}
+
+};
+
+/* ===========================
+   PAGE NAVIGATION
+=========================== */
+
+window.goHome=function(){
+
+location.href="dashboard.html";
+
+};
+
+window.goHistory=function(){
+
+location.href="history.html";
+
+};
+
+window.goProfile=function(){
+
+location.href="profile.html";
+
+};
+
+/* ===========================
+   AUTO HIDE LOADER
+=========================== */
+
+window.addEventListener("load",function(){
+
+document.getElementById("loading").style.display="none";
+
+});
+
+/* ===========================
+   SERVICE WORKER
+=========================== */
+
+if("serviceWorker" in navigator){
+
+window.addEventListener("load",()=>{
+
+navigator.serviceWorker.register("sw.js")
+.catch(err=>console.log(err));
+
+});
+
+}
+
+</script>
+
+</body>
+
+</html>
