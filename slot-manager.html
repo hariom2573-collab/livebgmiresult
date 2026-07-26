@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+<meta name="theme-color" content="#07111d">
+
+<title>BGMI Slot Manager</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+background:#050B18;
+color:#fff;
+overflow-x:hidden;
+min-height:100vh;
+}
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+left:0;
+top:0;
+
+width:100%;
+height:100%;
+
+background:
+radial-gradient(circle at top left,#22c55e22,transparent 30%),
+radial-gradient(circle at bottom right,#2563eb22,transparent 35%),
+#050B18;
+
+z-index:-2;
+
+}
+
+/* HEADER */
+
+.header{
+
+padding:18px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+background:#08111f;
+
+border-bottom:1px solid rgba(255,255,255,.08);
+
+position:sticky;
+
+top:0;
+
+z-index:100;
+
+}
+
+.title{
+
+font-size:24px;
+
+font-weight:800;
+
+color:#22c55e;
+
+}
+
+.live{
+
+padding:10px 18px;
+
+border-radius:30px;
+
+background:#22c55e;
+
+font-weight:bold;
+
+font-size:13px;
+
+}
+
+/* DASHBOARD */
+
+.dashboard{
+
+padding:18px;
+
+}
+
+/* TOP CARDS */
+
+.cards{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:15px;
+
+margin-bottom:20px;
+
+}
+
+.card{
+
+background:#111827;
+padding:20px;
+
+border-radius:20px;
+
+border:1px solid rgba(255,255,255,.08);
+
+}
+
+.cardTitle{
+
+font-size:13px;
+
+color:#94a3b8;
+
+}
+
+.cardValue{
+
+margin-top:12px;
+
+font-size:28px;
+
+font-weight:800;
+
+color:#22c55e;
+
+}
+
+/* SLOT GRID */
+
+.sectionTitle{
+
+margin:25px 0 15px;
+
+font-size:22px;
+
+font-weight:700;
+
+}
+
+.slotGrid{
+
+display:grid;
+
+grid-template-columns:repeat(5,1fr);
+
+gap:12px;
+
+}
+
+.slot{
+
+height:72px;
+
+border-radius:18px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+flex-direction:column;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+.slot:hover{
+
+transform:translateY(-4px);
+
+}
+
+.available{
+
+background:linear-gradient(135deg,#16a34a,#22c55e);
+
+}
+
+.booked{
+
+background:linear-gradient(135deg,#dc2626,#991b1b);
+
+}
+
+.slotNo{
+
+font-size:22px;
+
+}
+
+.slotText{
+
+font-size:11px;
+
+margin-top:5px;
+
+}
+
+/* DETAILS */
+
+.details{
+
+margin-top:25px;
+
+padding:20px;
+
+border-radius:20px;
+
+background:#111827;
+
+border:1px solid rgba(255,255,255,.08);
+
+display:none;
+
+}
+
+.details h2{
+
+margin-bottom:18px;
+
+color:#22c55e;
+
+}
+
+.row{
+
+margin-bottom:12px;
+
+font-size:15px;
+
+}
+
+.row span{
+
+color:#94a3b8;
+
+display:inline-block;
+
+width:120px;
+
+}
+
+/* BUTTONS */
+
+.btn{
+
+width:100%;
+
+height:52px;
+
+border:none;
+
+border-radius:16px;
+
+margin-top:12px;
+
+font-size:16px;
+
+font-weight:700;
+
+cursor:pointer;
+
+color:#fff;
+
+}
+
+.saveBtn{
+
+background:#2563eb;
+
+}
+
+.deleteBtn{
+
+background:#dc2626;
+
+}
+
+.unlockBtn{
+
+background:#16a34a;
+
+}
+
+/* MOBILE */
+
+@media(max-width:480px){
+
+.slotGrid{
+
+grid-template-columns:repeat(5,1fr);
+
+gap:8px;
+
+}
+
+.slot{
+
+height:62px;
+
+}
+
+.cardValue{
+
+font-size:24px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<div class="title">
+🎮 SLOT MANAGER
+</div>
+
+<div class="live">
+LIVE
+</div>
+
+</div>
+
+<div class="dashboard">
+
+<div class="cards">
+
+<div class="card">
+
+<div class="cardTitle">
+Total Slots
+</div>
+
+<div class="cardValue" id="totalSlots">
+25
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="cardTitle">
+Booked
+</div>
+
+<div class="cardValue" id="bookedSlots">
+0
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="cardTitle">
+Available
+</div>
+
+<div class="cardValue" id="availableSlots">
+25
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="cardTitle">
+Revenue
+</div>
+
+<div class="cardValue" id="revenue">
+₹0
+</div>
+
+</div>
+
+</div>
+
+<h2 class="sectionTitle">
+🎯 Tournament Slots
+</h2>
+
+<div class="slotGrid" id="slotGrid">
+
+<!-- Firebase Live Slots -->
+
+</div>
+
+<div class="details" id="detailsCard">
+
+<h2>
+Slot Details
+</h2>
+
+<!-- Next Part -->
+
+</div>
+
+</div>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+get,
+set,
+update,
+remove,
+onValue
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+
+/* ==========================
+   FIREBASE CONFIG
+========================== */
+
+const firebaseConfig = {
+
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+
+authDomain:"incoinpaysliveearning.firebaseapp.com",
+
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+
+projectId:"incoinpaysliveearning",
+
+storageBucket:"incoinpaysliveearning.firebasestorage.app",
+
+messagingSenderId:"971873814750",
+
+appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
+
+};
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+
+/* ==========================
+   ADMIN UID
+========================== */
+
+const ADMIN_UID="YOUR_ADMIN_UID";
+
+
+/* ==========================
+   GLOBAL
+========================== */
+
+const TOTAL_SLOTS=25;
+
+const ENTRY_FEE=20;
+
+let currentUser=null;
+
+let selectedSlot=null;
+
+
+/* ==========================
+   LOGIN CHECK
+========================== */
+
+onAuthStateChanged(auth,(user)=>{
+
+if(!user){
+
+location.href="index.html";
+
+return;
+
+}
+
+if(user.uid!==VIAP56vYwndWPhJxktn0lRPTWnS2D){
+
+alert("You are not Admin");
+
+location.href="index.html";
+
+return;
+
+}
+
+currentUser=user;
+
+loadSlots();
+
+});
+
+
+/* ==========================
+   LIVE SLOT LOAD
+========================== */
+
+function loadSlots(){
+
+const slotRef=ref(db,"duoSlots");
+
+onValue(slotRef,(snapshot)=>{
+
+const grid=document.getElementById("slotGrid");
+
+grid.innerHTML="";
+
+let booked=0;
+
+for(let i=1;i<=TOTAL_SLOTS;i++){
+
+const data=snapshot.child(String(i)).val();
+
+const isBooked=data!=null;
+
+if(isBooked) booked++;
+
+grid.innerHTML+=`
+
+<div class="slot ${isBooked?'booked':'available'}"
+
+onclick="showSlot(${i})">
+
+<div class="slotNo">${i}</div>
+
+<div class="slotText">
+
+${isBooked?'BOOKED':'OPEN'}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+document.getElementById("bookedSlots").innerHTML=booked;
+
+document.getElementById("availableSlots").innerHTML=
+TOTAL_SLOTS-booked;
+
+document.getElementById("revenue").innerHTML=
+"₹"+(booked*ENTRY_FEE);
+
+});
+
+}
+
+window.showSlot=function(slot){
+
+selectedSlot=slot;
+
+loadSlotDetails(slot);
+
+};
+/* ==========================================
+   PART 3 - SLOT DETAILS
+========================================== */
+
+async function loadSlotDetails(slotNo){
+
+    const details=document.getElementById("detailsCard");
+
+    details.style.display="block";
+
+    const snap=await get(ref(db,"duoSlots/"+slotNo));
+
+    if(!snap.exists()){
+
+        details.innerHTML=`
+
+        <h2>Slot #${slotNo}</h2>
+
+        <div class="row">
+        <span>Status :</span> Available
+        </div>
+
+        <button class="btn unlockBtn"
+        onclick="closeDetails()">
+        Close
+        </button>
+
+        `;
+
+        return;
+
+    }
+
+    const d=snap.val();
+
+    details.innerHTML=`
+
+    <h2>Slot #${slotNo}</h2>
+
+    <div class="row">
+    <span>Status :</span> Booked
+    </div>
+
+    <div class="row">
+    <span>Player :</span> ${d.name||"-"}
+    </div>
+
+    <div class="row">
+    <span>Team :</span> ${d.team||"-"}
+    </div>
+
+    <div class="row">
+    <span>BGMI ID :</span> ${d.bgmi||"-"}
+    </div>
+
+    <div class="row">
+    <span>Mobile :</span> ${d.mobile||"-"}
+    </div>
+
+    <div class="row">
+    <span>Room ID</span>
+
+    <input
+    id="roomId"
+    class="input"
+    value="${d.roomId||""}"
+    placeholder="Enter Room ID">
+
+    </div>
+
+    <div class="row">
+    <span>Password</span>
+
+    <input
+    id="roomPass"
+    class="input"
+    value="${d.roomPass||""}"
+    placeholder="Enter Room Password">
+
+    </div>
+
+    <button
+    class="btn saveBtn"
+    onclick="saveRoom()">
+
+    Save Room Details
+
+    </button>
+
+    <button
+    class="btn deleteBtn"
+    onclick="deleteBooking()">
+
+    Delete Booking
+
+    </button>
+
+    <button
+    class="btn unlockBtn"
+    onclick="closeDetails()">
+
+    Close
+
+    </button>
+
+    `;
+
+}
+
+
+/* ==========================================
+   CLOSE DETAILS
+========================================== */
+
+window.closeDetails=function(){
+
+    document.getElementById("detailsCard").style.display="none";
+
+};
+/* ==========================================
+   PART 4 - SAVE ROOM DETAILS
+========================================== */
+
+window.saveRoom = async function(){
+
+    if(selectedSlot==null) return;
+
+    const roomId=document.getElementById("roomId").value.trim();
+
+    const roomPass=document.getElementById("roomPass").value.trim();
+
+    try{
+
+        await update(ref(db,"duoSlots/"+selectedSlot),{
+
+            roomId:roomId,
+
+            roomPass:roomPass,
+
+            roomStatus:"Ready",
+
+            updatedAt:Date.now()
+
+        });
+
+        /* booking me bhi update */
+
+        const slotSnap=await get(ref(db,"duoSlots/"+selectedSlot));
+
+        if(slotSnap.exists()){
+
+            const uid=slotSnap.val().uid;
+
+            if(uid){
+
+                await update(ref(db,"duoBookings/"+uid),{
+
+                    roomId:roomId,
+
+                    roomPass:roomPass,
+
+                    roomStatus:"Ready",
+
+                    updatedAt:Date.now()
+
+                });
+
+            }
+
+        }
+
+        alert("✅ Room Details Saved");
+
+        loadSlotDetails(selectedSlot);
+
+    }catch(err){
+
+        alert(err.message);
+
+    }
+
+};
+
+
+/* ==========================================
+   DELETE BOOKING
+========================================== */
+
+window.deleteBooking = async function(){
+
+    if(selectedSlot==null) return;
+
+    if(!confirm("Delete this booking?")) return;
+
+    try{
+
+        const slotRef=ref(db,"duoSlots/"+selectedSlot);
+
+        const snap=await get(slotRef);
+
+        if(snap.exists()){
+
+            const data=snap.val();
+
+            const uid=data.uid;
+
+            /* Wallet Refund */
+
+            if(uid){
+
+                const userRef=ref(db,"users/"+uid);
+
+                const userSnap=await get(userRef);
+
+                if(userSnap.exists()){
+
+                    const wallet=Number(userSnap.val().wallet||0);
+
+                    await update(userRef,{
+
+                        wallet:wallet+ENTRY_FEE
+
+                    });
+
+                }
+
+                /* Booking Remove */
+
+                await remove(ref(db,"duoBookings/"+uid));
+
+            }
+
+        }
+
+        /* Slot Free */
+
+        await remove(slotRef);
+
+        alert("✅ Booking Deleted");
+
+        closeDetails();
+
+        loadSlots();
+
+    }catch(err){
+
+        alert(err.message);
+
+    }
+
+};
+
+
+/* ==========================================
+   AUTO REFRESH DETAILS
+========================================== */
+
+setInterval(()=>{
+
+    if(selectedSlot!=null){
+
+        loadSlotDetails(selectedSlot);
+
+    }
+
+},5000);
+/* ==========================================
+   PART 5 - SEARCH PLAYER
+========================================== */
+
+window.searchPlayer = async function () {
+
+    const keyword = prompt("Enter Player Name / BGMI ID");
+
+    if (!keyword) return;
+
+    const snap = await get(ref(db, "duoSlots"));
+
+    if (!snap.exists()) {
+
+        alert("No Booking Found");
+
+        return;
+
+    }
+
+    let found = false;
+
+    snap.forEach((child) => {
+
+        const d = child.val();
+
+        const text = (
+            (d.name || "") +
+            " " +
+            (d.bgmi || "") +
+            " " +
+            (d.team || "")
+        ).toLowerCase();
+
+        if (text.includes(keyword.toLowerCase())) {
+
+            found = true;
+
+            selectedSlot = Number(child.key);
+
+            loadSlotDetails(selectedSlot);
+
+        }
+
+    });
+
+    if (!found) {
+
+        alert("Player Not Found");
+
+    }
+
+};
+
+
+/* ==========================================
+   BROADCAST MESSAGE
+========================================== */
+
+window.broadcastMessage = async function () {
+
+    const msg = prompt("Broadcast Message");
+
+    if (!msg) return;
+
+    await set(ref(db, "announcement/live"), {
+
+        text: msg,
+
+        time: Date.now()
+
+    });
+
+    alert("Broadcast Sent");
+
+};
+
+
+/* ==========================================
+   LOCK TOURNAMENT
+========================================== */
+
+window.lockTournament = async function () {
+
+    await update(ref(db, "tournaments/duo"), {
+
+        booking: false,
+
+        status: "Closed"
+
+    });
+
+    alert("Tournament Locked");
+
+};
+
+
+/* ==========================================
+   OPEN TOURNAMENT
+========================================== */
+
+window.openTournament = async function () {
+
+    await update(ref(db, "tournaments/duo"), {
+
+        booking: true,
+
+        status: "Live"
+
+    });
+
+    alert("Tournament Open");
+
+};
+
+
+/* ==========================================
+   MATCH START
+========================================== */
+
+window.startMatch = async function () {
+
+    await update(ref(db, "tournaments/duo"), {
+
+        status: "Match Started"
+
+    });
+
+    alert("Match Started");
+
+};
+
+
+/* ==========================================
+   MATCH END
+========================================== */
+
+window.endMatch = async function () {
+
+    await update(ref(db, "tournaments/duo"), {
+
+        status: "Completed"
+
+    });
+
+    alert("Match Completed");
+
+};
+/* ==========================================
+   PART 6 - EXPORT BOOKINGS
+========================================== */
+
+window.exportBookings = async function () {
+
+    const snap = await get(ref(db, "duoSlots"));
+
+    if (!snap.exists()) {
+
+        alert("No Bookings Found");
+
+        return;
+
+    }
+
+    let csv =
+"Slot,Player,Team,BGMI ID,Mobile,Room ID,Password,Status\n";
+
+    snap.forEach((child) => {
+
+        const d = child.val();
+
+        csv +=
+`${child.key},"${d.name||""}","${d.team||""}","${d.bgmi||""}","${d.mobile||""}","${d.roomId||""}","${d.roomPass||""}","Booked"\n`;
+
+    });
+
+    const blob = new Blob([csv], {type:"text/csv"});
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+
+    a.href = url;
+
+    a.download = "BGMI_Duo_Bookings.csv";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+};
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+window.logout = async function(){
+
+    if(!confirm("Logout Admin?")) return;
+
+    await auth.signOut();
+
+    location.href="index.html";
+
+};
+
+
+/* ==========================================
+   AUTO REFRESH SLOT GRID
+========================================== */
+
+setInterval(()=>{
+
+    loadSlots();
+
+},3000);
+
+
+/* ==========================================
+   PAGE READY
+========================================== */
+
+console.log("BGMI Slot Manager Loaded");
+
+</script>
+
+</body>
+</html>
