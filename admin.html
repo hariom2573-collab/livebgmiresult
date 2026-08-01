@@ -5,449 +5,622 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>BGMI Admin Panel</title>
 
-<link rel="manifest" href="manifest.json">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 
 <style>
 
+
 *{
+
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family:Poppins,sans-serif;
+
 }
+
 
 body{
-background:#020617;
-color:#fff;
-overflow-x:hidden;
+
+background:#050B18;
+color:white;
+min-height:100vh;
+
 }
 
-body::-webkit-scrollbar{
-display:none;
+
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+background:
+radial-gradient(circle at top left,#22c55e33,transparent 35%),
+radial-gradient(circle at top right,#2563eb33,transparent 35%),
+#050B18;
+
+z-index:-1;
+
 }
 
-/* LOGIN */
 
-#loginBox{
-width:100%;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-padding:20px;
+
+.app{
+
+max-width:500px;
+
+margin:auto;
+
+padding:18px;
+
+padding-bottom:40px;
+
 }
 
-.login-card{
-width:100%;
-max-width:380px;
-background:#111827;
-padding:25px;
-border-radius:18px;
-box-shadow:0 10px 25px rgba(0,0,0,.35);
-}
 
-.login-card h2{
-text-align:center;
-margin-bottom:20px;
-color:#22c55e;
-}
-
-.login-card input{
-width:100%;
-padding:13px;
-margin-top:12px;
-border:none;
-outline:none;
-border-radius:10px;
-background:#1e293b;
-color:#fff;
-}
-
-.login-card button{
-width:100%;
-padding:13px;
-margin-top:18px;
-border:none;
-border-radius:10px;
-background:#22c55e;
-color:#fff;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.login-card button:hover{
-background:#16a34a;
-}
-
-/* DASHBOARD */
-
-#dashboard{
-display:none;
-padding-bottom:100px;
-}
 
 /* HEADER */
 
+
 .header{
-height:65px;
+
 background:#111827;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:0 18px;
-position:sticky;
-top:0;
-z-index:100;
-border-bottom:1px solid #1f2937;
-}
 
-.logo{
-font-size:22px;
-font-weight:bold;
-color:#22c55e;
-}
+border-radius:22px;
 
-.logout{
-padding:10px 18px;
-border:none;
-border-radius:10px;
-background:#ef4444;
-color:#fff;
-cursor:pointer;
-font-weight:bold;
-}
-
-/* DASHBOARD CARDS */
-
-.dashboard{
-width:95%;
-margin:20px auto;
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
-}
-
-.card{
-background:#111827;
-padding:18px;
-border-radius:18px;
-box-shadow:0 10px 20px rgba(0,0,0,.35);
-}
-
-.card-title{
-font-size:13px;
-color:#94a3b8;
-}
-
-.card-value{
-margin-top:10px;
-font-size:28px;
-font-weight:bold;
-color:#22c55e;
-}
-
-/* MENU BUTTONS */
-
-.menu{
-width:95%;
-margin:20px auto;
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
-}
-
-.menu button{
-padding:16px;
-border:none;
-border-radius:14px;
-background:#1e293b;
-color:#fff;
-font-size:15px;
-font-weight:bold;
-cursor:pointer;
-transition:.3s;
-}
-
-.menu button:hover{
-background:#22c55e;
-}
-
-/* PAYMENT SETTINGS */
-
-.settings{
-width:95%;
-margin:20px auto;
-background:#111827;
 padding:20px;
-border-radius:16px;
+
+border:1px solid #ffffff15;
+
+margin-bottom:20px;
+
 }
 
-.settings h2{
-margin-bottom:15px;
+
+.header h1{
+
+font-size:25px;
+
+font-weight:800;
+
 color:#22c55e;
+
 }
 
-.settings input{
-width:100%;
-padding:12px;
-margin-top:12px;
-border:none;
-border-radius:10px;
-background:#1e293b;
-color:#fff;
-outline:none;
+
+.header p{
+
+font-size:13px;
+
+color:#94a3b8;
+
+margin-top:5px;
+
 }
 
-.settings button{
-width:100%;
-padding:12px;
-margin-top:15px;
-border:none;
-border-radius:10px;
-background:#22c55e;
-color:#fff;
-font-size:15px;
-font-weight:bold;
-cursor:pointer;
+
+
+
+/* STAT GRID */
+
+
+.stats{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:15px;
+
 }
 
-.loading{
-display:none;
-position:fixed;
-left:0;
-top:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.6);
-justify-content:center;
+
+
+.statCard{
+
+background:#111827;
+
+border-radius:20px;
+
+padding:18px;
+
+border:1px solid #ffffff10;
+
+}
+
+
+
+.icon{
+
+font-size:28px;
+
+}
+
+
+.statTitle{
+
+font-size:13px;
+
+color:#94a3b8;
+
+margin-top:10px;
+
+}
+
+
+
+.statValue{
+
+font-size:26px;
+
+font-weight:800;
+
+margin-top:5px;
+
+color:#22c55e;
+
+}
+
+
+
+
+
+/* ACTION */
+
+
+.sectionTitle{
+
+font-size:20px;
+
+font-weight:700;
+
+margin:25px 0 15px;
+
+}
+
+
+
+.action{
+
+background:#111827;
+
+padding:18px;
+
+border-radius:18px;
+
+display:flex;
+
 align-items:center;
-z-index:9999;
-}
 
-.loader{
-width:45px;
-height:45px;
-border-radius:50%;
-border:4px solid #334155;
-border-top:4px solid #22c55e;
-animation:spin 1s linear infinite;
-}
+gap:15px;
 
-@keyframes spin{
-100%{
-transform:rotate(360deg);
-}
-}
+margin-bottom:12px;
 
-@media(max-width:768px){
+border:1px solid #ffffff12;
 
-.dashboard,
-.menu{
-grid-template-columns:1fr;
-}
+cursor:pointer;
 
-.logo{
-font-size:18px;
-}
-
-.card-value{
-font-size:22px;
-}
+transition:.2s;
 
 }
+
+
+
+.action:active{
+
+transform:scale(.97);
+
+}
+
+
+
+.actionIcon{
+
+width:50px;
+
+height:50px;
+
+border-radius:15px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:25px;
+
+background:#22c55e;
+
+color:#000;
+
+}
+
+
+
+.action h3{
+
+font-size:16px;
+
+}
+
+
+
+.action p{
+
+font-size:12px;
+
+color:#94a3b8;
+
+margin-top:3px;
+
+}
+
+
+
+
 
 </style>
 
+
 </head>
+
+
 
 <body>
 
-<!-- LOGIN -->
 
-<div id="loginBox">
+<div class="app">
 
-<div class="login-card">
 
-<h2>BGMI ADMIN LOGIN</h2>
 
-<input
-type="email"
-id="email"
-placeholder="Admin Email">
+<div class="header">
 
-<input
-type="password"
-id="password"
-placeholder="Password">
+<h1>
+🎮 BGMI ADMIN
+</h1>
 
-<button onclick="login()">
-LOGIN
-</button>
+<p>
+Tournament Management Dashboard
+</p>
+
+</div>
+
+
+
+
+
+<div class="stats">
+
+
+
+<div class="statCard">
+
+<div class="icon">
+👥
+</div>
+
+<div class="statTitle">
+Total Users
+</div>
+
+<div class="statValue"
+id="totalUsers">
+0
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="statCard">
+
+<div class="icon">
+🔥
+</div>
+
+<div class="statTitle">
+Live Tournament
+</div>
+
+<div class="statValue"
+id="liveTournament">
+0
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="statCard">
+
+<div class="icon">
+🎮
+</div>
+
+<div class="statTitle">
+Upcoming Tournament
+</div>
+
+<div class="statValue"
+id="upcomingTournament">
+0
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="statCard">
+
+<div class="icon">
+⏳
+</div>
+
+<div class="statTitle">
+Pending Request
+</div>
+
+<div class="statValue"
+id="pendingRequest">
+0
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="statCard"
+style="grid-column:span 2;">
+
+
+<div class="icon">
+💰
+</div>
+
+<div class="statTitle">
+Wallet Revenue
+</div>
+
+<div class="statValue"
+id="walletRevenue">
+
+₹0
 
 </div>
 
 
 </div>
 
-<!-- DASHBOARD -->
 
-<div id="dashboard">
-<div class="card" style="margin-top:20px;text-align:center;">
-    <button id="openSlotManager"
-        style="
-        width:100%;
-        height:60px;
-        border:none;
-        border-radius:18px;
-        background:linear-gradient(135deg,#22c55e,#16a34a);
-        color:#fff;
-        font-size:18px;
-        font-weight:700;
-        cursor:pointer;">
-        📦 Open Slot Manager
-    </button>
-</div>
-
-<header class="header">
-
-<div class="logo">
-🎮 BGMI ADMIN PANEL
-</div>
-
-<button class="logout" onclick="logout()">
-Logout
-</button>
-
-</header>
-<!-- ===========================
-     DASHBOARD CARDS
-=========================== -->
-
-<div class="dashboard">
-
-<div class="card">
-<div class="card-title">Total Users</div>
-<div class="card-value" id="totalUsers">0</div>
-</div>
-
-<div class="card">
-<div class="card-title">Total Wallet</div>
-<div class="card-value" id="totalWallet">₹0</div>
-</div>
-
-<div class="card">
-<div class="card-title">Pending Recharge</div>
-<div class="card-value" id="pendingRecharge">0</div>
-</div>
-
-<div class="card">
-<div class="card-title">Pending Withdraw</div>
-<div class="card-value" id="pendingWithdraw">0</div>
-</div>
 
 </div>
 
-<!-- ===========================
-     ADMIN MENU
-=========================== -->
 
-<div class="menu">
 
-<button onclick="location.href='user.html'">
-👥 User Manager
-</button>
 
-<button onclick="location.href='recharge.html'">
-💰 Recharge Requests
-</button>
 
-<button onclick="location.href='withdraw.html'">
-🏦 Withdraw Requests
-</button>
 
-<button onclick="location.href='recharge-history.html'">
-📜 Recharge History
-</button>
+<div class="sectionTitle">
+Admin Actions
+</div>
 
-<button onclick="location.href='withdraw-history.html'">
-📋 Withdraw History
-</button>
 
-<button onclick="location.href='wallet-history.html'">
-💳 Wallet History
-</button>
+
+
+
+<div class="action"
+onclick="location.href='admin-tournaments.html'">
+
+
+<div class="actionIcon">
+🏆
+</div>
+
+
+<div>
+
+<h3>
+Manage Tournament
+</h3>
+
+<p>
+Edit, update and control matches
+</p>
 
 </div>
 
-<!-- ===========================
-     PAYMENT SETTINGS
-=========================== -->
-
-<div class="settings">
-
-<h2>⚙ Payment Settings</h2>
-
-<input
-type="text"
-id="upiId"
-placeholder="Enter UPI ID (Example: bgmi@ibl)">
-
-<input
-type="text"
-id="upiName"
-placeholder="Enter Payee Name (Example: BGMI Tournament)">
-
-<button onclick="saveUPI()">
-💾 Save Payment Details
-</button>
 
 </div>
 
-<!-- ===========================
-     LOADING
-=========================== -->
 
-<div class="loading" id="loading">
 
-<div class="loader"></div>
+
+
+
+
+<div class="action"
+onclick="location.href='admin-create-tournament.html'">
+
+
+<div class="actionIcon">
+➕
+</div>
+
+
+<div>
+
+<h3>
+Create Tournament
+</h3>
+
+<p>
+Create new BGMI matches
+</p>
 
 </div>
 
+
 </div>
 
-<!-- ===========================
-     FIREBASE SCRIPT
-=========================== -->
+
+
+
+
+
+
+
+<div class="action"
+onclick="location.href='admin-wallet-request.html'">
+
+
+<div class="actionIcon">
+💳
+</div>
+
+
+<div>
+
+<h3>
+Wallet Request
+</h3>
+
+<p>
+Approve deposit and withdraw
+</p>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="action"
+onclick="location.href='admin-payment.html'">
+
+
+<div class="actionIcon">
+📱
+</div>
+
+
+<div>
+
+<h3>
+Payment Settings
+</h3>
+
+<p>
+UPI ID and QR management
+</p>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="action"
+onclick="location.href='admin-users.html'">
+
+
+<div class="actionIcon">
+👤
+</div>
+
+
+<div>
+
+<h3>
+Manage Users
+</h3>
+
+<p>
+Block, delete and wallet control
+</p>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+</div>
 
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
 
 import {
+
 getAuth,
-signInWithEmailAndPassword,
-onAuthStateChanged,
-signOut
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+onAuthStateChanged
+
+}
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
 
 import {
+
 getDatabase,
 ref,
-onValue,
-get,
-set,
-update
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-/* ===========================
-   FIREBASE CONFIG
-=========================== */
+onValue
+
+}
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+
+
+/* FIREBASE CONFIG */
+
 
 const firebaseConfig = {
+
 
 apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
 
@@ -463,237 +636,356 @@ messagingSenderId:"971873814750",
 
 appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
 
+
 };
 
+
+
 const app = initializeApp(firebaseConfig);
+
+
 const auth = getAuth(app);
+
+
 const db = getDatabase(app);
+
+
+
+
+
+/* ADMIN UID */
+
 
 const ADMIN_UID = "VIAP56vYwndWPhJxktn0lRPTWnS2";
 
-/* ===========================
-   LOGIN
-=========================== */
 
-window.login = function(){
 
-const email = document.getElementById("email").value.trim();
-const password = document.getElementById("password").value;
 
-if(email==="" || password===""){
-alert("Enter Email & Password");
-return;
-}
 
-document.getElementById("loading").style.display="flex";
+/* ADMIN CHECK */
 
-signInWithEmailAndPassword(auth,email,password)
-
-.then(()=>{
-
-document.getElementById("loading").style.display="none";
-document.getElementById("password").value="";
-
-})
-
-.catch((error)=>{
-
-document.getElementById("loading").style.display="none";
-
-alert(error.message);
-
-});
-
-};
-document.getElementById("openSlotManager").onclick = function () {
-    window.location.href = "slot-manager.html";
-};
-/* ===========================
-   LOGOUT
-=========================== */
-
-window.logout=function(){
-
-signOut(auth);
-
-};
-
-/* ===========================
-   AUTH CHECK
-=========================== */
 
 onAuthStateChanged(auth,(user)=>{
 
+
 if(!user){
 
-document.getElementById("loginBox").style.display="flex";
-document.getElementById("dashboard").style.display="none";
+
+location.replace("admin.html");
+
 
 return;
 
+
 }
 
-if(user.uid!==ADMIN_UID){
+
+
+if(user.uid !== ADMIN_UID){
+
 
 alert("Access Denied");
 
-signOut(auth);
+
+location.replace("index.html");
+
 
 return;
 
+
 }
 
-document.getElementById("loginBox").style.display="none";
-document.getElementById("dashboard").style.display="block";
+
+
 
 loadDashboard();
 
-loadUPI();
+
 
 });
 
-/* ===========================
-   DASHBOARD
-=========================== */
+
+
+
+
+
+
+
+/* LOAD DASHBOARD DATA */
+
 
 function loadDashboard(){
 
+
+
+/*
+
+TOTAL USERS
+
+users
+ |
+ uid
+
+*/
+
+
+
 onValue(ref(db,"users"),(snap)=>{
 
-let totalUsers=0;
-let totalWallet=0;
 
-if(snap.exists()){
+let total=0;
 
-snap.forEach((child)=>{
 
-totalUsers++;
 
-totalWallet+=Number(child.val().wallet||0);
+snap.forEach(()=>{
+
+
+total++;
+
 
 });
+
+
+
+document.getElementById("totalUsers").innerHTML=total;
+
+
+
+});
+
+
+
+
+
+
+
+
+
+/*
+
+TOURNAMENT COUNT
+
+matches
+
+*/
+
+
+onValue(ref(db,"matches"),(snap)=>{
+
+
+let live=0;
+
+let upcoming=0;
+
+
+
+const now=Date.now();
+
+
+
+
+snap.forEach((item)=>{
+
+
+const data=item.val();
+
+
+
+if(data.status==="live"){
+
+
+live++;
+
 
 }
 
-document.getElementById("totalUsers").innerText=totalUsers;
 
-document.getElementById("totalWallet").innerText="₹"+Math.floor(totalWallet);
+
+
+
+if(data.status==="upcoming"){
+
+
+upcoming++;
+
+
+}
+
+
 
 });
 
-onValue(ref(db,"rechargeRequests"),(snap)=>{
+
+
+document.getElementById("liveTournament").innerHTML=live;
+
+
+document.getElementById("upcomingTournament").innerHTML=upcoming;
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+WALLET REQUEST
+
+depositRequests
+withdrawRequests
+
+*/
+
+
+onValue(ref(db,"depositRequests"),(snap1)=>{
+
 
 let pending=0;
 
-if(snap.exists()){
 
-snap.forEach((child)=>{
 
-if(child.val().status==="Pending"){
+snap1.forEach((item)=>{
 
-pending++;
 
-}
+if(item.val().status==="pending"){
 
-});
-
-}
-
-document.getElementById("pendingRecharge").innerText=pending;
-
-});
-
-onValue(ref(db,"withdrawRequests"),(snap)=>{
-
-let pending=0;
-
-if(snap.exists()){
-
-snap.forEach((child)=>{
-
-if(child.val().status==="Pending"){
 
 pending++;
 
+
 }
+
+
 
 });
 
+
+
+onValue(ref(db,"withdrawRequests"),(snap2)=>{
+
+
+snap2.forEach((item)=>{
+
+
+if(item.val().status==="pending"){
+
+
+pending++;
+
+
 }
 
-document.getElementById("pendingWithdraw").innerText=pending;
+
 
 });
 
-}
 
-/* ===========================
-   LOAD UPI
-=========================== */
 
-function loadUPI(){
 
-onValue(ref(db,"config/payment"),(snap)=>{
 
-if(!snap.exists()) return;
+document.getElementById("pendingRequest").innerHTML=pending;
 
-const data=snap.val();
 
-document.getElementById("upiId").value=data.upi||"";
-
-document.getElementById("upiName").value=data.name||"";
 
 });
 
-}
 
-/* ===========================
-   SAVE UPI
-=========================== */
-
-window.saveUPI = async function(){
-
-const upi=document.getElementById("upiId").value.trim();
-
-const name=document.getElementById("upiName").value.trim();
-
-if(upi===""){
-
-alert("Enter UPI ID");
-
-return;
-
-}
-
-document.getElementById("loading").style.display="flex";
-
-try{
-
-await set(ref(db,"config/payment"),{
-
-upi:upi,
-
-name:name
 
 });
 
-document.getElementById("loading").style.display="none";
 
-alert("Payment Details Saved Successfully");
 
-}catch(error){
 
-document.getElementById("loading").style.display="none";
 
-console.log(error);
 
-alert(error.message);
+
+
+
+/*
+
+REVENUE
+
+transactions
+
+*/
+
+
+onValue(ref(db,"users"),(snap)=>{
+
+
+let revenue=0;
+
+
+
+snap.forEach((user)=>{
+
+
+const data=user.val();
+
+
+
+if(data.transactions){
+
+
+
+Object.values(data.transactions)
+.forEach((tx)=>{
+
+
+if(tx.type==="debit"){
+
+
+revenue += Number(tx.amount || 0);
+
 
 }
 
-};
+
+
+});
+
+
+
+}
+
+
+
+});
+
+
+
+
+
+document.getElementById("walletRevenue").innerHTML=
+
+"₹"+Math.floor(revenue);
+
+
+
+});
+
+
+
+
+
+}
+
+
+
 
 </script>
 
+
+
 </body>
+
 </html>
