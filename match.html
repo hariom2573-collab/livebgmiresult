@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+<title>Match Details</title>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+
+<style>
+
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+
+}
+
+
+
+body{
+
+background:#050B18;
+color:white;
+
+}
+
+
+
+.app{
+
+max-width:500px;
+margin:auto;
+padding-bottom:40px;
+
+}
+
+
+
+
+
+.header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px;
+
+}
+
+
+
+.back{
+
+width:45px;
+height:45px;
+
+border-radius:50%;
+
+background:#111827;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:22px;
+
+}
+
+
+
+.title{
+
+font-size:20px;
+font-weight:700;
+
+}
+
+
+
+
+
+.banner{
+
+margin:0 18px;
+
+height:210px;
+
+border-radius:22px;
+
+overflow:hidden;
+
+}
+
+
+
+.banner img{
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+
+}
+
+
+
+
+
+.card{
+
+margin:18px;
+
+background:#111827;
+
+border-radius:22px;
+
+padding:20px;
+
+border:1px solid rgba(255,255,255,.08);
+
+}
+
+
+
+
+
+.matchTitle{
+
+font-size:24px;
+font-weight:800;
+
+margin-bottom:18px;
+
+}
+
+
+
+
+
+.row{
+
+display:flex;
+justify-content:space-between;
+
+margin:14px 0;
+
+}
+
+
+
+.row span{
+
+color:#94a3b8;
+
+}
+
+
+
+
+.row b{
+
+color:white;
+
+}
+
+
+
+
+.joinBtn{
+
+width:100%;
+
+height:55px;
+
+margin-top:20px;
+
+border:none;
+
+border-radius:15px;
+
+background:#22c55e;
+
+color:#000;
+
+font-size:17px;
+
+font-weight:800;
+
+}
+
+
+
+
+.joinBtn:disabled{
+
+background:#374151;
+
+color:#94a3b8;
+
+}
+
+
+
+
+
+
+.roomBox{
+
+
+margin:18px;
+
+background:#111827;
+
+padding:20px;
+
+border-radius:22px;
+
+border:1px solid rgba(255,255,255,.08);
+
+
+}
+
+
+
+.roomTitle{
+
+font-size:20px;
+
+font-weight:800;
+
+margin-bottom:15px;
+
+}
+
+
+
+
+.lock{
+
+background:#0f172a;
+
+padding:20px;
+
+border-radius:15px;
+
+text-align:center;
+
+color:#facc15;
+
+font-size:14px;
+
+}
+
+
+
+
+
+.roomRow{
+
+display:flex;
+
+justify-content:space-between;
+
+margin:15px 0;
+
+}
+
+
+
+.roomRow span{
+
+color:#94a3b8;
+
+}
+
+
+.roomRow b{
+
+color:#22c55e;
+
+}
+
+
+
+
+.players{
+
+
+margin:18px;
+
+background:#111827;
+
+padding:20px;
+
+border-radius:22px;
+
+
+}
+
+
+
+.player{
+
+padding:12px 0;
+
+border-bottom:1px solid #1f2937;
+
+display:flex;
+
+justify-content:space-between;
+
+}
+
+
+
+.badge{
+
+background:#22c55e;
+
+color:#000;
+
+padding:5px 10px;
+
+border-radius:20px;
+
+font-size:12px;
+
+font-weight:700;
+
+}
+.whatsappBtn{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:8px;
+
+background:#25D366;
+
+color:white !important;
+
+padding:12px 18px;
+
+border-radius:30px;
+
+font-size:14px;
+
+font-weight:800;
+
+text-decoration:none;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+
+<div class="header">
+
+
+<div class="title">
+
+Match Details
+
+</div>
+
+
+<div></div>
+
+
+</div>
+
+
+
+
+
+<div class="banner">
+
+
+<img id="matchImage"
+src="https://via.placeholder.com/700x350">
+
+
+</div>
+
+
+
+
+
+
+
+<div class="card">
+
+
+
+<div class="matchTitle"
+id="matchTitle">
+
+Loading...
+
+</div>
+
+
+
+
+
+<div class="row">
+
+<span>
+
+Mode
+
+</span>
+
+
+<b id="mode">
+
+--
+
+</b>
+
+
+</div>
+
+
+
+
+<div class="row">
+
+<span>
+
+Date
+
+</span>
+
+
+<b id="date">
+
+--
+
+</b>
+
+
+</div>
+
+
+
+
+
+<div class="row">
+
+<span>
+
+Time
+
+</span>
+
+
+<b id="time">
+
+--
+
+</b>
+
+
+</div>
+
+
+
+
+
+<div class="row">
+
+<span>
+
+Prize Pool
+
+</span>
+
+
+<b id="prize">
+
+₹0
+
+</b>
+
+
+</div>
+
+
+
+
+
+<div class="row">
+
+<span>
+
+Entry
+
+</span>
+
+
+<b id="entry">
+
+₹0
+
+</b>
+
+
+</div>
+
+
+
+
+<div class="row">
+
+<span>
+
+Slots
+
+</span>
+
+
+<b id="slots">
+
+0/0
+
+</b>
+
+
+</div>
+
+
+
+
+
+
+<button
+id="joinBtn"
+class="joinBtn">
+
+JOIN MATCH
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- ROOM -->
+
+<div class="roomBox">
+
+
+<div class="roomTitle">
+
+🎮 Room Details
+
+</div>
+
+
+
+
+<div id="roomLocked"
+class="lock">
+
+🔒
+🔒 Match join karne ke baad id pass Group Link milega.
+
+
+</div>
+
+
+
+
+
+
+<div id="roomData"
+style="display:none;">
+
+<div class="roomRow">
+
+<span>
+🎮 Group
+</span>
+
+<b>
+<a id="groupLink"
+target="_blank"
+class="whatsappBtn">
+
+🟢 Join WhatsApp Group
+
+</a>
+
+</b>
+
+</div>
+
+<!-- PLAYERS -->
+
+
+<div class="players">
+
+
+<div class="roomTitle">
+
+👥 Players
+
+</div>
+
+
+<div id="playerList">
+
+Loading...
+
+</div>
+
+
+</div>
+
+
+
+
+
+</div>
+<!-- ==========================
+PART 3
+FIREBASE CONNECT + MATCH LOAD
+========================== -->
+
+<script type="module">
+
+import {
+initializeApp
+}
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+
+import {
+getAuth,
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+
+import {
+getDatabase,
+ref,
+onValue,
+set,
+get
+}
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+
+
+
+
+const firebaseConfig={
+
+
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+
+authDomain:"incoinpaysliveearning.firebaseapp.com",
+
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+
+projectId:"incoinpaysliveearning",
+
+storageBucket:"incoinpaysliveearning.firebasestorage.app",
+
+messagingSenderId:"971873814750",
+
+appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
+
+
+};
+
+
+
+
+
+const app = initializeApp(firebaseConfig);
+
+
+const auth=getAuth(app);
+
+
+const db=getDatabase(app);
+
+
+
+window.db=db;
+
+
+
+let user=null;
+
+
+
+// GET MATCH ID
+
+const params=new URLSearchParams(location.search);
+
+
+const matchId=params.get("id");
+
+
+window.matchId=matchId;
+
+
+
+
+if(!matchId){
+
+alert("Match Not Found");
+
+location.href="dashboard.html";
+
+}
+
+
+
+
+// LOGIN CHECK
+
+
+onAuthStateChanged(auth,(u)=>{
+
+
+if(!u){
+
+location.href="index.html";
+
+return;
+
+}
+
+
+user=u;
+
+
+window.currentUser=u;
+
+
+
+loadMatch();
+
+
+loadPlayers();
+
+
+});
+
+
+
+
+
+
+// LOAD MATCH DETAILS
+
+
+function loadMatch(){
+
+
+
+onValue(
+
+ref(db,"matches/"+matchId),
+
+(snapshot)=>{
+
+
+if(!snapshot.exists()) return;
+
+
+
+const m=snapshot.val();
+
+
+
+const img = document.getElementById("matchImage");
+
+
+if(m.image){
+
+let imageUrl = m.image;
+
+
+// Pexels page link convert
+
+if(imageUrl.includes("pexels.com/photo/")){
+
+let id = imageUrl
+.split("-")
+.pop()
+.replace("/","");
+
+
+imageUrl =
+"https://images.pexels.com/photos/"
++id+
+"/pexels-photo-"
++id+
+".jpeg";
+
+}
+
+
+img.src = imageUrl;
+
+
+img.onerror=function(){
+
+img.src="https://via.placeholder.com/700x350";
+
+};
+
+
+}
+else{
+
+img.src="https://via.placeholder.com/700x350";
+
+}
+
+
+document.getElementById("matchTitle").innerHTML =
+
+m.title || "BGMI MATCH";
+
+
+
+
+document.getElementById("mode").innerHTML =
+
+(m.type || "SQUAD").toUpperCase();
+
+
+
+
+document.getElementById("date").innerHTML =
+
+m.date || "-";
+
+
+
+
+document.getElementById("time").innerHTML =
+
+m.time || "-";
+
+
+
+
+document.getElementById("prize").innerHTML =
+
+"₹"+(m.prize || 0);
+
+
+
+
+document.getElementById("entry").innerHTML =
+
+"₹"+(m.entry || 0);
+
+
+
+
+document.getElementById("slots").innerHTML =
+
+(m.booked || 0)+"/"+(m.total || 0);
+
+
+
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// LOAD JOINED PLAYERS
+
+
+function loadPlayers(){
+
+
+
+onValue(
+
+ref(db,"matchPlayers/"+matchId),
+
+(snapshot)=>{
+
+
+const box=document.getElementById("playerList");
+
+
+box.innerHTML="";
+
+
+
+if(!snapshot.exists()){
+
+
+box.innerHTML="No Players Joined";
+
+return;
+
+}
+
+
+
+
+let no=1;
+
+
+
+snapshot.forEach((item)=>{
+
+
+let p=item.val();
+
+
+
+box.innerHTML+=`
+
+
+<div class="player">
+
+
+<div>
+
+<b>${no++}. ${p.name || "Player"}</b>
+
+<br>
+
+<small>${p.bgmiId || "-"}</small>
+
+</div>
+
+
+<div class="badge">
+
+JOINED
+
+</div>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+// JOIN BUTTON
+
+
+document.getElementById("joinBtn").onclick=async()=>{
+
+
+if(!user){
+
+alert("Login Required");
+
+return;
+
+}
+
+
+
+
+const userSnap=await get(
+
+ref(db,"users/"+user.uid)
+
+);
+
+
+
+if(!userSnap.exists()) return;
+
+
+
+const u=userSnap.val();
+
+
+
+const matchSnap=await get(
+
+ref(db,"matches/"+matchId)
+
+);
+
+
+
+const match=matchSnap.val();
+
+
+
+
+
+// CHECK ALREADY JOIN
+
+
+const already=await get(
+
+ref(db,"matchPlayers/"+matchId+"/"+user.uid)
+
+);
+
+
+
+if(already.exists()){
+
+
+alert("Already Joined");
+
+return;
+
+}
+
+
+
+
+
+
+// WALLET CHECK
+
+
+if(Number(u.wallet || 0) < Number(match.entry || 0)){
+
+
+alert("Insufficient Wallet Balance");
+
+return;
+
+
+}
+
+
+
+
+
+
+// ADD PLAYER
+
+
+await set(
+
+ref(db,"matchPlayers/"+matchId+"/"+user.uid),
+
+{
+
+
+uid:user.uid,
+
+name:u.name || "Player",
+
+bgmiId:u.bgmiId || "-",
+
+joinedAt:Date.now()
+
+}
+
+
+);
+
+
+
+
+
+
+// DEDUCT WALLET
+
+
+await set(
+
+ref(db,"users/"+user.uid+"/wallet"),
+
+Number(u.wallet)-Number(match.entry)
+
+);
+
+
+
+
+
+// UPDATE BOOKED
+
+
+await set(
+
+ref(db,"matches/"+matchId+"/booked"),
+
+Number(match.booked || 0)+1
+
+);
+
+
+
+
+alert("Match Joined Successfully");
+document.getElementById("joinBtn").style.display="none";
+
+
+openRoom(match);
+
+
+
+};
+
+
+
+
+
+</script>
+<!-- ==========================
+PART 4
+SECURE ROOM ACCESS FIX
+========================== -->
+
+<script type="module">
+
+
+import {
+ref,
+onValue
+}
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+
+
+const ADMIN_UID =
+"VIAP56vYwndWPhJxktn0lRPTWnS2";
+
+
+
+
+function checkRoomAccess(){
+
+
+
+const db = window.db;
+
+const matchId = window.matchId;
+
+
+
+if(!db || !matchId || !window.currentUser){
+
+
+setTimeout(checkRoomAccess,1000);
+
+return;
+
+}
+
+
+
+
+const uid = window.currentUser.uid;
+
+
+
+
+
+
+onValue(
+
+ref(db,"matches/"+matchId),
+
+(matchSnap)=>{
+
+
+if(!matchSnap.exists()) return;
+
+
+
+const match = matchSnap.val();
+
+
+
+
+
+
+// GROUP LINK AVAILABLE CHECK
+
+if(!match.groupLink){
+
+document.getElementById("roomLocked").style.display="block";
+document.getElementById("roomData").style.display="none";
+
+document.getElementById("roomLocked").innerHTML=`
+
+🔒 first join match
+
+`;
+
+return;
+
+}
+
+
+
+
+
+
+
+// ADMIN ACCESS
+
+
+if(uid === ADMIN_UID){
+
+
+openRoom(match);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+
+// PLAYER CHECK
+
+
+onValue(
+
+ref(db,"matchPlayers/"+matchId+"/"+uid),
+
+(player)=>{
+
+
+if(player.exists()){
+
+
+
+document.getElementById("roomLocked").style.display="block";
+
+
+document.getElementById("roomData").style.display="none";
+
+
+
+document.getElementById("roomLocked").innerHTML=`
+
+⚠️ Aapne ye match join nahi kiya hai.
+
+<br><br>
+
+Room details sirf joined players ke liye hai.
+
+`;
+
+
+
+}
+
+
+
+}
+
+
+
+);
+
+
+
+}
+
+
+
+);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+function openRoom(match){
+
+const lock =
+document.getElementById("roomLocked");
+
+const data =
+document.getElementById("roomData");
+
+
+if(!lock || !data) return;
+
+
+lock.style.display="none";
+
+data.style.display="block";
+
+
+const link =
+document.getElementById("groupLink");
+
+
+if(match.groupLink){
+
+link.href = match.groupLink;
+
+link.innerHTML="Join id pass Group";
+
+}
+
+else{
+
+link.href="#";
+
+link.innerHTML="Group Link Not Added";
+
+}
+
+
+}
+
+
+setTimeout(()=>{
+
+
+checkRoomAccess();
+
+
+},2000);
+
+
+
+
+</script>
+</body>
+</html>
