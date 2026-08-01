@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+<title>Create Tournament</title>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+
+body{
+
+background:#050B18;
+color:white;
+min-height:100vh;
+
+}
+
+
+.app{
+
+width:100%;
+max-width:500px;
+margin:auto;
+padding:18px;
+
+}
+
+
+
+/* HEADER */
+
+.header{
+
+background:#111827;
+padding:20px;
+border-radius:20px;
+margin-bottom:20px;
+border:1px solid #ffffff12;
+
+}
+
+
+.header h1{
+
+font-size:22px;
+color:#22c55e;
+
+}
+
+
+
+
+
+/* CARD */
+
+
+.card{
+
+background:#111827;
+padding:20px;
+border-radius:20px;
+border:1px solid rgba(255,255,255,.08);
+
+}
+
+
+
+
+
+label{
+
+display:block;
+font-size:13px;
+color:#94a3b8;
+margin-top:15px;
+
+}
+
+
+
+
+input,
+select{
+
+
+width:100%;
+padding:14px;
+margin-top:8px;
+border:none;
+outline:none;
+border-radius:12px;
+background:#1f2937;
+color:white;
+font-size:15px;
+
+
+}
+
+
+
+
+
+button{
+
+
+width:100%;
+height:52px;
+margin-top:25px;
+border:none;
+border-radius:14px;
+background:#22c55e;
+color:#000;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+
+
+}
+
+
+
+
+
+.hidden{
+
+display:none;
+
+}
+
+
+
+
+.infoBox{
+
+margin-top:15px;
+padding:15px;
+border-radius:12px;
+background:#0f172a;
+color:#22c55e;
+font-weight:600;
+
+}
+
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+
+<div class="app">
+
+
+
+<div class="header">
+
+<h1>
+🏆 Create Tournament
+</h1>
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+
+
+
+<label>
+Tournament Title
+</label>
+
+
+<input
+id="title"
+placeholder="BGMI Night Tournament">
+
+
+
+
+
+<label>
+Banner Image URL
+</label>
+
+
+<input
+id="image"
+placeholder="Image URL">
+
+
+
+
+
+
+<label>
+Game Mode
+</label>
+
+
+<select id="type" onchange="changeMode()">
+
+
+
+<option value="solo">
+SOLO
+</option>
+
+
+<option value="duo">
+DUO
+</option>
+
+
+<option value="squad">
+SQUAD
+</option>
+
+
+<option value="tdm">
+TDM
+</option>
+
+
+
+</select>
+
+
+
+
+
+
+<!-- NORMAL TOURNAMENT PRIZE -->
+
+<div id="normalPrize">
+
+
+
+<label>
+1st Prize
+</label>
+
+
+<input
+id="firstPrize"
+type="number"
+placeholder="1st Prize Amount">
+
+
+
+
+
+<label>
+2nd Prize
+</label>
+
+
+<input
+id="secondPrize"
+type="number"
+placeholder="2nd Prize Amount">
+
+
+
+
+
+<label>
+3rd Prize
+</label>
+
+
+<input
+id="thirdPrize"
+type="number"
+placeholder="3rd Prize Amount">
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- TDM SETTINGS -->
+
+
+<div id="tdmSettings" class="hidden">
+
+
+
+<label>
+TDM Format
+</label>
+
+
+<select id="tdmFormat">
+
+
+<option value="1v1">
+1 VS 1
+</option>
+
+
+<option value="2v2">
+2 VS 2
+</option>
+
+
+<option value="4v4">
+4 VS 4
+</option>
+
+
+</select>
+
+
+
+
+
+
+<label>
+TDM Entry Reward
+</label>
+
+
+<select id="tdmReward"
+onchange="showReward()">
+
+
+
+<option value="80">
+Entry ₹50 = Win ₹80
+</option>
+
+
+
+<option value="180">
+Entry ₹100 = Win ₹180
+</option>
+
+
+
+<option value="360">
+Entry ₹200 = Win ₹360
+</option>
+
+
+
+<option value="920">
+Entry ₹500 = Win ₹920
+</option>
+
+
+
+</select>
+
+
+
+
+
+<div class="infoBox" id="rewardText">
+
+Winning Amount ₹80
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<label>
+Entry Fee
+</label>
+
+
+<input
+id="entry"
+type="number"
+placeholder="Entry Amount">
+
+
+
+
+
+
+<label>
+Total Slots
+</label>
+
+
+<input
+id="total"
+type="number"
+placeholder="Total Players">
+
+
+
+
+
+
+<label>
+Tournament Date
+</label>
+
+
+<input
+id="date"
+type="date">
+
+
+
+
+
+
+<label>
+Tournament Time
+</label>
+
+
+<input
+id="time"
+type="time">
+
+
+
+
+
+
+<label>
+Status
+</label>
+
+
+<select id="status">
+
+
+<option value="upcoming">
+Upcoming
+</option>
+
+
+<option value="live">
+Live
+</option>
+
+
+<option value="closed">
+Closed
+</option>
+
+
+</select>
+
+
+
+
+
+
+<button onclick="saveTournament()">
+
+SAVE TOURNAMENT
+
+</button>
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+function changeMode(){
+
+
+let mode=document.getElementById("type").value;
+
+
+if(mode==="tdm"){
+
+
+document.getElementById("tdmSettings")
+.style.display="block";
+
+
+document.getElementById("normalPrize")
+.style.display="none";
+
+
+}
+
+else{
+
+
+document.getElementById("tdmSettings")
+.style.display="none";
+
+
+document.getElementById("normalPrize")
+.style.display="block";
+
+
+}
+
+
+}
+
+
+
+
+
+function showReward(){
+
+
+let reward=
+document.getElementById("tdmReward").value;
+
+
+document.getElementById("rewardText").innerHTML=
+"Winning Amount ₹"+reward;
+
+
+}
+
+
+</script>
+<script type="module">
+
+import {
+initializeApp
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+
+import {
+getDatabase,
+ref,
+set,
+push
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+
+import {
+getAuth,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+
+
+const firebaseConfig = {
+
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+
+authDomain:"incoinpaysliveearning.firebaseapp.com",
+
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+
+projectId:"incoinpaysliveearning",
+
+storageBucket:"incoinpaysliveearning.firebasestorage.app",
+
+messagingSenderId:"971873814750",
+
+appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
+
+};
+
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
+
+const auth = getAuth(app);
+
+
+
+const ADMIN_UID =
+"VIAP56vYwndWPhJxktn0lRPTWnS2";
+
+
+let admin=false;
+
+
+
+onAuthStateChanged(auth,(user)=>{
+
+
+if(!user){
+
+alert("Admin Login Required");
+
+location.href="index.html";
+
+return;
+
+}
+
+
+if(user.uid===ADMIN_UID){
+
+admin=true;
+
+console.log("Admin Verified");
+
+
+}else{
+
+alert("You are not admin");
+
+location.href="dashboard.html";
+
+}
+
+
+});
+
+
+
+
+
+let saving=false;
+
+
+
+window.saveTournament = async function(){
+
+
+if(saving){
+
+return;
+
+}
+
+
+
+if(!admin){
+
+alert("Admin verification pending");
+
+return;
+
+}
+
+
+
+saving=true;
+
+
+
+let btn=document.querySelector("button");
+
+btn.disabled=true;
+
+btn.innerHTML="Saving...";
+
+
+
+try{
+
+
+let mode =
+document.getElementById("type").value;
+
+
+
+let data={
+
+
+title:
+document.getElementById("title").value.trim(),
+
+
+image:
+document.getElementById("image").value.trim(),
+
+
+type:
+mode,
+
+
+entry:
+Number(document.getElementById("entry").value || 0),
+
+
+total:
+Number(document.getElementById("total").value || 0),
+
+
+booked:0,
+
+
+date:
+document.getElementById("date").value,
+
+
+time:
+document.getElementById("time").value,
+
+
+status:"upcoming",
+
+
+createdAt:Date.now(),
+
+
+};
+
+
+
+
+
+if(data.title===""){
+
+alert("Tournament Title Required");
+
+saving=false;
+
+btn.disabled=false;
+
+btn.innerHTML="SAVE TOURNAMENT";
+
+return;
+
+}
+
+
+
+
+
+// NORMAL TOURNAMENT
+
+if(mode!=="tdm"){
+
+
+data.firstPrize =
+Number(document.getElementById("firstPrize").value || 0);
+
+
+data.secondPrize =
+Number(document.getElementById("secondPrize").value || 0);
+
+
+data.thirdPrize =
+Number(document.getElementById("thirdPrize").value || 0);
+
+
+
+data.prize =
+data.firstPrize +
+data.secondPrize +
+data.thirdPrize;
+
+
+
+}
+
+
+
+
+
+
+
+// TDM
+
+if(mode==="tdm"){
+
+
+data.tdmFormat =
+document.getElementById("tdmFormat").value;
+
+
+data.winningAmount =
+Number(document.getElementById("tdmReward").value);
+
+
+
+data.prize =
+data.winningAmount;
+
+
+
+}
+
+
+
+
+
+
+
+let id =
+push(ref(db,"matches")).key;
+
+
+
+await set(
+
+ref(db,"matches/"+id),
+
+data
+
+);
+
+
+
+alert("Tournament Created Successfully");
+
+
+
+location.href="admin-tournaments.html";
+
+
+
+}
+
+catch(error){
+
+
+alert(error.message);
+
+
+}
+
+
+
+finally{
+
+
+saving=false;
+
+
+btn.disabled=false;
+
+btn.innerHTML="SAVE TOURNAMENT";
+
+
+}
+
+
+
+};
+
+
+
+</script>
+
+
+</body>
+
+</html>
