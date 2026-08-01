@@ -6,19 +6,15 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
-<meta name="theme-color" content="#07111d">
+<meta name="theme-color" content="#050B18">
 
-<title>BGMI Dashboard</title>
+<title>BGMI ESPORTS</title>
 
-<link rel="manifest" href="manifest.json">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
@@ -26,237 +22,63 @@ content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+font-family:Poppins,sans-serif;
 -webkit-tap-highlight-color:transparent;
 }
 
-html{
-scroll-behavior:smooth;
-}
 
 body{
+
 background:#050B18;
-color:#fff;
+color:white;
 overflow-x:hidden;
+
 }
 
-/* ==========================
-BACKGROUND
-========================== */
 
 body::before{
+
 content:"";
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:
-
-radial-gradient(circle at 20% 20%,rgba(34,197,94,.18),transparent 35%),
-
-radial-gradient(circle at 80% 10%,rgba(37,99,235,.18),transparent 35%),
-
-radial-gradient(circle at 50% 80%,rgba(168,85,247,.12),transparent 40%),
-
-#050B18;
-
-z-index:-3;
-}
-
-/* Floating Glow */
-
-.glow1,
-.glow2,
-.glow3{
-
-position:fixed;
-
-border-radius:50%;
-
-filter:blur(80px);
-
-opacity:.45;
-
-z-index:-2;
-
-animation:moveGlow 12s linear infinite alternate;
-
-}
-
-.glow1{
-
-width:220px;
-
-height:220px;
-
-background:#22c55e;
-
-top:-60px;
-
-left:-60px;
-
-}
-
-.glow2{
-
-width:250px;
-
-height:250px;
-
-background:#2563eb;
-
-right:-80px;
-
-top:120px;
-
-animation-delay:2s;
-
-}
-
-.glow3{
-
-width:230px;
-
-height:230px;
-
-background:#9333ea;
-
-bottom:-80px;
-
-left:25%;
-
-animation-delay:4s;
-
-}
-
-@keyframes moveGlow{
-
-100%{
-
-transform:translateY(40px) translateX(30px);
-
-}
-
-}
-
-/* ==========================
-SCROLLBAR
-========================== */
-
-body::-webkit-scrollbar{
-
-width:0;
-
-height:0;
-
-}
-
-/* ==========================
-SPLASH SCREEN
-========================== */
-
-#splash{
 
 position:fixed;
 
 inset:0;
 
-background:#050B18;
+background:
 
-display:flex;
+radial-gradient(circle at top left,
+rgba(34,197,94,.20),
+transparent 35%),
 
-justify-content:center;
 
-align-items:center;
+radial-gradient(circle at top right,
+rgba(37,99,235,.20),
+transparent 35%),
 
-flex-direction:column;
 
-z-index:99999;
+#050B18;
 
-transition:.5s;
-
-}
-
-.splash-logo{
-
-width:110px;
-
-height:110px;
-
-border-radius:50%;
-
-background:linear-gradient(135deg,#16a34a,#22c55e);
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-font-size:50px;
-
-box-shadow:
-
-0 0 25px rgba(34,197,94,.6),
-
-0 0 60px rgba(34,197,94,.3);
-
-animation:pulse 1.6s infinite;
+z-index:-1;
 
 }
 
-.splash-title{
 
-margin-top:20px;
-
-font-size:28px;
-
-font-weight:800;
-
-letter-spacing:1px;
-
-}
-
-.splash-sub{
-
-margin-top:6px;
-
-font-size:13px;
-
-color:#94a3b8;
-
-}
-
-@keyframes pulse{
-
-50%{
-
-transform:scale(1.08);
-
-}
-
-}
-
-/* ==========================
-APP
-========================== */
 
 .app{
 
 width:100%;
-
 max-width:500px;
-
 margin:auto;
 
 padding-bottom:100px;
 
 }
 
-/* ==========================
-HEADER
-========================== */
+
+
+
+/* HEADER */
+
 
 .header{
 
@@ -270,2095 +92,383 @@ padding:18px;
 
 }
 
-.profile{
+
+
+
+.userBox{
 
 display:flex;
 
 align-items:center;
 
-gap:14px;
+}
+
+
+
+.userInfo h2{
+
+font-size:22px;
+
+font-weight:800;
 
 }
 
-.avatar{
 
-width:56px;
 
-height:56px;
-
-border-radius:50%;
-
-background:linear-gradient(135deg,#16a34a,#22c55e);
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-font-size:26px;
-
-box-shadow:0 10px 25px rgba(34,197,94,.35);
-
-}
-
-.userName{
-
-font-size:20px;
-
-font-weight:700;
-
-}
-
-.userId{
+.userInfo p{
 
 font-size:12px;
 
 color:#94a3b8;
 
-margin-top:3px;
-
 }
 
-.notify{
 
-width:52px;
 
-height:52px;
 
-border-radius:18px;
+.walletBox{
 
-background:rgba(255,255,255,.05);
-
-backdrop-filter:blur(18px);
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-font-size:22px;
-
-border:1px solid rgba(255,255,255,.06);
-
-}
-
-/* ==========================
-PREMIUM WALLET
-========================== */
-
-.wallet{
-
-margin:18px;
-
-padding:22px;
-
-height:215px;
-
-border-radius:28px;
-
-background:
-
-linear-gradient(135deg,
-
-#16a34a,
-
-#22c55e,
-
-#14b8a6);
-
-position:relative;
-
-overflow:hidden;
-
-box-shadow:
-
-0 20px 35px rgba(0,0,0,.35),
-
-0 0 30px rgba(34,197,94,.25);
-
-}
-
-.wallet::before{
-
-content:"";
-
-position:absolute;
-
-width:220px;
-
-height:220px;
-
-border-radius:50%;
-
-background:rgba(255,255,255,.08);
-
-top:-120px;
-
-right:-60px;
-
-}
-
-.wallet::after{
-
-content:"";
-
-position:absolute;
-
-width:120px;
-
-height:120px;
-
-border-radius:50%;
-
-background:rgba(255,255,255,.06);
-
-left:-30px;
-
-bottom:-30px;
-
-}
-
-.walletTop{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-position:relative;
-
-z-index:2;
-
-}
-
-.walletTitle{
-
-font-size:14px;
-
-opacity:.9;
-
-}
-
-.walletLogo{
-
-font-size:34px;
-
-}
-
-.walletAmount{
-
-margin-top:52px;
-
-font-size:36px;
-
-font-weight:800;
-
-position:relative;
-
-z-index:2;
-
-}
-
-.walletBottom{
-
-display:flex;
-
-justify-content:space-between;
-
-margin-top:38px;
-
-font-size:13px;
-
-position:relative;
-
-z-index:2;
-
-opacity:.95;
-
-}
-
-.badge{
-
-padding:5px 14px;
-
-background:rgba(255,255,255,.18);
-
-border-radius:30px;
-
-backdrop-filter:blur(8px);
-
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="glow1"></div>
-<div class="glow2"></div>
-<div class="glow3"></div>
-
-<div id="splash">
-
-<div class="splash-logo">
-🎮
-</div>
-
-<div class="splash-title">
-BGMI ESPORTS
-</div>
-
-<div class="splash-sub">
-Loading Premium Dashboard...
-</div>
-
-</div>
-
-<div class="app">
-
-<div class="header">
-
-<div class="profile">
-
-<div class="avatar">
-👤
-</div>
-
-<div>
-
-<div class="userName" id="userName">
-Hello Player
-</div>
-
-<div class="userId" id="userEmail">
-player@email.com
-</div>
-
-</div>
-
-</div>
-
-<div class="notify">
-🔔
-</div>
-
-</div>
-
-<div class="wallet">
-
-<div class="walletTop">
-
-<div class="walletTitle">
-Wallet Balance
-</div>
-
-<div class="walletLogo">
-💳
-</div>
-
-</div>
-
-<div class="walletAmount" id="walletAmount">
-₹0
-</div>
-
-<div class="walletBottom">
-
-<div class="badge">
-BGMI PAY
-</div>
-
-<div class="badge">
-LIVE
-</div>
-
-</div>
-
-</div>
-<!-- ==========================
-PREMIUM HERO BANNER
-========================== -->
-
-<div class="hero">
-
-<div class="hero-content">
-
-<div class="hero-badge">
-🔥 LIVE ESPORTS
-</div>
-
-<h1>
-Play BGMI <br>
-Win Real Cash
-</h1>
-
-<p>
-Daily Scrims • Classic Tournament • Instant Prize Pool
-</p>
-
-<div class="hero-buttons">
-
-<button class="playBtn"
-onclick="location.href='tournament.html'">
-🎮 Play Now
-</button>
-
-<button class="walletBtn"
-onclick="location.href='wallet.html'">
-💳 Wallet
-</button>
-
-</div>
-
-</div>
-
-<div class="hero-bg">
-🏆
-</div>
-
-</div>
-
-<!-- ==========================
-ANNOUNCEMENT BAR
-========================== -->
-
-<div class="announcement">
-
-<div class="announce-icon">
-📢
-</div>
-
-<marquee
-id="announcement"
-scrollamount="5">
-
-🔥 Welcome to BGMI Esports • Daily Cash Scrims • Instant Withdraw • Join Now
-
-</marquee>
-
-</div>
-
-<!-- ==========================
-LIVE STATUS
-========================== -->
-
-<div class="liveBox">
-
-<div class="liveCard">
-
-<div class="liveNumber"
-id="onlinePlayers">
-
-0
-
-</div>
-
-<div class="liveText">
-
-Players Online
-
-</div>
-
-</div>
-
-<div class="liveCard">
-
-<div class="liveNumber"
-id="todayMatch">
-
-0
-
-</div>
-
-<div class="liveText">
-
-Today's Match
-
-</div>
-
-</div>
-
-<div class="liveCard">
-
-<div class="liveNumber">
-
-₹2L+
-
-</div>
-
-<div class="liveText">
-
-Prize Pool
-
-</div>
-
-</div>
-
-</div>
-
-<style>
-
-/* ==========================
-HERO
-========================== */
-
-.hero{
-
-margin:18px;
-
-padding:25px;
-
-border-radius:30px;
-
-background:
-linear-gradient(135deg,#2563eb,#7c3aed);
-
-position:relative;
-
-overflow:hidden;
-
-box-shadow:
-0 20px 40px rgba(0,0,0,.35);
-
-}
-
-.hero::before{
-
-content:"";
-
-position:absolute;
-
-right:-70px;
-
-top:-70px;
-
-width:220px;
-
-height:220px;
-
-border-radius:50%;
-
-background:rgba(255,255,255,.08);
-
-}
-
-.hero-content{
-
-position:relative;
-
-z-index:2;
-
-}
-
-.hero-badge{
-
-display:inline-block;
-
-padding:7px 18px;
-
-border-radius:30px;
-
-background:rgba(255,255,255,.18);
-
-font-size:12px;
-
-margin-bottom:15px;
-
-backdrop-filter:blur(10px);
-
-}
-
-.hero h1{
-
-font-size:32px;
-
-font-weight:800;
-
-line-height:40px;
-
-}
-
-.hero p{
-
-margin-top:10px;
-
-color:#e2e8f0;
-
-font-size:14px;
-
-}
-
-.hero-buttons{
-
-display:flex;
-
-gap:12px;
-
-margin-top:22px;
-
-}
-
-.playBtn{
-
-flex:1;
-
-height:48px;
-
-border:none;
-
-border-radius:14px;
-
-background:#22c55e;
-
-color:#fff;
-
-font-size:15px;
-
-font-weight:700;
-
-}
-
-.walletBtn{
-
-flex:1;
-
-height:48px;
-
-border:none;
-
-border-radius:14px;
-
-background:rgba(255,255,255,.18);
-
-color:#fff;
-
-font-size:15px;
-
-font-weight:700;
-
-backdrop-filter:blur(12px);
-
-}
-
-.hero-bg{
-
-position:absolute;
-
-right:20px;
-
-bottom:10px;
-
-font-size:90px;
-
-opacity:.18;
-
-}
-
-/* ==========================
-ANNOUNCEMENT
-========================== */
-
-.announcement{
-
-margin:18px;
-
-height:52px;
-
-border-radius:18px;
 
 background:#111827;
 
-display:flex;
-
-align-items:center;
-
-overflow:hidden;
-
-box-shadow:0 8px 25px rgba(0,0,0,.25);
-
-}
-
-.announce-icon{
-
-width:55px;
-
-display:flex;
-
-justify-content:center;
-
-font-size:22px;
-
-}
-
-#announcement{
-
-flex:1;
-
-font-size:14px;
-
-color:#22c55e;
-
-font-weight:600;
-
-}
-
-/* ==========================
-LIVE STATUS
-========================== */
-
-.liveBox{
-
-display:grid;
-
-grid-template-columns:repeat(3,1fr);
-
-gap:14px;
-
-margin:18px;
-
-}
-
-.liveCard{
-
-padding:18px;
-
-border-radius:20px;
-
-background:rgba(255,255,255,.05);
-
-backdrop-filter:blur(18px);
-
-text-align:center;
-
-border:1px solid rgba(255,255,255,.06);
-
-}
-
-.liveNumber{
-
-font-size:24px;
-
-font-weight:800;
-
-color:#22c55e;
-
-}
-
-.liveText{
-
-margin-top:6px;
-
-font-size:12px;
-
-color:#94a3b8;
-
-}
-
-</style>
-<!-- ==========================
-SECTION TITLE
-========================== -->
-
-<div class="section-title">
-🔥 Featured Tournaments
-</div>
-
-<style>
-
-.section-title{
-margin:20px 18px 12px;
-font-size:22px;
-font-weight:700;
-}
-
-/* ==========================
-TOURNAMENT CARD
-========================== */
-
-.tournament-card{
-
-margin:18px;
-
-background:rgba(255,255,255,.05);
-
-backdrop-filter:blur(18px);
-
-border:1px solid rgba(255,255,255,.08);
+padding:10px 18px;
 
 border-radius:25px;
 
-overflow:hidden;
+border:1px solid rgba(255,255,255,.1);
 
-box-shadow:0 15px 35px rgba(0,0,0,.30);
+color:#22c55e;
 
-transition:.35s;
-
-}
-
-.tournament-card:active{
-
-transform:scale(.98);
+font-weight:800;
 
 }
 
-.banner{
 
-height:180px;
+
+
+
+
+/* CATEGORY */
+
+
+.categoryBar{
 
 display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-font-size:75px;
-
-position:relative;
-
-overflow:hidden;
-
-}
-
-.banner::after{
-
-content:"";
-
-position:absolute;
-
-width:250px;
-
-height:250px;
-
-background:rgba(255,255,255,.08);
-
-border-radius:50%;
-
-top:-120px;
-
-right:-80px;
-
-}
-
-.duo{
-
-background:
-linear-gradient(135deg,#2563eb,#1d4ed8,#312e81);
-
-}
-
-.squad{
-
-background:
-linear-gradient(135deg,#16a34a,#22c55e,#065f46);
-
-}
-
-.champion{
-
-background:
-linear-gradient(135deg,#ea580c,#dc2626,#7c2d12);
-
-}
-
-.card-body{
-
-padding:20px;
-
-}
-
-.game-title{
-
-font-size:22px;
-
-font-weight:700;
-
-margin-bottom:15px;
-
-}
-
-.row{
-
-display:flex;
-
-justify-content:space-between;
-
-margin-bottom:12px;
 
 gap:10px;
 
-}
+padding:0 18px 18px;
 
-.tag{
-
-flex:1;
-
-background:#1f2937;
-
-padding:12px;
-
-border-radius:14px;
-
-text-align:center;
-
-font-size:13px;
-
-font-weight:600;
+overflow-x:auto;
 
 }
 
-.join-btn{
 
-width:100%;
+.categoryBar::-webkit-scrollbar{
 
-height:52px;
+display:none;
+
+}
+
+
+
+.categoryBtn{
+
+
+padding:10px 20px;
 
 border:none;
 
-border-radius:15px;
+border-radius:30px;
 
-margin-top:15px;
+background:#111827;
 
-background:linear-gradient(135deg,#16a34a,#22c55e);
-
-color:#fff;
-
-font-size:16px;
+color:white;
 
 font-weight:700;
 
-box-shadow:0 10px 25px rgba(34,197,94,.35);
+}
+
+
+
+.categoryBtn.active{
+
+
+background:#22c55e;
+
+color:#000;
 
 }
 
-</style>
 
-<!-- ==========================
-DUO SCRIMS
-========================== -->
 
-<div class="tournament-card">
 
-<div class="banner duo">
 
-🎮
+.sectionTitle{
 
-</div>
+padding:0 18px;
 
-<div class="card-body">
-
-<div class="game-title">
-
-DUO SCRIMS
-
-</div>
-
-<div class="row">
-
-<div class="tag"
-id="duoEntry">
-
-💰 Entry ₹20
-
-</div>
-
-<div class="tag"
-id="duoPrize">
-
-🏆 Prize ₹500
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="tag"
-id="duoJoined">
-
-👥 0/25
-
-</div>
-
-<div class="tag">
-
-🟢 LIVE
-
-</div>
-
-</div>
-
-<button
-class="join-btn"
-onclick="location.href='duo.html'">
-
-JOIN NOW
-
-</button>
-
-</div>
-
-</div>
-
-<!-- ==========================
-SQUAD SCRIMS
-========================== -->
-
-<div class="tournament-card">
-
-<div class="banner squad">
-
-👥
-
-</div>
-
-<div class="card-body">
-
-<div class="game-title">
-
-SQUAD SCRIMS
-
-</div>
-
-<div class="row">
-
-<div class="tag"
-id="squadEntry">
-
-💰 Entry ₹80
-
-</div>
-
-<div class="tag"
-id="squadPrize">
-
-🏆 Prize ₹2500
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="tag"
-id="squadJoined">
-
-👥 0/25
-
-</div>
-
-<div class="tag">
-
-🔥 HOT
-
-</div>
-
-</div>
-
-<button
-class="join-btn"
-onclick="location.href='squad.html'">
-
-JOIN NOW
-
-</button>
-
-</div>
-
-</div>
-
-<!-- ==========================
-BGMI CHAMPIONSHIP
-========================== -->
-
-<div class="tournament-card">
-
-<div class="banner champion">
-
-🏆
-
-</div>
-
-<div class="card-body">
-
-<div class="game-title">
-
-BGMI CHAMPIONSHIP
-
-</div>
-
-<div class="row">
-
-<div class="tag"
-id="tourEntry">
-
-💰 Entry ₹100
-
-</div>
-
-<div class="tag"
-id="tourPrize">
-
-🏆 Prize ₹10000
-
-</div>
-
-</div>
-
-<div class="row">
-
-<div class="tag"
-id="tourJoined">
-
-👥 0/100
-
-</div>
-
-<div class="tag">
-
-⭐ PREMIUM
-
-</div>
-
-</div>
-
-<button
-class="join-btn"
-onclick="location.href='tournament.html'">
-
-REGISTER NOW
-
-</button>
-
-</div>
-
-</div>
-<!-- =====================================
-        PART 4 - PREMIUM FEATURES
-====================================== -->
-
-<div class="section-title">
-⚡ Quick Actions
-</div>
-
-<style>
-
-/* ===============================
-QUICK ACTION
-=============================== */
-
-.quick-grid{
-
-display:grid;
-
-grid-template-columns:repeat(4,1fr);
-
-gap:14px;
-
-margin:18px;
-
-}
-
-.quick-card{
-
-background:rgba(255,255,255,.05);
-
-backdrop-filter:blur(18px);
-
-border:1px solid rgba(255,255,255,.06);
-
-border-radius:22px;
-
-padding:18px 10px;
-
-text-align:center;
-
-transition:.35s;
-
-cursor:pointer;
-
-box-shadow:0 10px 25px rgba(0,0,0,.20);
-
-}
-
-.quick-card:active{
-
-transform:scale(.95);
-
-}
-
-.quick-icon{
-
-font-size:32px;
+font-size:22px;
 
 margin-bottom:10px;
 
 }
 
-.quick-title{
 
-font-size:12px;
 
-font-weight:600;
 
-}
 
-/* ===============================
-DAILY REWARD
-=============================== */
+/* MATCH CARD */
 
-.reward{
+
+.match-card{
+
 
 margin:18px;
 
-padding:20px;
-
-border-radius:24px;
-
-background:
-
-linear-gradient(135deg,#f59e0b,#f97316);
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-box-shadow:0 15px 30px rgba(249,115,22,.25);
-
-}
-
-.reward h3{
-
-font-size:20px;
-
-margin-bottom:8px;
-
-}
-
-.reward p{
-
-font-size:13px;
-
-opacity:.9;
-
-}
-
-.reward button{
-
-padding:12px 20px;
-
-border:none;
-
-border-radius:14px;
-
-background:#fff;
-
-color:#f97316;
-
-font-weight:bold;
-
-font-size:14px;
-
-}
-
-/* ===============================
-VIP CARD
-=============================== */
-
-.vip{
-
-margin:18px;
-
-padding:24px;
-
-border-radius:26px;
-
-background:
-
-linear-gradient(135deg,#7c3aed,#9333ea,#4c1d95);
-
-position:relative;
-
-overflow:hidden;
-
-box-shadow:0 20px 40px rgba(124,58,237,.30);
-
-}
-
-.vip::before{
-
-content:"";
-
-position:absolute;
-
-width:220px;
-
-height:220px;
-
-border-radius:50%;
-
-background:rgba(255,255,255,.08);
-
-right:-80px;
-
-top:-90px;
-
-}
-
-.vip h2{
-
-font-size:24px;
-
-position:relative;
-
-z-index:2;
-
-}
-
-.vip p{
-
-margin-top:10px;
-
-font-size:14px;
-
-color:#e5e7eb;
-
-position:relative;
-
-z-index:2;
-
-}
-
-.vip button{
-
-margin-top:18px;
-
-width:170px;
-
-height:48px;
-
-border:none;
-
-border-radius:14px;
-
-background:#fff;
-
-color:#7c3aed;
-
-font-weight:700;
-
-font-size:15px;
-
-position:relative;
-
-z-index:2;
-
-}
-
-/* ===============================
-LIVE STATS
-=============================== */
-
-.stats{
-
-display:grid;
-
-grid-template-columns:repeat(2,1fr);
-
-gap:15px;
-
-margin:18px;
-
-}
-
-.stat{
-
-background:rgba(255,255,255,.05);
-
-border:1px solid rgba(255,255,255,.06);
-
-backdrop-filter:blur(15px);
-
-padding:22px;
+background:#111827;
 
 border-radius:22px;
 
-text-align:center;
-
-}
-
-.stat h2{
-
-font-size:28px;
-
-color:#22c55e;
-
-margin-bottom:6px;
-
-}
-
-.stat p{
-
-font-size:13px;
-
-color:#94a3b8;
-
-}
-
-</style>
-
-<!-- ===============================
-QUICK ACTIONS
-=============================== -->
-
-<div class="quick-grid">
-
-<div class="quick-card"
-onclick="location.href='wallet.html'">
-
-<div class="quick-icon">
-💳
-</div>
-
-<div class="quick-title">
-Wallet
-</div>
-
-</div>
-
-<div class="quick-card"
-onclick="location.href='history.html'">
-
-<div class="quick-icon">
-📜
-</div>
-
-<div class="quick-title">
-History
-</div>
-
-</div>
-
-<div class="quick-card"
-onclick="location.href='support.html'">
-
-<div class="quick-icon">
-🎧
-</div>
-
-<div class="quick-title">
-Support
-</div>
-
-</div>
-
-<div class="quick-card"
-onclick="location.href='profile.html'">
-
-<div class="quick-icon">
-👤
-</div>
-
-<div class="quick-title">
-Profile
-</div>
-
-</div>
-
-</div>
-
-<!-- ===============================
-DAILY REWARD
-=============================== -->
-
-<div class="reward">
-
-<div>
-
-<h3>
-🎁 Daily Reward
-</h3>
-
-<p>
-
-Login every day and collect free bonus rewards.
-
-</p>
-
-</div>
-
-<button id="claimReward">
-
-CLAIM
-
-</button>
-
-</div>
-
-<!-- ===============================
-VIP CARD
-=============================== -->
-
-<div class="vip">
-
-<h2>
-
-💎 VIP Membership
-
-</h2>
-
-<p>
-
-Become a Premium Member and unlock VIP tournaments, exclusive rooms, faster withdrawals, bonus rewards and special events.
-
-</p>
-
-<button onclick="location.href='vip.html'">
-
-Upgrade Now
-
-</button>
-
-</div>
-
-<!-- ===============================
-LIVE STATS
-=============================== -->
-
-<div class="section-title">
-
-📊 Live Statistics
-
-</div>
-
-<div class="stats">
-
-<div class="stat">
-
-<h2 id="totalPlayers">
-
-1250+
-
-</h2>
-
-<p>
-
-Registered Players
-
-</p>
-
-</div>
-
-<div class="stat">
-
-<h2 id="todayPrize">
-
-₹50K
-
-</h2>
-
-<p>
-
-Today's Prize Pool
-
-</p>
-
-</div>
-
-<div class="stat">
-
-<h2 id="liveRooms">
-
-35
-
-</h2>
-
-<p>
-
-Live Rooms
-
-</p>
-
-</div>
-
-<div class="stat">
-
-<h2 id="completedMatches">
-
-540
-
-</h2>
-
-<p>
-
-Completed Matches
-
-</p>
-
-</div>
-
-</div>
-<!-- =====================================
-        PART 5 - PREMIUM SLIDER + WINNERS
-====================================== -->
-
-<div class="section-title">
-🔥 Trending Events
-</div>
-
-<style>
-
-/* ===============================
-SLIDER
-=============================== */
-
-.slider{
-
-margin:18px;
-
-height:180px;
-
-border-radius:24px;
-
 overflow:hidden;
+
+border:1px solid rgba(255,255,255,.08);
+
+
+}
+
+
+
+.match-image{
+
+
+height:190px;
 
 position:relative;
 
-box-shadow:0 15px 35px rgba(0,0,0,.30);
 
 }
 
-.slide{
 
-position:absolute;
+
+.match-image img{
+
 
 width:100%;
 
 height:100%;
 
-display:flex;
+object-fit:cover;
 
-justify-content:center;
-
-align-items:center;
-
-flex-direction:column;
-
-font-size:32px;
-
-font-weight:700;
-
-transition:1s;
-
-opacity:0;
 
 }
 
-.slide.active{
 
-opacity:1;
 
-}
 
-.slide1{
+.mode{
 
-background:linear-gradient(135deg,#2563eb,#1e3a8a);
 
-}
+position:absolute;
 
-.slide2{
+top:12px;
 
-background:linear-gradient(135deg,#16a34a,#065f46);
+left:12px;
 
-}
 
-.slide3{
+background:#22c55e;
 
-background:linear-gradient(135deg,#dc2626,#7f1d1d);
+color:#000;
 
-}
-
-.slide small{
-
-margin-top:10px;
-
-font-size:15px;
-
-font-weight:500;
-
-}
-
-/* ===============================
-WINNERS
-=============================== */
-
-.winners{
-
-margin:18px;
-
-display:flex;
-
-flex-direction:column;
-
-gap:15px;
-
-}
-
-.winner{
-
-background:rgba(255,255,255,.05);
-
-backdrop-filter:blur(15px);
-
-border:1px solid rgba(255,255,255,.08);
-
-padding:18px;
+padding:6px 14px;
 
 border-radius:20px;
 
-display:flex;
+font-size:12px;
 
-justify-content:space-between;
-
-align-items:center;
+font-weight:800;
 
 }
 
-.left{
 
-display:flex;
 
-align-items:center;
+.status{
 
-gap:14px;
 
-}
+position:absolute;
 
-.rank{
+top:12px;
 
-width:48px;
+right:12px;
 
-height:48px;
 
-border-radius:50%;
+background:#0009;
 
-display:flex;
+padding:6px 12px;
 
-justify-content:center;
+border-radius:20px;
 
-align-items:center;
+font-size:12px;
 
-font-size:20px;
-
-font-weight:bold;
-
-background:linear-gradient(135deg,#f59e0b,#fbbf24);
 
 }
 
-.name{
 
-font-size:16px;
 
-font-weight:600;
 
-}
+.overlay{
 
-.prize{
 
-font-size:18px;
-
-font-weight:bold;
-
-color:#22c55e;
-
-}
-
-/* ===============================
-LIVE BROADCAST
-=============================== */
-
-.broadcast{
-
-margin:18px;
-
-padding:18px;
-
-border-radius:22px;
-
-background:#111827;
-
-display:none;
-
-box-shadow:0 10px 25px rgba(0,0,0,.30);
-
-}
-
-.broadcast h3{
-
-margin-bottom:10px;
-
-color:#22c55e;
-
-}
-
-#broadcastBox{
-
-font-size:15px;
-
-line-height:24px;
-
-}
-
-</style>
-
-<!-- ===============================
-SLIDER
-=============================== -->
-
-<div class="slider">
-
-<div class="slide slide1 active">
-
-🏆
-
-<div>
-
-BGMI Championship
-
-</div>
-
-<small>
-
-Prize Pool ₹1,00,000
-
-</small>
-
-</div>
-
-<div class="slide slide2">
-
-🎮
-
-<div>
-
-Daily Duo Scrims
-
-</div>
-
-<small>
-
-Entry ₹20
-
-</small>
-
-</div>
-
-<div class="slide slide3">
-
-🔥
-
-<div>
-
-Weekend Squad Battle
-
-</div>
-
-<small>
-
-Prize ₹25,000
-
-</small>
-
-</div>
-
-</div>
-
-<!-- ===============================
-TOP WINNERS
-=============================== -->
-
-<div class="section-title">
-
-🏆 Top Winners
-
-</div>
-
-<div class="winners">
-
-<div class="winner">
-
-<div class="left">
-
-<div class="rank">
-
-🥇
-
-</div>
-
-<div>
-
-<div class="name">
-
-ShadowOP
-
-</div>
-
-<div>
-
-Winner
-
-</div>
-
-</div>
-
-</div>
-
-<div class="prize">
-
-₹25,000
-
-</div>
-
-</div>
-
-<div class="winner">
-
-<div class="left">
-
-<div class="rank">
-
-🥈
-
-</div>
-
-<div>
-
-<div class="name">
-
-HunterX
-
-</div>
-
-<div>
-
-Runner Up
-
-</div>
-
-</div>
-
-</div>
-
-<div class="prize">
-
-₹15,000
-
-</div>
-
-</div>
-
-<div class="winner">
-
-<div class="left">
-
-<div class="rank">
-
-🥉
-
-</div>
-
-<div>
-
-<div class="name">
-
-LegendYT
-
-</div>
-
-<div>
-
-3rd Place
-
-</div>
-
-</div>
-
-</div>
-
-<div class="prize">
-
-₹10,000
-
-</div>
-
-</div>
-
-</div>
-
-<!-- ===============================
-LIVE BROADCAST
-=============================== -->
-
-<div class="broadcast" id="broadcastCard">
-
-<h3>
-
-📢 Live Broadcast
-
-</h3>
-
-<div id="broadcastBox">
-
-Welcome Players
-
-</div>
-
-</div>
-
-<script>
-
-/* Premium Slider */
-
-let currentSlide=0;
-
-const slides=document.querySelectorAll(".slide");
-
-setInterval(()=>{
-
-slides[currentSlide].classList.remove("active");
-
-currentSlide++;
-
-if(currentSlide>=slides.length){
-
-currentSlide=0;
-
-}
-
-slides[currentSlide].classList.add("active");
-
-},3500);
-
-</script>
-<!-- =====================================
-        PART 6 - PREMIUM BOTTOM NAVIGATION
-====================================== -->
-
-<div style="height:110px;"></div>
-
-<!-- Floating Support -->
-
-<button class="floating-btn"
-onclick="location.href='support.html'">
-
-💬
-
-</button>
-
-<!-- Bottom Navigation -->
-
-<div class="bottom-nav">
-
-<div class="nav-item active"
-
-onclick="goPage('dashboard.html',this)">
-
-<div class="nav-icon">
-
-🏠
-
-</div>
-
-<div class="nav-text">
-
-Home
-
-</div>
-
-</div>
-
-<div class="nav-item"
-
-onclick="goPage('wallet.html',this)">
-
-<div class="nav-icon">
-
-💳
-
-</div>
-
-<div class="nav-text">
-
-Wallet
-
-</div>
-
-</div>
-
-<div class="nav-item"
-
-onclick="goPage('history.html',this)">
-
-<div class="nav-icon">
-
-📜
-
-</div>
-
-<div class="nav-text">
-
-History
-
-</div>
-
-</div>
-
-<div class="nav-item"
-
-onclick="goPage('profile.html',this)">
-
-<div class="nav-icon">
-
-👤
-
-</div>
-
-<div class="nav-text">
-
-Profile
-
-</div>
-
-</div>
-
-</div>
-
-<style>
-
-/* =====================================
-BOTTOM NAV
-====================================== */
-
-.bottom-nav{
-
-position:fixed;
-
-left:0;
+position:absolute;
 
 bottom:0;
 
-width:100%;
+left:0;
 
-height:78px;
+right:0;
 
-background:rgba(17,24,39,.95);
 
-backdrop-filter:blur(20px);
+padding:18px;
+
+
+background:linear-gradient(
+transparent,
+#000
+);
+
+
+}
+
+
+
+.overlay h1{
+
+font-size:22px;
+
+}
+
+
+
+.overlay p{
+
+color:#cbd5e1;
+
+font-size:13px;
+
+}
+
+
+
+
+
+.match-info{
+
+
+display:flex;
+
+padding:18px;
+
+}
+
+
+
+.info-box{
+
+
+flex:1;
+
+text-align:center;
+
+
+}
+
+
+
+.info-box span{
+
+
+font-size:11px;
+
+color:#94a3b8;
+
+
+}
+
+
+
+.info-box h2{
+
+
+margin-top:5px;
+
+font-size:19px;
+
+color:#22c55e;
+
+
+}
+
+
+
+
+
+.progress{
+
+
+height:8px;
+
+background:#1f2937;
+
+margin:0 18px 18px;
+
+border-radius:20px;
+
+overflow:hidden;
+
+
+}
+
+
+
+.progress-fill{
+
+
+height:100%;
+
+background:#22c55e;
+
+
+}
+
+
+
+/* BOTTOM NAV */
+
+
+.bottomNav{
+
+
+position:fixed;
+
+bottom:0;
+
+left:0;
+
+right:0;
+
+height:75px;
+
+
+max-width:500px;
+
+margin:auto;
+
+
+background:#111827;
+
+
+border-top:1px solid rgba(255,255,255,.1);
+
 
 display:flex;
 
@@ -2366,217 +476,278 @@ justify-content:space-around;
 
 align-items:center;
 
-border-top:1px solid rgba(255,255,255,.08);
 
-z-index:9999;
+z-index:999;
 
-box-shadow:0 -10px 25px rgba(0,0,0,.35);
 
 }
 
-.nav-item{
 
-display:flex;
 
-flex-direction:column;
 
-align-items:center;
+.navBtn{
 
-justify-content:center;
 
-color:#94a3b8;
+flex:1;
 
-font-size:11px;
+height:100%;
 
-cursor:pointer;
 
-transition:.30s;
-
-width:70px;
-
-}
-
-.nav-item.active{
-
-color:#22c55e;
-
-transform:translateY(-8px);
-
-}
-
-.nav-item.active .nav-icon{
-
-background:#22c55e;
-
-color:#fff;
-
-box-shadow:0 0 20px rgba(34,197,94,.45);
-
-}
-
-.nav-icon{
-
-width:46px;
-
-height:46px;
-
-border-radius:50%;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-font-size:22px;
-
-background:rgba(255,255,255,.06);
-
-transition:.35s;
-
-margin-bottom:4px;
-
-}
-
-.nav-text{
-
-font-size:11px;
-
-font-weight:600;
-
-}
-
-/* Floating Button */
-
-.floating-btn{
-
-position:fixed;
-
-right:18px;
-
-bottom:95px;
-
-width:60px;
-
-height:60px;
+background:none;
 
 border:none;
 
-border-radius:50%;
 
-background:linear-gradient(135deg,#16a34a,#22c55e);
+color:#94a3b8;
 
-font-size:28px;
+font-size:12px;
 
-color:#fff;
+font-weight:700;
 
-cursor:pointer;
-
-box-shadow:
-
-0 10px 30px rgba(34,197,94,.45);
-
-animation:floatBtn 2.5s infinite;
-
-z-index:9999;
 
 }
 
-@keyframes floatBtn{
 
-0%{
 
-transform:translateY(0px);
 
-}
+.navBtn span{
 
-50%{
 
-transform:translateY(-10px);
+display:block;
 
-}
+font-size:24px;
 
-100%{
+margin-bottom:3px;
 
-transform:translateY(0px);
 
 }
 
-}
 
-@media(max-width:420px){
 
-.bottom-nav{
+.navBtn.active{
 
-height:74px;
 
-}
+color:#22c55e;
 
-.nav-icon{
-
-width:42px;
-
-height:42px;
-
-font-size:20px;
 
 }
+.bgImage{
+
+position:fixed;
+inset:0;
+
+background-image:url("https://images.pexels.com/photos/17681813/pexels-photo-17681813.jpeg");
+
+background-size:cover;
+background-position:center;
+
+opacity:0.20;
+
+z-index:-2;
 
 }
+
+
+.bgOverlay{
+
+position:fixed;
+inset:0;
+
+background:rgba(5,11,24,0.85);
+
+z-index:-1;
+
+}
+
 
 </style>
 
-<script>
 
-/* ===========================
-Bottom Navigation
-=========================== */
+</head>
 
-function goPage(page,el){
 
-document.querySelectorAll(".nav-item").forEach(function(item){
+<body>
 
-item.classList.remove("active");
+<div class="bgImage"></div>
+<div class="bgOverlay"></div>
 
-});
 
-el.classList.add("active");
+<div class="app">
 
-setTimeout(function(){
 
-window.location.href=page;
 
-},150);
+<!-- HEADER -->
 
-}
 
-</script>
-<!-- ==========================================
-        PART 7 - FIREBASE REALTIME SYSTEM
-=========================================== -->
+<div class="header">
+
+
+<div class="userBox">
+
+
+<div class="userInfo">
+
+
+<h2 id="playerName">
+
+Loading...
+
+</h2>
+
+
+<p>
+
+BGMI Player
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="walletBox">
+
+₹<span id="walletAmount">
+
+0
+
+</span>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- CATEGORY -->
+
+
+<div class="categoryBar">
+
+
+<button class="categoryBtn active">
+
+ALL
+
+</button>
+
+
+<button class="categoryBtn">
+
+SOLO
+
+</button>
+
+
+<button class="categoryBtn">
+
+DUO
+
+</button>
+
+
+<button class="categoryBtn">
+
+SQUAD
+
+</button>
+
+
+<button class="categoryBtn">
+
+TDM
+
+</button>
+
+
+</div>
+
+
+
+
+
+<h2 class="sectionTitle">
+
+🔥 Upcoming Matches
+
+</h2>
+
+
+
+<div id="matchesContainer">
+
+</div>
+
+
+
+</div>
+<!-- ==========================
+PART 2
+FIREBASE + USER + WALLET + MATCH LOAD
+========================== -->
+
 
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
 import {
+
+initializeApp
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+
+
+import {
+
 getAuth,
-onAuthStateChanged,
-signOut
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+onAuthStateChanged
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+
 
 import {
+
 getDatabase,
+
 ref,
-onValue,
-update
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-/* ==========================================
-   FIREBASE CONFIG
-========================================== */
+onValue
 
-const firebaseConfig={
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+
+
+
+
+// FIREBASE CONFIG
+
+
+const firebaseConfig = {
+
 
 apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
 
@@ -2592,619 +763,1232 @@ messagingSenderId:"971873814750",
 
 appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
 
+
 };
 
-const app=initializeApp(firebaseConfig);
 
-const auth=getAuth(app);
 
-const db=getDatabase(app);
 
-/* ==========================================
-   LOGIN CHECK
-========================================== */
+
+const app = initializeApp(firebaseConfig);
+
+
+const auth = getAuth(app);
+
+
+const db = getDatabase(app);
+
+
+
+window.auth = auth;
+
+window.db = db;
+
+
+
+
+
+let currentUID = "";
+
+
+
+
+
+// LOGIN CHECK FIX
+
 
 onAuthStateChanged(auth,(user)=>{
 
-if(!user){
 
-location.href="index.html";
+if(user){
 
-return;
 
-}
+currentUID = user.uid;
 
-loadUser(user.uid);
 
-loadAnnouncement();
 
-loadOnline();
+console.log("LOGIN UID :",currentUID);
 
-loadBroadcast();
 
-loadTournament();
 
-updateOnlineStatus(user.uid);
+loadUser(currentUID);
 
-});
 
-/* ==========================================
-   USER DATA
-========================================== */
+loadMatches();
 
-function loadUser(uid){
 
-onValue(ref(db,"users/"+uid),(snap)=>{
-
-if(!snap.exists()) return;
-
-const data=snap.val();
-
-document.getElementById("walletAmount").innerHTML=
-"₹"+Math.floor(Number(data.wallet||0));
-
-document.getElementById("userName").innerHTML=
-"Hello "+(data.name||"Player");
-
-});
 
 }
 
-/* ==========================================
-   ANNOUNCEMENT
-========================================== */
+else{
 
-function loadAnnouncement(){
-
-const box=document.getElementById("announcement");
-
-if(!box) return;
-
-onValue(ref(db,"announcement"),(snap)=>{
-
-if(!snap.exists()) return;
-
-box.innerHTML="📢 "+snap.val();
-
-});
-
-}
-
-/* ==========================================
-   ONLINE PLAYERS
-========================================== */
-
-function loadOnline(){
-
-const online=document.getElementById("onlinePlayers");
-
-if(!online) return;
-
-onValue(ref(db,"onlinePlayers"),(snap)=>{
-
-if(!snap.exists()){
-
-online.innerHTML="0";
-
-return;
-
-}
-
-online.innerHTML=snap.val();
-
-});
-
-}
-
-/* ==========================================
-   BROADCAST
-========================================== */
-
-function loadBroadcast(){
-
-const card=document.getElementById("broadcastCard");
-
-const text=document.getElementById("broadcastBox");
-
-if(!card || !text) return;
-
-onValue(ref(db,"broadcast"),(snap)=>{
-
-if(!snap.exists()){
-
-card.style.display="none";
-
-return;
-
-}
-
-const data=snap.val();
-
-card.style.display="block";
-
-text.innerHTML=data.message||"";
-
-});
-
-}
-
-/* ==========================================
-   TOURNAMENT DATA
-========================================== */
-
-function loadTournament(){
-
-/* Duo */
-
-onValue(ref(db,"tournaments/duo"),(snap)=>{
-
-if(!snap.exists()) return;
-
-const d=snap.val();
-
-document.getElementById("duoEntry").innerHTML=
-"💰 Entry ₹"+d.entry;
-
-document.getElementById("duoPrize").innerHTML=
-"🏆 Prize ₹"+d.prize;
-
-document.getElementById("duoJoined").innerHTML=
-"👥 "+d.joined+"/25";
-
-});
-
-/* Squad */
-
-onValue(ref(db,"tournaments/squad"),(snap)=>{
-
-if(!snap.exists()) return;
-
-const d=snap.val();
-
-document.getElementById("squadEntry").innerHTML=
-"💰 Entry ₹"+d.entry;
-
-document.getElementById("squadPrize").innerHTML=
-"🏆 Prize ₹"+d.prize;
-
-document.getElementById("squadJoined").innerHTML=
-"👥 "+d.joined+"/25";
-
-});
-
-/* Championship */
-
-onValue(ref(db,"tournaments/tournament"),(snap)=>{
-
-if(!snap.exists()) return;
-
-const d=snap.val();
-
-document.getElementById("tourEntry").innerHTML=
-"💰 Entry ₹"+d.entry;
-
-document.getElementById("tourPrize").innerHTML=
-"🏆 Prize ₹"+d.prize;
-
-document.getElementById("tourJoined").innerHTML=
-"👥 "+d.joined+"/100";
-
-});
-
-}
-
-/* ==========================================
-   USER ONLINE
-========================================== */
-
-function updateOnlineStatus(uid){
-
-update(ref(db,"users/"+uid),{
-
-online:true,
-
-lastSeen:Date.now()
-
-});
-
-window.addEventListener("beforeunload",()=>{
-
-update(ref(db,"users/"+uid),{
-
-online:false,
-
-lastSeen:Date.now()
-
-});
-
-});
-
-}
-
-/* ==========================================
-   DAILY REWARD BUTTON
-========================================== */
-
-const reward=document.getElementById("claimReward");
-
-if(reward){
-
-reward.onclick=function(){
-
-alert("🎁 Daily Reward Coming Soon");
-
-};
-
-}
-
-/* ==========================================
-   AUTO REFRESH ANIMATION
-========================================== */
-
-setInterval(()=>{
-
-const wallet=document.getElementById("walletAmount");
-
-if(wallet){
-
-wallet.style.transform="scale(1.04)";
 
 setTimeout(()=>{
 
-wallet.style.transform="scale(1)";
 
-},200);
+if(!auth.currentUser){
+
+
+location.replace("index.html");
+
 
 }
 
-},10000);
+
+},3000);
+
+
+}
+
+
+
+});
+
+
+
+
+
+
+
+
+// LOAD USER NAME + WALLET
+
+
+function loadUser(uid){
+
+
+
+onValue(
+
+ref(db,"users/"+uid),
+
+(snapshot)=>{
+
+
+
+if(!snapshot.exists()){
+
+
+document.getElementById("playerName").innerHTML="Player";
+
+
+return;
+
+
+}
+
+
+
+const data = snapshot.val();
+
+
+
+
+
+document.getElementById("playerName").innerHTML =
+
+data.name || "Player";
+
+
+
+
+
+document.getElementById("walletAmount").innerHTML =
+
+Math.floor(data.wallet || 0);
+
+
+
+
+}
+
+
+
+);
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// LOAD MATCHES
+
+
+function loadMatches(){
+
+
+
+onValue(
+
+ref(db,"matches"),
+
+(snapshot)=>{
+
+
+const box =
+document.getElementById("matchesContainer");
+
+
+
+box.innerHTML="";
+
+
+
+
+if(!snapshot.exists()){
+
+
+box.innerHTML=`
+
+<div style="
+padding:40px;
+text-align:center;
+color:#94a3b8">
+
+No Upcoming Matches
+
+</div>
+
+`;
+
+return;
+
+
+}
+
+
+
+
+
+snapshot.forEach((child)=>{
+
+
+
+const id = child.key;
+
+
+const match = child.val();
+
+
+
+let booked =
+
+Number(match.booked || 0);
+
+
+
+let total =
+
+Number(match.total || 25);
+
+
+
+let percent =
+
+(total>0)
+
+?
+
+(booked/total)*100
+
+:
+
+0;
+
+
+
+
+
+let timer="";
+
+
+
+if(match.date && match.time){
+
+
+let start = new Date(
+
+match.date+" "+match.time
+
+);
+
+
+let now = new Date();
+
+
+let diff = start-now;
+
+
+
+if(diff>0){
+
+
+let h=Math.floor(diff/3600000);
+
+
+let m=Math.floor(
+(diff%3600000)/60000
+);
+
+
+
+timer =
+"⏰ "+h+"h "+m+"m";
+
+
+}
+
+else{
+
+
+timer="Started";
+
+
+}
+
+
+}
+
+
+
+
+
+box.innerHTML +=`
+
+
+<div class="match-card"
+
+onclick="openMatch('${id}')">
+
+
+<div class="match-image">
+
+
+<img src="${
+match.image && match.image.includes('pexels.com/photo/')
+?
+'https://images.pexels.com/photos/'+match.image.split('-').pop().replace('/','')+'/pexels-photo-'+match.image.split('-').pop().replace('/','')+'.jpeg'
+:
+(match.image || 'https://via.placeholder.com/700x350')
+}">
+
+
+<span class="mode">
+
+${(match.type || "SQUAD").toUpperCase()}
+
+</span>
+
+
+
+<span class="status">
+
+${timer}
+
+</span>
+
+
+
+<div class="overlay">
+
+
+<h1>
+
+${match.title || "BGMI MATCH"}
+
+</h1>
+
+
+<p>
+
+${match.map || "Erangel"}
+
+</p>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="match-info">
+
+
+<div class="info-box">
+
+
+<span>
+
+PRIZE
+
+</span>
+
+
+<h2>
+
+₹${match.prize || 0}
+
+</h2>
+
+
+</div>
+
+
+
+
+
+<div class="info-box">
+
+
+<span>
+
+ENTRY
+
+</span>
+
+
+<h2>
+
+₹${match.entry || 0}
+
+</h2>
+
+
+</div>
+
+
+
+
+
+<div class="info-box">
+
+
+<span>
+
+SLOTS
+
+</span>
+
+
+<h2>
+
+${booked}/${total}
+
+</h2>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<div class="progress">
+
+
+<div class="progress-fill"
+
+style="width:${percent}%">
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+`;
+
+
+
+});
+
+
+
+}
+
+
+);
+
+
+
+}
+
+
+
+
+
+
+
+// OPEN MATCH
+
+
+window.openMatch=function(id){
+
+
+location.href="match.html?id="+id;
+
+
+};
+
+
+
 
 </script>
-<!-- ==========================================
-        PART 8 - PREMIUM APP FEATURES
-========================================== -->
+<!-- ==========================
+PART 3
+MATCH LOAD + FILTER + BOTTOM NAV
+========================== -->
 
-<!-- Install App Button -->
-
-<button id="installApp" class="install-btn">
-
-📲 Install App
-
-</button>
-
-<!-- Internet Status -->
-
-<div id="networkStatus" class="network">
-
-🟢 Connected
-
-</div>
-
-<!-- Version -->
-
-<div class="version">
-
-Version 1.0.0
-
-</div>
 
 <style>
 
-/* ===============================
-INSTALL BUTTON
-=============================== */
-
-.install-btn{
+.bottomNav{
 
 position:fixed;
 
-left:18px;
+bottom:0;
+left:0;
+right:0;
 
-bottom:95px;
+height:75px;
 
-padding:14px 20px;
+max-width:500px;
 
-border:none;
+margin:auto;
 
-border-radius:35px;
+background:#111827;
 
-background:linear-gradient(135deg,#2563eb,#3b82f6);
+border-top:1px solid #ffffff15;
 
-color:#fff;
+display:flex;
 
-font-size:14px;
+justify-content:space-around;
 
-font-weight:700;
-
-box-shadow:0 15px 35px rgba(37,99,235,.35);
-
-display:none;
+align-items:center;
 
 z-index:9999;
 
 }
 
-/* ===============================
-NETWORK
-=============================== */
 
-.network{
+.navBtn{
 
-position:fixed;
+background:none;
 
-top:15px;
+border:none;
 
-left:50%;
+color:#94a3b8;
 
-transform:translateX(-50%);
+font-size:12px;
 
-padding:8px 18px;
+font-weight:700;
 
-border-radius:30px;
-
-background:#16a34a;
-
-font-size:13px;
-
-font-weight:bold;
-
-display:none;
-
-z-index:99999;
+height:70px;
 
 }
 
-/* ===============================
-VERSION
-=============================== */
 
-.version{
+.navBtn span{
+
+display:block;
+
+font-size:25px;
+
+margin-bottom:3px;
+
+}
+
+
+.navBtn.active{
+
+color:#22c55e;
+
+}
+
+
+.empty{
 
 text-align:center;
 
-padding:25px;
+padding:40px;
 
-font-size:13px;
-
-color:#64748b;
+color:#94a3b8;
 
 }
+
 
 </style>
 
-<script>
 
-/* =====================================
-PWA INSTALL
-===================================== */
 
-let deferredPrompt;
+<script type="module">
 
-window.addEventListener("beforeinstallprompt",(e)=>{
 
-e.preventDefault();
+import {
 
-deferredPrompt=e;
-
-document.getElementById("installApp").style.display="block";
-
-});
-
-document.getElementById("installApp").onclick=async()=>{
-
-if(!deferredPrompt) return;
-
-deferredPrompt.prompt();
-
-await deferredPrompt.userChoice;
-
-deferredPrompt=null;
-
-document.getElementById("installApp").style.display="none";
-
-};
-
-/* =====================================
-NETWORK STATUS
-===================================== */
-
-const network=document.getElementById("networkStatus");
-
-function showNetwork(msg,color){
-
-network.innerHTML=msg;
-
-network.style.background=color;
-
-network.style.display="block";
-
-setTimeout(()=>{
-
-network.style.display="none";
-
-},2500);
+ref,
+onValue
 
 }
 
-window.addEventListener("online",()=>{
+from
 
-showNetwork("🟢 Internet Connected","#16a34a");
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-});
 
-window.addEventListener("offline",()=>{
 
-showNetwork("🔴 No Internet","#dc2626");
 
-});
 
-/* =====================================
-SPLASH SCREEN
-===================================== */
+// MATCH LOAD
 
-setTimeout(()=>{
 
-const splash=document.getElementById("splash");
+function loadMatches(){
 
-if(splash){
 
-splash.style.opacity="0";
+const box=document.getElementById("matchesContainer");
 
-setTimeout(()=>{
 
-splash.remove();
+onValue(
 
-},500);
+ref(window.db,"matches"),
 
-}
+(snapshot)=>{
 
-},1800);
 
-/* =====================================
-CARD ANIMATION
-===================================== */
+box.innerHTML="";
 
-const observer=new IntersectionObserver((entries)=>{
 
-entries.forEach(entry=>{
 
-if(entry.isIntersecting){
+if(!snapshot.exists()){
 
-entry.target.animate([
 
-{
+box.innerHTML=
 
-opacity:0,
+`
+<div class="empty">
+No Upcoming Matches
+</div>
+`;
 
-transform:"translateY(40px)"
+return;
 
-},
-
-{
-
-opacity:1,
-
-transform:"translateY(0px)"
 
 }
 
-],{
 
-duration:600,
 
-fill:"forwards"
 
-});
+snapshot.forEach((child)=>{
 
-}
 
-});
+let id=child.key;
 
-});
 
-document.querySelectorAll(
+let match=child.val();
 
-".wallet,.hero,.tournament-card,.reward,.vip,.stat,.winner,.quick-card"
 
-).forEach(el=>{
 
-observer.observe(el);
+let booked=Number(match.booked || 0);
 
-});
+let total=Number(match.total || 25);
 
-/* =====================================
-LIVE CLOCK
-===================================== */
 
-setInterval(()=>{
+let percent=
 
-const now=new Date();
+(total>0)
 
-console.log(
+?
 
-"BGMI Dashboard Running : "+now.toLocaleTimeString()
+(booked/total)*100
 
+:
+
+0;
+
+
+
+
+let time="";
+
+
+
+if(match.date && match.time){
+
+
+let start=new Date(
+match.date+" "+match.time
 );
 
-},60000);
 
-/* =====================================
-BUTTON RIPPLE
-===================================== */
+let diff=start-new Date();
 
-document.querySelectorAll("button").forEach(btn=>{
 
-btn.addEventListener("click",function(e){
 
-const ripple=document.createElement("span");
+if(diff>0){
 
-const size=Math.max(this.clientWidth,this.clientHeight);
 
-ripple.style.width=size+"px";
+let h=Math.floor(diff/3600000);
 
-ripple.style.height=size+"px";
 
-ripple.style.left=e.offsetX-size/2+"px";
+let m=Math.floor(
+(diff%3600000)/60000
+);
 
-ripple.style.top=e.offsetY-size/2+"px";
 
-ripple.style.position="absolute";
+time="⏰ "+h+"h "+m+"m";
 
-ripple.style.borderRadius="50%";
-
-ripple.style.background="rgba(255,255,255,.35)";
-
-ripple.style.transform="scale(0)";
-
-ripple.style.animation="ripple .6s linear";
-
-this.style.position="relative";
-
-this.style.overflow="hidden";
-
-this.appendChild(ripple);
-
-setTimeout(()=>{
-
-ripple.remove();
-
-},600);
-
-});
-
-});
-
-const rippleStyle=document.createElement("style");
-
-rippleStyle.innerHTML=`
-
-@keyframes ripple{
-
-to{
-
-transform:scale(4);
-
-opacity:0;
 
 }
 
+else{
+
+time="Started";
+
 }
+
+
+}
+
+
+
+
+box.innerHTML +=
+
+
+`
+
+<div class="match-card"
+onclick="openMatch('${id}')">
+
+
+<div class="match-image">
+
+
+<img src="${match.image || 
+'https://via.placeholder.com/700x350'}">
+
+
+<div class="mode">
+
+${(match.type || "SQUAD").toUpperCase()}
+
+</div>
+
+
+<div class="status">
+
+${time}
+
+</div>
+
+
+<div class="overlay">
+
+
+<h1>
+
+${match.title || "BGMI MATCH"}
+
+</h1>
+
+
+<p>
+
+${match.map || "Erangel"}
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="match-info">
+
+
+<div class="info-box">
+
+<span>
+PRIZE
+</span>
+
+<h2>
+₹${match.prize || 0}
+</h2>
+
+</div>
+
+
+
+<div class="info-box">
+
+<span>
+ENTRY
+</span>
+
+<h2>
+₹${match.entry || 0}
+</h2>
+
+</div>
+
+
+
+<div class="info-box">
+
+<span>
+SLOTS
+</span>
+
+<h2>
+${booked}/${total}
+</h2>
+
+</div>
+
+
+
+</div>
+
+
+
+
+<div class="progress">
+
+
+<div class="progress-fill"
+
+style="width:${percent}%">
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
 
 `;
 
-document.head.appendChild(rippleStyle);
 
-/* =====================================
-WELCOME
-===================================== */
 
-setTimeout(()=>{
+});
 
-console.log("✅ Premium BGMI Dashboard Loaded Successfully");
 
-},2500);
+
+});
+
+
+}
+
+
+
+
+loadMatches();
+
+
+
+
+
+
+// OPEN MATCH
+
+
+window.openMatch=function(id){
+
+
+location.href=
+"match.html?id="+id;
+
+
+};
+
+
+
+
+
+
+// FILTER
+
+
+window.filterMatches=function(type,btn){
+
+
+document.querySelectorAll(".categoryBtn")
+
+.forEach(b=>{
+
+b.classList.remove("active");
+
+});
+
+
+
+btn.classList.add("active");
+
+
+
+document.querySelectorAll(".match-card")
+
+.forEach(card=>{
+
+
+let mode=
+
+card.querySelector(".mode")
+.innerText
+.toLowerCase();
+
+
+
+if(type=="all" || mode==type){
+
+
+card.style.display="block";
+
+
+}
+
+else{
+
+
+card.style.display="none";
+
+
+}
+
+
+});
+
+
+};
+
+
+
+</script>
+
+
+
+
+
+<!-- BOTTOM NAV -->
+
+
+<div class="bottomNav">
+
+
+<button class="navBtn active"
+
+onclick="location.href='dashboard.html'">
+
+<span>🏠</span>
+
+Home
+
+</button>
+
+
+
+<button class="navBtn"
+
+onclick="location.href='matches.html'">
+
+<span>🎮</span>
+
+Matches
+
+</button>
+
+
+
+
+<button class="navBtn"
+
+onclick="location.href='wallet.html'">
+
+<span>💰</span>
+
+Wallet
+
+</button>
+
+
+
+<button class="navBtn"
+
+onclick="location.href='profile.html'">
+
+<span>👤</span>
+
+Profile
+
+</button>
+
+
+</div>
+<!-- ==========================
+LAST PART
+USER LIVE UPDATE + CATEGORY FIX
+========================== -->
+
+
+<script type="module">
+
+
+import {
+
+ref,
+onValue
+
+}
+
+from
+
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+
+
+
+
+// WAIT FOR LOGIN USER
+
+
+function startUserData(){
+
+
+
+const user = window.auth.currentUser;
+
+
+
+if(!user){
+
+
+setTimeout(startUserData,500);
+
+return;
+
+
+}
+
+
+
+
+
+const uid=user.uid;
+
+
+
+
+// USER DATA LIVE
+
+
+
+onValue(
+
+ref(window.db,"users/"+uid),
+
+(snapshot)=>{
+
+
+if(!snapshot.exists()){
+
+
+document.getElementById("playerName").innerHTML="Player";
+
+
+return;
+
+
+}
+
+
+
+const data=snapshot.val();
+
+
+
+
+// NAME
+
+
+document.getElementById("playerName").innerHTML =
+
+data.name || "Player";
+
+
+
+
+// PHOTO
+
+
+if(data.photo){
+
+
+document.getElementById("profilePhoto").src=data.photo;
+
+
+}
+
+
+
+
+
+// WALLET
+
+
+let wallet=
+
+Number(data.wallet || 0);
+
+
+
+document.getElementById("walletAmount").innerHTML=
+
+Math.floor(wallet);
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+startUserData();
+
+
+
+
+
+
+
+
+
+// CATEGORY BUTTON AUTO FILTER
+
+
+
+document.querySelectorAll(".categoryBtn")
+
+.forEach(btn=>{
+
+
+btn.onclick=function(){
+
+
+
+document.querySelectorAll(".categoryBtn")
+
+.forEach(b=>{
+
+b.classList.remove("active");
+
+});
+
+
+
+this.classList.add("active");
+
+
+
+let type=this.innerText.toLowerCase();
+
+
+
+
+document.querySelectorAll(".match-card")
+
+.forEach(card=>{
+
+
+let mode=
+
+card.querySelector(".mode")
+
+.innerText
+
+.toLowerCase();
+
+
+
+
+if(type=="all"){
+
+
+card.style.display="block";
+
+
+}
+
+else if(mode==type){
+
+
+card.style.display="block";
+
+
+}
+
+else{
+
+
+card.style.display="none";
+
+
+}
+
+
+
+});
+
+
+
+};
+
+
+
+});
+
+
+
+
+
 
 </script>
 
 </body>
+
 </html>
