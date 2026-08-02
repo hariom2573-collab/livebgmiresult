@@ -1104,65 +1104,35 @@ return;
 
 
 // ADD PLAYER
-
-
 await set(
-
 ref(db,"matchPlayers/"+matchId+"/"+user.uid),
-
 {
-
-
 uid:user.uid,
-
 name:u.name || "Player",
-
 bgmiId:u.bgmiId || "-",
-
 joinedAt:Date.now()
-
 }
-
-
 );
-
-
-
-
 
 
 // DEDUCT WALLET
-
-
 await set(
-
 ref(db,"users/"+user.uid+"/wallet"),
-
 Number(u.wallet)-Number(match.entry)
-
 );
-
-
-
 
 
 // UPDATE BOOKED
-
-
 await set(
-
 ref(db,"matches/"+matchId+"/booked"),
-
 Number(match.booked || 0)+1
-
 );
 
 
-
-
+// SUCCESS
 alert("Match Joined Successfully");
-document.getElementById("joinBtn").style.display="none";
 
+document.getElementById("joinBtn").style.display="none";
 
 openRoom(match);
 
@@ -1300,29 +1270,20 @@ ref(db,"matchPlayers/"+matchId+"/"+uid),
 
 if(player.exists()){
 
+openRoom(match);
 
+}else{
 
 document.getElementById("roomLocked").style.display="block";
-
-
 document.getElementById("roomData").style.display="none";
 
-
-
 document.getElementById("roomLocked").innerHTML=`
-
 ⚠️ Aapne ye match join nahi kiya hai.
-
 <br><br>
-
 Room details sirf joined players ke liye hai.
-
 `;
 
-
-
 }
-
 
 
 }
@@ -1339,17 +1300,7 @@ Room details sirf joined players ke liye hai.
 
 );
 
-
-
 }
-
-
-
-
-
-
-
-
 
 
 function openRoom(match){
