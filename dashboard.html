@@ -564,7 +564,56 @@ z-index:-1;
 
 
 </head>
+<!-- Welcome Popup -->
+<div id="welcomePopup" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.75);
+z-index:99999;
+justify-content:center;
+align-items:center;
+">
 
+<div style="
+width:90%;
+max-width:350px;
+background:#111827;
+padding:25px;
+border-radius:18px;
+text-align:center;
+border:2px solid #22c55e;
+">
+
+<h2 style="color:#22c55e;margin-bottom:10px;">
+🎉 Welcome
+</h2>
+
+<p style="color:#fff;font-size:15px;line-height:24px;">
+Welcome to <b>BGMI ESPORTS</b><br><br>
+Register for tournaments, win exciting prizes and enjoy your gaming journey.
+</p>
+
+<button onclick="closeWelcome()" style="
+margin-top:20px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#22c55e;
+color:#000;
+font-weight:700;
+font-size:16px;
+cursor:pointer;
+">
+Let's Go 🚀
+</button>
+
+</div>
+</div>
 
 <body>
 
@@ -581,96 +630,60 @@ z-index:-1;
 
 <div class="header">
 
+    <div class="userBox">
+        <div class="userInfo">
+            <h2 id="playerName"></h2>
+         
+        </div>
+    </div>
 
-<div class="userBox">
+    <div style="display:flex;align-items:center;gap:10px;">
 
+        <button onclick="location.href='help.html'" style="
+        background:#111827;
+        color:#22c55e;
+        border:1px solid rgba(255,255,255,.1);
+        border-radius:25px;
+        padding:10px 16px;
+        font-weight:700;
+        cursor:pointer;">
+            ❓ Help
+        </button>
 
-<div class="userInfo">
+        <div class="walletBox">
+            ₹<span id="walletAmount">0</span>
+        </div>
 
-
-<h2 id="playerName">
-
-Loading...
-
-</h2>
-
-
-<p>
-
-BGMI Player
-
-</p>
-
-
-</div>
-
-
-</div>
-
-
-
-
-<div class="walletBox">
-
-₹<span id="walletAmount">
-
-0
-
-</span>
-
+    </div>
 
 </div>
-
-
-</div>
-
-
-
-
 
 <!-- CATEGORY -->
 
 
 <div class="categoryBar">
 
-
-<button class="categoryBtn active">
-
+<button class="categoryBtn active" onclick="filterMatches('all',this)">
 ALL
-
 </button>
 
-
-<button class="categoryBtn">
-
+<button class="categoryBtn" onclick="filterMatches('solo',this)">
 SOLO
-
 </button>
 
-
-<button class="categoryBtn">
-
+<button class="categoryBtn" onclick="filterMatches('duo',this)">
 DUO
-
 </button>
 
-
-<button class="categoryBtn">
-
+<button class="categoryBtn" onclick="filterMatches('squad',this)">
 SQUAD
-
 </button>
 
-
-<button class="categoryBtn">
-
+<button class="categoryBtn" onclick="filterMatches('tdm',this)">
 TDM
-
 </button>
-
 
 </div>
-
 
 
 
@@ -1064,7 +1077,7 @@ box.innerHTML +=`
 
 
 <div class="match-card"
-
+data-mode="${(match.type || 'SQUAD').toLowerCase()}"
 onclick="openMatch('${id}')">
 
 
@@ -1361,338 +1374,59 @@ from
 
 
 
-// MATCH LOAD
-
-
-function loadMatches(){
-
-
-const box=document.getElementById("matchesContainer");
-
-
-onValue(
-
-ref(window.db,"matches"),
-
-(snapshot)=>{
-
-
-box.innerHTML="";
-
-
-
-if(!snapshot.exists()){
-
-
-box.innerHTML=
-
-`
-<div class="empty">
-No Upcoming Matches
-</div>
-`;
-
-return;
-
-
-}
-
-
-
-
-snapshot.forEach((child)=>{
-
-
-let id=child.key;
-
-
-let match=child.val();
-
-
-
-let booked=Number(match.booked || 0);
-
-let total=Number(match.total || 25);
-
-
-let percent=
-
-(total>0)
-
-?
-
-(booked/total)*100
-
-:
-
-0;
-
-
-
-
-let time="";
-
-
-
-if(match.date && match.time){
-
-
-let start=new Date(
-match.date+" "+match.time
-);
-
-
-let diff=start-new Date();
-
-
-
-if(diff>0){
-
-
-let h=Math.floor(diff/3600000);
-
-
-let m=Math.floor(
-(diff%3600000)/60000
-);
-
-
-time="⏰ "+h+"h "+m+"m";
-
-
-}
-
-else{
-
-time="Started";
-
-}
-
-
-}
-
-
-
-
-box.innerHTML +=
-
-
-`
-
-<div class="match-card"
-onclick="openMatch('${id}')">
-
-
-<div class="match-image">
-
-
-<img src="${match.image || 
-'https://via.placeholder.com/700x350'}">
-
-
-<div class="mode">
-
-${(match.type || "SQUAD").toUpperCase()}
-
-</div>
-
-
-<div class="status">
-
-${time}
-
-</div>
-
-
-<div class="overlay">
-
-
-<h1>
-
-${match.title || "BGMI MATCH"}
-
-</h1>
-
-
-<p>
-
-${match.map || "Erangel"}
-
-</p>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="match-info">
-
-
-<div class="info-box">
-
-<span>
-PRIZE
-</span>
-
-<h2>
-₹${match.prize || 0}
-</h2>
-
-</div>
-
-
-
-<div class="info-box">
-
-<span>
-ENTRY
-</span>
-
-<h2>
-₹${match.entry || 0}
-</h2>
-
-</div>
-
-
-
-<div class="info-box">
-
-<span>
-SLOTS
-</span>
-
-<h2>
-${booked}/${total}
-</h2>
-
-</div>
-
-
-
-</div>
-
-
-
-
-<div class="progress">
-
-
-<div class="progress-fill"
-
-style="width:${percent}%">
-
-</div>
-
-
-</div>
-
-
-
-</div>
-
-
-`;
-
-
-
-});
-
-
-
-});
-
-
-}
-
-
-
-
-loadMatches();
-
-
-
-
-
-
-// OPEN MATCH
-
-
-window.openMatch=function(id){
-
-
-location.href=
-"match.html?id="+id;
-
-
-};
-
-
-
-
-
 
 // FILTER
 
+window.filterMatches = function(type, btn){
 
-window.filterMatches=function(type,btn){
+    document.querySelectorAll(".categoryBtn").forEach(b=>{
+        b.classList.remove("active");
+    });
 
+    btn.classList.add("active");
 
-document.querySelectorAll(".categoryBtn")
+    document.querySelectorAll(".match-card").forEach(card=>{
 
-.forEach(b=>{
+        const mode = card.dataset.mode;
 
-b.classList.remove("active");
+        if(type === "all" || mode === type){
+            card.style.display = "block";
+        }else{
+            card.style.display = "none";
+        }
 
-});
-
-
-
-btn.classList.add("active");
-
-
-
-document.querySelectorAll(".match-card")
-
-.forEach(card=>{
-
-
-let mode=
-
-card.querySelector(".mode")
-.innerText
-.toLowerCase();
-
-
-
-if(type=="all" || mode==type){
-
-
-card.style.display="block";
-
-
-}
-
-else{
-
-
-card.style.display="none";
-
-
-}
-
-
-});
-
+    });
 
 };
 
+</script>
+<script>
+function showWelcome() {
 
+    const user = window.auth?.currentUser;
+
+    if (!user) {
+        setTimeout(showWelcome, 500);
+        return;
+    }
+
+    const key = "welcome_" + user.uid;
+
+    if (!localStorage.getItem(key)) {
+
+        document.getElementById("welcomePopup").style.display = "flex";
+
+        localStorage.setItem(key, "shown");
+    }
+}
+
+function closeWelcome() {
+    document.getElementById("welcomePopup").style.display = "none";
+}
+
+window.addEventListener("load", () => {
+    setTimeout(showWelcome, 1000);
+});
 
 </script>
 
@@ -1894,33 +1628,6 @@ startUserData();
 
 
 
-
-
-
-
-// CATEGORY BUTTON AUTO FILTER
-
-
-
-document.querySelectorAll(".categoryBtn")
-
-.forEach(btn=>{
-
-
-btn.onclick=function(){
-
-
-
-document.querySelectorAll(".categoryBtn")
-
-.forEach(b=>{
-
-b.classList.remove("active");
-
-});
-
-
-
 this.classList.add("active");
 
 
@@ -1974,13 +1681,6 @@ card.style.display="none";
 
 });
 
-
-
-};
-
-
-
-});
 
 
 
