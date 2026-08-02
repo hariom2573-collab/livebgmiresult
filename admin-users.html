@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+<meta name="theme-color" content="#050B18">
+
+<title>Manage Users</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+background:#050B18;
+color:#fff;
+overflow-x:hidden;
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at top left,#22c55e33,transparent 35%),
+radial-gradient(circle at top right,#2563eb33,transparent 35%),
+#050B18;
+z-index:-1;
+}
+
+.app{
+max-width:500px;
+margin:auto;
+padding:18px;
+padding-bottom:40px;
+}
+
+/* HEADER */
+
+.header{
+background:#111827;
+border-radius:22px;
+padding:22px;
+margin-bottom:18px;
+border:1px solid #ffffff15;
+}
+
+.header h1{
+font-size:24px;
+font-weight:800;
+color:#22c55e;
+}
+
+.header p{
+font-size:13px;
+color:#94a3b8;
+margin-top:5px;
+}
+
+/* SEARCH */
+
+.searchBox{
+margin-bottom:18px;
+}
+
+.searchBox input{
+width:100%;
+height:52px;
+background:#111827;
+border:1px solid #ffffff15;
+border-radius:14px;
+padding:0 16px;
+font-size:15px;
+color:#fff;
+outline:none;
+}
+
+.searchBox input::placeholder{
+color:#94a3b8;
+}
+
+/* STATS */
+
+.stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-bottom:20px;
+}
+
+.stat{
+background:#111827;
+border-radius:18px;
+padding:18px;
+border:1px solid #ffffff10;
+}
+
+.stat span{
+display:block;
+font-size:12px;
+color:#94a3b8;
+}
+
+.stat h2{
+margin-top:6px;
+font-size:28px;
+color:#22c55e;
+}
+
+/* USER CARD */
+
+.userCard{
+background:#111827;
+border-radius:22px;
+padding:18px;
+margin-bottom:16px;
+border:1px solid #ffffff12;
+}
+
+.top{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:15px;
+}
+
+.left{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.avatar{
+width:60px;
+height:60px;
+border-radius:50%;
+background:#1f2937;
+object-fit:cover;
+}
+
+.name{
+font-size:18px;
+font-weight:700;
+}
+
+.uid{
+font-size:12px;
+color:#94a3b8;
+margin-top:2px;
+word-break:break-all;
+}
+
+.status{
+padding:6px 14px;
+border-radius:30px;
+font-size:12px;
+font-weight:700;
+}
+
+.active{
+background:#22c55e;
+color:#000;
+}
+
+.blocked{
+background:#ef4444;
+color:#fff;
+}
+
+.infoRow{
+display:flex;
+justify-content:space-between;
+padding:8px 0;
+border-bottom:1px solid #ffffff10;
+}
+
+.infoRow:last-child{
+border-bottom:none;
+}
+
+.label{
+color:#94a3b8;
+font-size:13px;
+}
+
+.value{
+font-weight:700;
+font-size:14px;
+}
+
+/* BUTTONS */
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:18px;
+}
+
+.btn{
+height:48px;
+border:none;
+border-radius:12px;
+font-size:14px;
+font-weight:700;
+cursor:pointer;
+}
+
+.green{
+background:#22c55e;
+color:#000;
+}
+
+.red{
+background:#ef4444;
+color:#fff;
+}
+
+.blue{
+background:#2563eb;
+color:#fff;
+}
+
+.orange{
+background:#f59e0b;
+color:#000;
+}
+
+.full{
+grid-column:span 2;
+}
+
+.empty{
+text-align:center;
+padding:50px 20px;
+color:#94a3b8;
+font-size:15px;
+}
+
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:#000a;
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:999;
+}
+
+.modalBox{
+width:100%;
+max-width:400px;
+background:#111827;
+border-radius:22px;
+padding:22px;
+}
+
+.modalBox h2{
+margin-bottom:18px;
+font-size:22px;
+}
+
+.modalBox input{
+width:100%;
+height:50px;
+border:none;
+outline:none;
+background:#1f2937;
+color:#fff;
+padding:0 15px;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+.modalBtns{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="header">
+
+<h1>
+👥 Manage Users
+</h1>
+
+<p>
+Wallet • Block • Delete • Search
+</p>
+
+</div>
+
+<div class="searchBox">
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search Name / BGMI ID / Mobile">
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+
+<span>Total Users</span>
+
+<h2 id="totalUsers">
+0
+</h2>
+
+</div>
+
+<div class="stat">
+
+<span>Blocked Users</span>
+
+<h2 id="blockedUsers">
+0
+</h2>
+
+</div>
+
+</div>
+
+<div id="usersContainer">
+
+<div class="empty">
+
+Loading Users...
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Wallet Modal -->
+
+<div class="modal"
+id="walletModal">
+
+<div class="modalBox">
+
+<h2>
+Wallet Control
+</h2>
+
+<input
+type="number"
+id="walletAmount"
+placeholder="Enter Amount">
+
+<div class="modalBtns">
+
+<button
+class="btn green"
+id="addWalletBtn">
+
+Add
+
+</button>
+
+<button
+class="btn blue"
+id="minusWalletBtn">
+
+Minus
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- Delete Modal -->
+
+<div class="modal"
+id="deleteModal">
+
+<div class="modalBox">
+
+<h2>
+Delete User?
+</h2>
+
+<p style="margin-bottom:20px;color:#94a3b8">
+
+This action cannot be undone.
+
+</p>
+
+
+<div class="modalBtns">
+
+<button
+class="btn red"
+id="confirmDelete">
+
+Delete
+
+</button>
+
+
+<button
+class="btn blue"
+onclick="document.getElementById('deleteModal').style.display='none'">
+
+Cancel
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+onValue,
+update,
+remove
+}
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+const firebaseConfig={
+
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+authDomain:"incoinpaysliveearning.firebaseapp.com",
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+projectId:"incoinpaysliveearning",
+storageBucket:"incoinpaysliveearning.firebasestorage.app",
+messagingSenderId:"971873814750",
+appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
+
+};
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+const ADMIN_UID="VIAP56vYwndWPhJxktn0lRPTWnS2";
+let allUsers = [];
+
+onAuthStateChanged(auth,(user)=>{
+
+if(!user){
+location.replace("admin.html");
+return;
+}
+
+if(user.uid!==ADMIN_UID){
+alert("Access Denied");
+location.replace("index.html");
+return;
+}
+
+loadUsers();
+
+
+});
+function renderUsers(list){
+
+const box=document.getElementById("usersContainer");
+box.innerHTML="";
+
+if(list.length===0){
+box.innerHTML='<div class="empty">No User Found</div>';
+return;
+}
+
+list.forEach(data=>{
+
+const uid=data.uid;
+
+box.innerHTML+=`
+
+<div class="userCard">
+
+<div class="top">
+
+<div class="left">
+
+<img class="avatar"
+src="${data.photo || 'https://ui-avatars.com/api/?name='+encodeURIComponent(data.name||'User')}">
+
+<div>
+<div class="name">${data.name || "Player"}</div>
+<div class="uid">${uid}</div>
+</div>
+
+</div>
+
+<div class="status ${data.blocked ? 'blocked':'active'}">
+${data.blocked ? 'Blocked':'Active'}
+</div>
+
+</div>
+
+<div class="infoRow">
+<span class="label">Wallet</span>
+<span class="value">₹${Math.floor(data.wallet||0)}</span>
+</div>
+
+<div class="grid">
+
+<button class="btn green" onclick="walletControl('${uid}',${data.wallet||0})">
+💰 Wallet
+</button>
+
+<button class="btn orange" onclick="toggleBlock('${uid}',${data.blocked})">
+${data.blocked ? "✅ Unblock" : "🚫 Block"}
+</button>
+
+<button class="btn red full" onclick="deleteUser('${uid}')">
+🗑 Delete User
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+function loadUsers(){
+
+const box=document.getElementById("usersContainer");
+
+onValue(ref(db,"users"),(snapshot)=>{
+
+box.innerHTML="";
+allUsers = [];
+
+if(!snapshot.exists()){
+
+box.innerHTML='<div class="empty">No Users Found</div>';
+
+return;
+
+}
+
+let total=0;
+let blocked=0;
+
+snapshot.forEach((child)=>{
+
+total++;
+
+const uid=child.key;
+const data=child.val();
+allUsers.push({
+    uid: uid,
+    ...data
+});
+
+if(data.blocked) blocked++;
+
+});
+
+document.getElementById("totalUsers").innerHTML = total;
+document.getElementById("blockedUsers").innerHTML = blocked;
+
+renderUsers(allUsers);
+
+});
+
+}
+
+let selectedUID="";
+
+window.walletControl=function(uid,wallet){
+
+selectedUID=uid;
+
+document.getElementById("walletAmount").value=wallet;
+
+document.getElementById("walletModal").style.display="flex";
+
+};
+
+document.getElementById("addWalletBtn").onclick=async()=>{
+
+const amount=Number(document.getElementById("walletAmount").value);
+
+await update(ref(db,"users/"+selectedUID),{
+wallet:amount
+});
+
+document.getElementById("walletModal").style.display="none";
+
+};
+
+document.getElementById("minusWalletBtn").onclick=async()=>{
+
+await update(ref(db,"users/"+selectedUID),{
+wallet:0
+});
+
+document.getElementById("walletModal").style.display="none";
+
+};
+
+window.toggleBlock=async function(uid,blocked){
+
+await update(ref(db,"users/"+uid),{
+blocked:!blocked
+});
+
+};
+
+window.deleteUser=async function(uid){
+
+if(!confirm("Delete User?")) return;
+
+await remove(ref(db,"users/"+uid));
+
+};
+document.getElementById("searchInput").addEventListener("input",function(){
+
+const keyword=this.value.toLowerCase();
+
+const filtered=allUsers.filter(user=>{
+
+return (
+(user.name||"").toLowerCase().includes(keyword) ||
+(user.uid||"").toLowerCase().includes(keyword)
+);
+
+});
+
+renderUsers(filtered);
+
+});
+</script>
+
+
+</body>
+</html>
