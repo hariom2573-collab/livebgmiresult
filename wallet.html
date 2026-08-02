@@ -986,52 +986,25 @@ ADMIN QR + UPI
 
 function loadAdminPayment(){
 
+onValue(ref(db,"settings/payment"),(snapshot)=>{
 
-
-onValue(
-ref(db,"settings/payment"),
-(snapshot)=>{
-
-
-if(!snapshot.exists())
-return;
-
-
+if(!snapshot.exists()){
+    document.getElementById("adminUPI").innerHTML="UPI Not Found";
+    return;
+}
 
 const data=snapshot.val();
 
+const upi = data.upi || "";
 
+document.getElementById("adminUPI").innerHTML = "UPI : " + upi;
 
-
-if(data.qr){
-
-
-document.getElementById("adminQR")
-.src=data.qr;
-
-
-}
-
-
-
-
-if(data.upi){
-
-
-document.getElementById("adminUPI")
-.innerHTML=
-"UPI : "+data.upi;
-
-
-
-}
-
-
-
+// Auto Generate QR
+document.getElementById("adminQR").src =
+"https://quickchart.io/qr?size=250&text=" +
+encodeURIComponent("upi://pay?pa=" + upi);
 
 });
-
-
 
 }
 
