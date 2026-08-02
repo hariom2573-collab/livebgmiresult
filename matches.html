@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+<meta name="theme-color" content="#050B18">
+
+<title>BGMI Matches</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+-webkit-tap-highlight-color:transparent;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+
+background:#050B18;
+color:#fff;
+overflow-x:hidden;
+
+}
+
+/* Background */
+
+body::before{
+
+content:"";
+position:fixed;
+inset:0;
+
+background:
+
+radial-gradient(circle at top left,
+rgba(34,197,94,.18),
+transparent 35%),
+
+radial-gradient(circle at top right,
+rgba(37,99,235,.18),
+transparent 35%),
+
+radial-gradient(circle at bottom,
+rgba(168,85,247,.15),
+transparent 40%),
+
+#050B18;
+
+z-index:-10;
+
+}
+
+/* Glow */
+
+.glow{
+
+position:fixed;
+border-radius:50%;
+filter:blur(90px);
+opacity:.45;
+z-index:-9;
+animation:moveGlow 10s linear infinite alternate;
+
+}
+
+.glow1{
+
+width:230px;
+height:230px;
+background:#22c55e;
+top:-80px;
+left:-80px;
+
+}
+
+.glow2{
+
+width:220px;
+height:220px;
+background:#2563eb;
+right:-80px;
+top:120px;
+animation-delay:2s;
+
+}
+
+.glow3{
+
+width:220px;
+height:220px;
+background:#9333ea;
+left:35%;
+bottom:-70px;
+animation-delay:4s;
+
+}
+
+@keyframes moveGlow{
+
+100%{
+
+transform:translate(40px,40px);
+
+}
+
+}
+
+/* Splash */
+
+#splash{
+
+position:fixed;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+background:#050B18;
+z-index:999999;
+
+}
+
+.logo{
+
+width:120px;
+height:120px;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:55px;
+
+background:linear-gradient(135deg,#16a34a,#22c55e);
+
+box-shadow:
+
+0 0 40px rgba(34,197,94,.55),
+
+0 0 80px rgba(34,197,94,.20);
+
+animation:pulse 1.5s infinite;
+
+}
+
+@keyframes pulse{
+
+50%{
+
+transform:scale(1.08);
+
+}
+
+}
+
+.logoTitle{
+
+margin-top:22px;
+font-size:28px;
+font-weight:800;
+
+}
+
+.logoSub{
+
+margin-top:8px;
+font-size:13px;
+color:#94a3b8;
+
+}
+
+.app{
+
+display:none;
+width:100%;
+max-width:500px;
+margin:auto;
+padding-bottom:100px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="glow glow1"></div>
+<div class="glow glow2"></div>
+<div class="glow glow3"></div>
+
+<div id="splash">
+
+<div class="logo">
+🎮
+</div>
+
+<div class="logoTitle">
+BGMI MATCHES
+</div>
+
+<div class="logoSub">
+Loading Matches...
+</div>
+
+</div>
+
+<div class="app" id="app">
+    <!-- ==========================
+PART 1B
+HEADER + TABS + FILTER
+========================== -->
+
+<style>
+
+.header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px;
+
+}
+
+.profile{
+
+display:flex;
+align-items:center;
+gap:12px;
+
+}
+
+.avatar{
+
+width:58px;
+height:58px;
+border-radius:50%;
+overflow:hidden;
+border:2px solid #22c55e;
+background:#1e293b;
+
+}
+
+.avatar img{
+
+width:100%;
+height:100%;
+object-fit:cover;
+
+}
+
+.userInfo h2{
+
+font-size:19px;
+font-weight:700;
+
+}
+
+.userInfo p{
+
+font-size:12px;
+color:#94a3b8;
+margin-top:4px;
+
+}
+
+.walletBox{
+
+display:flex;
+align-items:center;
+gap:8px;
+padding:10px 16px;
+border-radius:30px;
+background:#111827;
+border:1px solid rgba(255,255,255,.08);
+font-weight:700;
+color:#22c55e;
+
+}
+
+.tabs{
+
+display:flex;
+gap:12px;
+padding:0 18px;
+margin-top:10px;
+overflow-x:auto;
+
+}
+
+.tabs::-webkit-scrollbar{
+
+display:none;
+
+}
+
+.tabBtn{
+
+flex:0 0 auto;
+padding:11px 20px;
+border:none;
+border-radius:30px;
+background:#111827;
+color:#fff;
+font-size:14px;
+font-weight:700;
+cursor:pointer;
+
+}
+
+.tabBtn.active{
+
+background:#22c55e;
+color:#000;
+
+}
+
+.categoryBar{
+
+display:flex;
+gap:10px;
+padding:18px;
+overflow-x:auto;
+
+}
+
+.categoryBar::-webkit-scrollbar{
+
+display:none;
+
+}
+
+.categoryBtn{
+
+flex:0 0 auto;
+padding:10px 18px;
+border:none;
+border-radius:30px;
+background:#111827;
+color:#fff;
+font-weight:700;
+cursor:pointer;
+
+}
+
+.categoryBtn.active{
+
+background:#22c55e;
+color:#000;
+
+}
+
+.sectionTitle{
+
+padding:0 18px;
+margin-top:5px;
+margin-bottom:15px;
+font-size:22px;
+font-weight:700;
+
+}
+
+</style>
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="profile">
+
+<div class="avatar">
+
+<img
+id="profilePhoto"
+src="https://i.imgur.com/6VBx3io.png">
+
+</div>
+
+<div class="userInfo">
+
+<h2 id="playerName">
+Loading...
+</h2>
+
+<p id="playerEmail">
+Loading...
+</p>
+
+</div>
+
+</div>
+
+<div class="walletBox">
+
+💰 ₹<span id="walletAmount">0</span>
+
+</div>
+
+</div>
+
+<!-- MATCH STATUS -->
+
+<div class="tabs">
+
+<button
+class="tabBtn active"
+onclick="changeStatus('upcoming',this)">
+Upcoming
+</button>
+
+<button
+class="tabBtn"
+onclick="changeStatus('live',this)">
+Live
+</button>
+
+<button
+class="tabBtn"
+onclick="changeStatus('completed',this)">
+Completed
+</button>
+
+</div>
+
+<!-- CATEGORY -->
+
+<div class="categoryBar">
+
+<button
+class="categoryBtn active"
+onclick="filterCategory('all',this)">
+ALL
+</button>
+
+<button
+class="categoryBtn"
+onclick="filterCategory('solo',this)">
+SOLO
+</button>
+
+<button
+class="categoryBtn"
+onclick="filterCategory('duo',this)">
+DUO
+</button>
+
+<button
+class="categoryBtn"
+onclick="filterCategory('squad',this)">
+SQUAD
+</button>
+
+<button
+class="categoryBtn"
+onclick="filterCategory('tdm',this)">
+TDM
+</button>
+
+</div>
+
+<h2 class="sectionTitle">
+
+🔥 BGMI Matches
+
+</h2>
+
+<div id="matchesContainer">
+
+</div>
+
+<script>
+
+let currentStatus="upcoming";
+
+let currentCategory="all";
+
+function changeStatus(status,btn){
+
+currentStatus=status;
+
+document.querySelectorAll(".tabBtn")
+.forEach(x=>x.classList.remove("active"));
+
+btn.classList.add("active");
+
+applyFilter();
+
+}
+
+function filterCategory(type,btn){
+
+currentCategory=type;
+
+document.querySelectorAll(".categoryBtn")
+.forEach(x=>x.classList.remove("active"));
+
+btn.classList.add("active");
+
+applyFilter();
+
+}
+
+</script>
+<!-- ==========================
+PART 1C
+MATCH CARD + FILTER SYSTEM
+========================== -->
+
+<style>
+
+.matchCard{
+
+margin:18px;
+background:#111827;
+border-radius:22px;
+overflow:hidden;
+border:1px solid rgba(255,255,255,.08);
+display:none;
+box-shadow:0 15px 30px rgba(0,0,0,.25);
+
+}
+
+.matchCard.show{
+
+display:block;
+
+}
+
+.matchBanner{
+
+width:100%;
+height:190px;
+position:relative;
+overflow:hidden;
+
+}
+
+.matchBanner img{
+
+width:100%;
+height:100%;
+object-fit:cover;
+
+}
+
+.bannerOverlay{
+
+position:absolute;
+left:0;
+right:0;
+bottom:0;
+padding:16px;
+
+background:linear-gradient(
+
+transparent,
+
+rgba(0,0,0,.88)
+
+);
+
+}
+
+.bannerOverlay h2{
+
+font-size:21px;
+font-weight:700;
+
+}
+
+.bannerOverlay p{
+
+margin-top:5px;
+font-size:13px;
+color:#d1d5db;
+
+}
+
+.matchBody{
+
+padding:18px;
+
+}
+
+.matchRow{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin:12px 0;
+
+}
+
+.matchRow span{
+
+color:#9ca3af;
+font-size:14px;
+
+}
+
+.matchRow b{
+
+font-size:15px;
+
+}
+
+.progress{
+
+height:8px;
+border-radius:30px;
+background:#1f2937;
+overflow:hidden;
+margin:18px 0;
+
+}
+
+.progressFill{
+
+height:100%;
+width:0%;
+background:#22c55e;
+
+}
+
+.joinBtn{
+
+width:100%;
+height:50px;
+border:none;
+border-radius:14px;
+background:#22c55e;
+color:#000;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+transition:.25s;
+
+}
+
+.joinBtn:hover{
+
+transform:scale(1.02);
+
+}
+
+.emptyBox{
+
+padding:60px 20px;
+text-align:center;
+color:#94a3b8;
+
+}
+
+</style>
+
+<script>
+
+function applyFilter(){
+
+document.querySelectorAll(".matchCard").forEach(card=>{
+
+const status=card.dataset.status;
+
+const category=card.dataset.type;
+
+let visible=true;
+
+if(currentStatus!=="all"){
+
+visible=status===currentStatus;
+
+}
+
+if(currentCategory!=="all"){
+
+visible=visible && category===currentCategory;
+
+}
+
+card.classList.toggle("show",visible);
+
+});
+
+}
+
+</script>
+<!-- ==========================
+PART 2A
+FIREBASE + LOGIN + PROFILE
+========================== -->
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+getAuth,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+getDatabase,
+ref,
+onValue
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+/* Firebase Config */
+
+const firebaseConfig={
+
+apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+
+authDomain:"incoinpaysliveearning.firebaseapp.com",
+
+databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+
+projectId:"incoinpaysliveearning",
+
+storageBucket:"incoinpaysliveearning.firebasestorage.app",
+
+messagingSenderId:"971873814750",
+
+appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
+
+};
+
+const app=initializeApp(firebaseConfig);
+
+const auth=getAuth(app);
+
+const db=getDatabase(app);
+
+let currentUser=null;
+
+/* Login Check */
+
+onAuthStateChanged(auth,(user)=>{
+
+if(!user){
+
+location.href="index.html";
+
+return;
+
+}
+
+currentUser=user;
+
+loadProfile(user.uid);
+
+});
+
+/* Load Profile */
+
+function loadProfile(uid){
+
+onValue(ref(db,"users/"+uid),(snap)=>{
+
+if(!snap.exists()) return;
+
+const data=snap.val();
+
+document.getElementById("playerName").innerHTML=
+data.name || "Player";
+
+document.getElementById("playerEmail").innerHTML=
+data.email || "";
+
+document.getElementById("walletAmount").innerHTML=
+Math.floor(Number(data.wallet || 0));
+
+if(data.photo){
+
+document.getElementById("profilePhoto").src=data.photo;
+
+}
+
+});
+
+}
+/* ==========================
+PART 2B
+LOAD MATCHES FROM FIREBASE
+========================== */
+
+onValue(ref(db,"matches"),(snap)=>{
+
+const container=document.getElementById("matchesContainer");
+
+container.innerHTML="";
+
+if(!snap.exists()){
+
+container.innerHTML=`
+<div class="emptyBox">
+No Matches Available
+</div>
+`;
+
+return;
+
+}
+
+snap.forEach((item)=>{
+
+const m=item.val();
+
+const booked=Number(m.booked || 0);
+const total=Number(m.total || 100);
+
+const percent=Math.min((booked/total)*100,100);
+
+container.innerHTML+=`
+
+<div class="matchCard show"
+
+data-status="${m.status || 'upcoming'}"
+
+data-type="${m.type || 'solo'}">
+
+<div class="matchBanner">
+
+<img src="${
+match.image && match.image.includes('pexels.com/photo/')
+?
+'https://images.pexels.com/photos/'+match.image.split('-').pop().replace('/','')+'/pexels-photo-'+match.image.split('-').pop().replace('/','')+'.jpeg'
+:
+(match.image || 'https://via.placeholder.com/700x350')
+}">
+
+<div class="bannerOverlay">
+
+<h2>${m.title || 'BGMI MATCH'}</h2>
+
+<p>${m.date || ''} • ${m.time || ''}</p>
+
+</div>
+
+</div>
+
+<div class="matchBody">
+
+<div class="matchRow">
+<span>Mode</span>
+<b>${(m.type || "solo").toUpperCase()}</b>
+</div>
+
+<div class="matchRow">
+<span>Entry Fee</span>
+<b>₹${m.entry || 0}</b>
+</div>
+
+<div class="matchRow">
+<span>Prize Pool</span>
+<b>₹${m.prize || 0}</b>
+</div>
+
+<div class="matchRow">
+<span>Booked Slots</span>
+<b>${booked}/${total}</b>
+</div>
+
+<div class="progress">
+
+<div class="progressFill"
+
+style="width:${percent}%">
+
+</div>
+
+</div>
+
+<button class="joinBtn"
+
+onclick="location.href='match.html?id=${item.key}'">
+
+JOIN MATCH
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+applyFilter();
+
+});
+/* ==========================
+PART 2C
+MATCH BUTTON + SPLASH + END
+========================== */
+
+/* ROOM FULL */
+
+document.addEventListener("click",(e)=>{
+
+if(!e.target.classList.contains("joinBtn")) return;
+
+if(e.target.dataset.full==="true"){
+
+alert("Room Full");
+
+}
+
+});
+
+/* Hide Splash */
+
+window.addEventListener("load",()=>{
+
+setTimeout(()=>{
+
+document.getElementById("splash").style.display="none";
+
+document.getElementById("app").style.display="block";
+
+},1800);
+
+});
+
+</script>
+
+</div>
+
+</body>
+
+</html>
