@@ -647,7 +647,7 @@ Let's Go 🚀
         padding:10px 16px;
         font-weight:700;
         cursor:pointer;">
-            ❓ Help
+            Help
         </button>
 
         <div class="walletBox">
@@ -988,7 +988,17 @@ const id = child.key;
 
 
 const match = child.val();
+let imageUrl = match.image || "";
 
+if (imageUrl.includes("pexels.com/photo/")) {
+
+    const matchId = imageUrl.match(/photo\/(?:.*-)?(\d+)\/?$/);
+
+    if (matchId) {
+        imageUrl = `https://images.pexels.com/photos/${matchId[1]}/pexels-photo-${matchId[1]}.jpeg`;
+    }
+
+}
 
 
 let booked =
@@ -1084,14 +1094,7 @@ onclick="openMatch('${id}')">
 <div class="match-image">
 
 
-<img src="${
-match.image && match.image.includes('pexels.com/photo/')
-?
-'https://images.pexels.com/photos/'+match.image.split('-').pop().replace('/','')+'/pexels-photo-'+match.image.split('-').pop().replace('/','')+'.jpeg'
-:
-(match.image || 'https://via.placeholder.com/700x350')
-}">
-
+<img src="${imageUrl}">
 
 <span class="mode">
 
