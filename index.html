@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JACKWAR ESPORTS</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta name="theme-color" content="#050B18">
+
+<title>BGMI ESPORTS</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
@@ -13,14 +24,127 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Inter',sans-serif;
+font-family:'Poppins',sans-serif;
+-webkit-tap-highlight-color:transparent;
+}
+
+html{
+scroll-behavior:smooth;
 }
 
 body{
 
-background:linear-gradient(135deg,#020617,#0f172a,#111827);
+background:#050B18;
+color:#fff;
+overflow:hidden;
 
-height:100vh;
+}
+
+/* Background */
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+background:
+
+radial-gradient(circle at top left,
+rgba(34,197,94,.20),
+transparent 35%),
+
+radial-gradient(circle at top right,
+rgba(37,99,235,.20),
+transparent 35%),
+
+radial-gradient(circle at bottom,
+rgba(168,85,247,.18),
+transparent 40%),
+
+#050B18;
+
+z-index:-5;
+
+}
+
+/* Glow */
+
+.glow{
+
+position:fixed;
+
+border-radius:50%;
+
+filter:blur(90px);
+
+opacity:.45;
+
+animation:floatGlow 12s linear infinite alternate;
+
+z-index:-4;
+
+}
+
+.glow1{
+
+width:240px;
+height:240px;
+
+background:#22c55e;
+
+top:-80px;
+left:-80px;
+
+}
+
+.glow2{
+
+width:240px;
+height:240px;
+
+background:#2563eb;
+
+top:150px;
+right:-90px;
+
+animation-delay:2s;
+
+}
+
+.glow3{
+
+width:220px;
+height:220px;
+
+background:#9333ea;
+
+bottom:-70px;
+left:35%;
+
+animation-delay:4s;
+
+}
+
+@keyframes floatGlow{
+
+100%{
+
+transform:translate(40px,40px);
+
+}
+
+}
+
+/* Splash */
+
+#splash{
+
+position:fixed;
+
+inset:0;
 
 display:flex;
 
@@ -28,43 +152,131 @@ justify-content:center;
 
 align-items:center;
 
-color:#fff;
+flex-direction:column;
 
-}
+background:#050B18;
 
-.login-box{
-
-width:92%;
-
-max-width:380px;
-
-background:#0f172a;
-
-padding:25px;
-
-border-radius:22px;
-
-box-shadow:0 15px 40px rgba(0,0,0,.45);
-
-border:1px solid rgba(255,215,0,.25);
+z-index:999999;
 
 }
 
 .logo{
 
-text-align:center;
+width:120px;
+
+height:120px;
+
+border-radius:50%;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+font-size:55px;
+
+background:linear-gradient(135deg,#16a34a,#22c55e);
+
+box-shadow:
+
+0 0 40px rgba(34,197,94,.55),
+
+0 0 80px rgba(34,197,94,.20);
+
+animation:pulse 1.5s infinite;
+
+}
+
+@keyframes pulse{
+
+50%{
+
+transform:scale(1.08);
+
+}
+
+}
+
+.logoTitle{
+
+margin-top:25px;
 
 font-size:28px;
 
 font-weight:800;
 
-color:#FFD700;
+letter-spacing:1px;
+
+}
+
+.logoSub{
+
+margin-top:8px;
+
+font-size:13px;
+
+color:#94a3b8;
+
+}
+
+/* Main */
+
+.container{
+
+display:none;
+
+width:100%;
+
+max-width:450px;
+
+margin:auto;
+
+padding:25px;
+
+min-height:100vh;
+
+justify-content:center;
+
+align-items:center;
+
+flex-direction:column;
+
+}
+
+.card{
+
+width:100%;
+
+background:rgba(17,24,39,.92);
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:28px;
+
+padding:28px;
+
+backdrop-filter:blur(20px);
+
+box-shadow:
+
+0 20px 50px rgba(0,0,0,.35);
+
+}
+
+.title{
+
+font-size:28px;
+
+font-weight:800;
+
+text-align:center;
 
 margin-bottom:8px;
 
 }
 
-.sub{
+.subtitle{
 
 text-align:center;
 
@@ -76,63 +288,67 @@ margin-bottom:25px;
 
 }
 
-.input{
+input{
 
 width:100%;
 
-padding:13px;
+height:55px;
 
 margin-bottom:15px;
 
+padding:0 16px;
+
 border:none;
 
-border-radius:12px;
+outline:none;
 
-background:#1e293b;
+border-radius:14px;
+
+background:#1f2937;
 
 color:#fff;
-
-outline:none;
 
 font-size:15px;
 
 }
 
-.input::placeholder{
+input::placeholder{
 
 color:#94a3b8;
 
 }
 
-.login-btn{
+button{
 
 width:100%;
 
-padding:14px;
+height:55px;
 
 border:none;
 
 border-radius:14px;
 
-background:linear-gradient(90deg,#FFD700,#ffb300);
-
-font-weight:700;
-
-font-size:16px;
-
-cursor:pointer;
+background:#22c55e;
 
 color:#000;
 
+font-size:16px;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:.3s;
+
 }
 
-.login-btn:hover{
+button:hover{
 
-opacity:.95;
+transform:scale(1.02);
 
 }
 
-.register{
+.link{
 
 margin-top:18px;
 
@@ -140,27 +356,41 @@ text-align:center;
 
 font-size:14px;
 
+color:#94a3b8;
+
+cursor:pointer;
+
 }
 
-.register a{
+.link span{
 
 color:#22c55e;
 
-text-decoration:none;
-
-font-weight:bold;
+font-weight:700;
 
 }
 
-#error{
+.error{
 
-margin-top:15px;
+margin-top:10px;
 
 text-align:center;
 
-color:#ff6b6b;
+color:#ef4444;
 
-font-size:14px;
+font-size:13px;
+
+}
+
+.success{
+
+margin-top:10px;
+
+text-align:center;
+
+color:#22c55e;
+
+font-size:13px;
 
 }
 
@@ -170,73 +400,217 @@ font-size:14px;
 
 <body>
 
-<div class="login-box">
+<div class="glow glow1"></div>
+<div class="glow glow2"></div>
+<div class="glow glow3"></div>
+
+<div id="splash">
 
 <div class="logo">
-🎮 JACKWAR ESPORTS
+🎮
 </div>
 
-<div class="sub">
-Login to Continue
+<div class="logoTitle">
+BGMI ESPORTS
 </div>
 
-<input
-type="email"
-id="email"
-class="input"
-placeholder="Enter Email">
-
-<input
-type="password"
-id="password"
-class="input"
-placeholder="Enter Password">
-
-<button
-class="login-btn"
-onclick="loginUser()">
-
-LOGIN
-
-</button>
-
-<div id="error"></div>
-
-<div class="register">
-
-Don't have an account?
-
-<a href="register.html">
-
-Register
-
-</a>
-
+<div class="logoSub">
+Loading...
 </div>
 
 </div>
+<div class="container" id="mainContainer">
+
+    <div class="card">
+
+        <div class="title" id="formTitle">
+            Welcome Back
+        </div>
+
+        <div class="subtitle" id="formSubTitle">
+            Login to continue
+        </div>
+
+        <!-- Name (Register Only) -->
+        <input
+        type="text"
+        id="name"
+        placeholder="Full Name"
+        style="display:none;">
+
+        <!-- Email -->
+        <input
+        type="email"
+        id="email"
+        placeholder="Email Address">
+
+        <!-- Password -->
+        <input
+        type="password"
+        id="password"
+        placeholder="Password">
+
+        <!-- Confirm Password -->
+        <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Confirm Password"
+        style="display:none;">
+
+        <!-- Login Button -->
+        <button id="loginBtn" onclick="loginUser()">
+            LOGIN
+        </button>
+
+        <!-- Register Button -->
+        <button
+        id="registerBtn"
+        onclick="registerUser()"
+        style="display:none;margin-top:12px;">
+            CREATE ACCOUNT
+        </button>
+
+        <!-- Forgot Password -->
+        <div
+        id="forgotBox"
+        class="link"
+        onclick="forgotPassword()">
+            Forgot Password?
+        </div>
+
+        <!-- Switch -->
+        <div
+        id="switchBox"
+        class="link">
+
+            Don't have an account?
+
+            <span onclick="showRegister()">
+                Register
+            </span>
+
+        </div>
+
+        <!-- Message -->
+        <div id="message" class="error"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* Splash */
+
+setTimeout(()=>{
+
+document.getElementById("splash").style.display="none";
+
+document.getElementById("mainContainer").style.display="flex";
+
+},2000);
+
+/* Register Screen */
+
+function showRegister(){
+
+document.getElementById("formTitle").innerHTML="Create Account";
+
+document.getElementById("formSubTitle").innerHTML="Register your account";
+
+document.getElementById("name").style.display="block";
+
+document.getElementById("confirmPassword").style.display="block";
+
+document.getElementById("loginBtn").style.display="none";
+
+document.getElementById("registerBtn").style.display="block";
+
+document.getElementById("forgotBox").style.display="none";
+
+document.getElementById("switchBox").innerHTML=
+
+'Already have an account? <span onclick="showLogin()">Login</span>';
+
+}
+
+/* Login Screen */
+
+function showLogin(){
+
+document.getElementById("formTitle").innerHTML="Welcome Back";
+
+document.getElementById("formSubTitle").innerHTML="Login to continue";
+
+document.getElementById("name").style.display="none";
+
+document.getElementById("confirmPassword").style.display="none";
+
+document.getElementById("loginBtn").style.display="block";
+
+document.getElementById("registerBtn").style.display="none";
+
+document.getElementById("forgotBox").style.display="block";
+
+document.getElementById("switchBox").innerHTML=
+
+'Don\'t have an account? <span onclick="showRegister()">Register</span>';
+
+}
+
+</script>
+<!-- ==========================
+PART 2A
+FIREBASE IMPORT + CONFIG + AUTH
+========================== -->
+
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
 import {
 getAuth,
+onAuthStateChanged,
 signInWithEmailAndPassword,
-onAuthStateChanged
+createUserWithEmailAndPassword,
+sendPasswordResetEmail,
+updateProfile
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-const firebaseConfig={
+import {
+getDatabase,
+ref,
+set,
+get
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+/* Firebase Config */
+
+const firebaseConfig = {
+
 apiKey:"AIzaSyDsJUtZdIXcsB0w_2MQhMBXxIgbI3ijOvg",
+
 authDomain:"incoinpaysliveearning.firebaseapp.com",
+
 databaseURL:"https://incoinpaysliveearning-default-rtdb.firebaseio.com",
+
 projectId:"incoinpaysliveearning",
+
 storageBucket:"incoinpaysliveearning.firebasestorage.app",
+
 messagingSenderId:"971873814750",
+
 appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
+
 };
 
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
+/* Initialize */
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getDatabase(app);
 
 /* Auto Login */
 
@@ -244,47 +618,204 @@ onAuthStateChanged(auth,(user)=>{
 
 if(user){
 
-window.location.href="dashboard.html";
+location.href="dashboard.html";
 
 }
 
 });
 
-/* Login */
+window.auth=auth;
+window.db=db;
+window.ref=ref;
+window.set=set;
+window.get=get;
+window.createUserWithEmailAndPassword=createUserWithEmailAndPassword;
+window.signInWithEmailAndPassword=signInWithEmailAndPassword;
+window.sendPasswordResetEmail=sendPasswordResetEmail;
+window.updateProfile=updateProfile;
+/* ==========================
+PART 2B
+LOGIN + REGISTER + RESET PASSWORD
+========================== */
 
-window.loginUser=function(){
+window.loginUser = async function(){
 
-const email=document.getElementById("email").value.trim();
+const email = document.getElementById("email").value.trim();
 
-const password=document.getElementById("password").value.trim();
+const password = document.getElementById("password").value.trim();
 
-const error=document.getElementById("error");
+const msg = document.getElementById("message");
 
-error.innerHTML="";
+msg.className="error";
+msg.innerHTML="";
 
-if(email===""||password===""){
+if(email=="" || password==""){
 
-error.innerHTML="Please enter Email & Password";
+msg.innerHTML="Please fill all fields.";
 
 return;
 
 }
 
-signInWithEmailAndPassword(auth,email,password)
+try{
 
-.then(()=>{
+await signInWithEmailAndPassword(auth,email,password);
 
-window.location.href="dashboard.html";
+msg.className="success";
+msg.innerHTML="Login Successful...";
 
-})
+setTimeout(()=>{
 
-.catch((err)=>{
+location.href="dashboard.html";
 
-error.innerHTML=err.message;
+},800);
+
+}catch(e){
+
+msg.className="error";
+msg.innerHTML=e.message;
+
+}
+
+};
+
+
+
+window.registerUser = async function(){
+
+const name=document.getElementById("name").value.trim();
+
+const email=document.getElementById("email").value.trim();
+
+const password=document.getElementById("password").value.trim();
+
+const confirm=document.getElementById("confirmPassword").value.trim();
+
+const msg=document.getElementById("message");
+
+msg.className="error";
+msg.innerHTML="";
+
+if(name=="" || email=="" || password=="" || confirm==""){
+
+msg.innerHTML="Please fill all fields.";
+
+return;
+
+}
+
+if(password!==confirm){
+
+msg.innerHTML="Passwords do not match.";
+
+return;
+
+}
+
+try{
+
+const userCredential=
+
+await createUserWithEmailAndPassword(auth,email,password);
+
+const user=userCredential.user;
+
+await updateProfile(user,{
+
+displayName:name
 
 });
 
+await set(ref(db,"users/"+user.uid),{
+
+uid:user.uid,
+
+name:name,
+
+email:email,
+
+wallet:0,
+
+winning:0,
+
+deposit:0,
+
+photo:"https://i.imgur.com/6VBx3io.png",
+
+createdAt:Date.now()
+
+});
+
+msg.className="success";
+msg.innerHTML="Account Created Successfully.";
+
+setTimeout(()=>{
+
+location.href="dashboard.html";
+
+},1000);
+
+}catch(e){
+
+msg.className="error";
+msg.innerHTML=e.message;
+
+}
+
 };
+
+
+
+window.forgotPassword = async function(){
+
+const email=document.getElementById("email").value.trim();
+
+const msg=document.getElementById("message");
+
+msg.className="error";
+msg.innerHTML="";
+
+if(email==""){
+
+msg.innerHTML="Enter your email first.";
+
+return;
+
+}
+
+try{
+
+await sendPasswordResetEmail(auth,email);
+
+msg.className="success";
+
+msg.innerHTML="Password reset email sent.";
+
+}catch(e){
+
+msg.className="error";
+
+msg.innerHTML=e.message;
+
+}
+
+};
+/* ==========================
+PART 2C
+AUTO LOGIN + CLOSE MODULE
+========================== */
+
+onAuthStateChanged(auth,(user)=>{
+
+if(user){
+
+location.replace("dashboard.html");
+
+}
+
+});
+
+/* End Firebase Module */
 
 </script>
 
