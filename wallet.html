@@ -690,9 +690,8 @@ document.getElementById("withdrawModal").style.display="none";
 <!-- PART 2 FIREBASE CODE WILL COME HERE -->
  <script type="module">
 
-import { initializeApp } 
+import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-
 
 import {
 getAuth,
@@ -700,18 +699,17 @@ onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-
 import {
 getDatabase,
 ref,
+set,
+push,
+get,
 onValue
 }
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-
-
 /* FIREBASE CONFIG */
-
 
 const firebaseConfig = {
 
@@ -731,243 +729,110 @@ appId:"1:971873814750:web:7418c7da119e4725ed9a4f"
 
 };
 
-
-
 const app = initializeApp(firebaseConfig);
-
-
 const auth = getAuth(app);
-
-
 const db = getDatabase(app);
-
-
 
 let UID = "";
 
+window.db = db;
 
+onAuthStateChanged(auth, (user) => {
 
+    if (!user) {
+        location.replace("index.html");
+        return;
+    }
 
+    UID = user.uid;
+    window.UID = UID;
 
-/*
-LOGIN CHECK
-*/
-
-
-onAuthStateChanged(auth,(user)=>{
-
-
-if(!user){
-
-location.replace("index.html");
-
-return;
-
-}
-
-
-UID=user.uid;
-
-
-
-loadWallet();
-
-
-loadHistory();
-
-
-loadAdminPayment();
-
-
+    loadWallet();
+    loadHistory();
+    loadAdminPayment();
 
 });
-
-
-
-
-
-
 
 /*
 LIVE WALLET
 */
 
-
 function loadWallet(){
 
+    onValue(ref(db,"users/"+UID),(snapshot)=>{
 
-onValue(
-ref(db,"users/"+UID),
-(snapshot)=>{
+        if(!snapshot.exists()) return;
 
+        const data = snapshot.val();
 
-if(!snapshot.exists()) return;
+        const wallet = Number(data.wallet || 0);
+        const bonus = Number(data.bonus || 0);
 
+        document.getElementById("walletBalance").innerHTML =
+        "₹"+Math.floor(wallet);
 
+        document.getElementById("bonusBalance").innerHTML =
+        "₹"+Math.floor(bonus);
 
-const data=snapshot.val();
+        document.getElementById("withdrawableBalance").innerHTML =
+        "₹"+Math.floor(wallet);
 
-
-
-let wallet =
-Number(data.wallet || 0);
-
-
-
-let bonus =
-Number(data.bonus || 0);
-
-
-
-
-document.getElementById("walletBalance")
-.innerHTML =
-"₹"+Math.floor(wallet);
-
-
-
-
-document.getElementById("bonusBalance")
-.innerHTML =
-"₹"+Math.floor(bonus);
-
-
-
-
-document.getElementById("withdrawableBalance")
-.innerHTML =
-"₹"+Math.floor(wallet);
-
-
-
-});
-
-
+    });
 
 }
-
-
-
-
-
-
-
-
 
 /*
 TRANSACTION HISTORY
 */
 
-
 function loadHistory(){
 
+    onValue(ref(db,"users/"+UID+"/transactions"),(snapshot)=>{
 
+        const box = document.getElementById("historyList");
 
-onValue(
-ref(db,"users/"+UID+"/transactions"),
-(snapshot)=>{
+        box.innerHTML = "";
 
+        if(!snapshot.exists()){
 
-const box =
-document.getElementById("historyList");
+            box.innerHTML =
+            `<center style="color:#94a3b8">No Transaction</center>`;
 
+            return;
+        }
 
+        let data = [];
 
-box.innerHTML="";
+        snapshot.forEach((item)=>{
+            data.push(item.val());
+        });
 
+        data.reverse();
 
+        data.forEach((tx)=>{
 
-if(!snapshot.exists()){
+            const type = tx.type || "credit";
 
+            box.innerHTML += `
+            <div class="history">
 
-box.innerHTML=
-`
-<center style="color:#94a3b8">
-No Transaction
-</center>
-`;
+                <div>
+                    <b>${tx.title || "Transaction"}</b>
+                    <div class="time">
+                        ${new Date(tx.time).toLocaleString()}
+                    </div>
+                </div>
 
-return;
+                <div class="${type}">
+                    ${type==="credit" ? "+" : "-"}₹${tx.amount}
+                </div>
 
-}
+            </div>
+            `;
 
+        });
 
-
-let data=[];
-
-
-
-snapshot.forEach((item)=>{
-
-
-data.push(item.val());
-
-
-});
-
-
-
-data.reverse();
-
-
-
-data.forEach((tx)=>{
-
-
-
-let type =
-tx.type || "credit";
-
-
-
-box.innerHTML +=
-`
-
-<div class="history">
-
-
-<div>
-
-
-<b>${tx.title || "Transaction"}</b>
-
-
-<div class="time">
-
-${new Date(tx.time)
-.toLocaleString()}
-
-</div>
-
-
-</div>
-
-
-
-<div class="${type}">
-
-${type=="credit"?"+":"-"}
-₹${tx.amount}
-
-
-</div>
-
-
-
-</div>
-
-
-`;
-
-
-
-});
-
-
-
-});
-
-
+    });
 
 }
 
@@ -1007,28 +872,6 @@ encodeURIComponent("upi://pay?pa=" + upi);
 });
 
 }
-
-
-
-
-
-
-
-</script>
-
-<script type="module">
-
-import {
-
-ref,
-set,
-push,
-get,
-onValue
-
-}
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
 
 
 /*
@@ -1132,7 +975,7 @@ ref(db,"depositRequests/"+requestID),
 {
 
 
-uid:UID,
+uid:window.UID,
 
 
 amount:amount,
@@ -1169,141 +1012,156 @@ document.getElementById("utr").value="";
 
 
 
-
-
-
-
-
-
 /*
 SUBMIT WITHDRAW REQUEST
 */
 
 
+let withdrawSubmitting = false;
+
 window.submitWithdraw = async function(){
 
+    // Prevent double click / double submit
+    if(withdrawSubmitting){
+        return;
+    }
 
+    const amount = Number(
+        document.getElementById("withdrawAmount").value
+    );
 
-const amount =
-Number(document.getElementById("withdrawAmount").value);
+    const upi =
+        document.getElementById("withdrawUPI").value.trim();
 
 
+    if(!amount || amount <= 0){
 
-const upi =
-document.getElementById("withdrawUPI").value.trim();
+        alert("Enter valid amount");
+        return;
 
+    }
 
 
+    if(upi === ""){
 
-if(!amount || amount<=0){
+        alert("Enter UPI ID");
+        return;
 
-alert("Enter valid amount");
+    }
 
-return;
 
-}
+    withdrawSubmitting = true;
 
+    const button =
+        document.querySelector('#withdrawModal button[onclick="submitWithdraw()"]');
 
+    if(button){
 
-if(upi==""){
+        button.disabled = true;
+        button.innerText = "Submitting...";
 
-alert("Enter UPI ID");
+    }
 
-return;
 
-}
+    try{
 
+        /*
+        CHECK USER BALANCE
+        */
 
+        const userSnap =
+            await get(
+                ref(db,"users/"+window.UID)
+            );
 
 
+        if(!userSnap.exists()){
 
-/*
-CHECK USER BALANCE
-*/
+            throw new Error("User not found");
 
+        }
 
-const userSnap =
-await get(ref(db,"users/"+UID));
 
+        const wallet =
+            Number(userSnap.val().wallet || 0);
 
 
-if(!userSnap.exists()){
+        if(wallet < amount){
 
-alert("User not found");
+            throw new Error("Insufficient Balance");
 
-return;
+        }
 
-}
 
+        /*
+        CREATE REQUEST ID
+        */
 
+        const withdrawRef =
+            push(ref(db,"withdrawRequests"));
 
-const wallet =
-Number(userSnap.val().wallet || 0);
+        const withdrawID =
+            withdrawRef.key;
 
 
+        /*
+        SAVE WITHDRAW REQUEST
+        */
 
-if(wallet < amount){
+        await set(
 
-alert("Insufficient Balance");
+            withdrawRef,
 
-return;
+            {
+                uid: window.UID,
 
-}
+                amount: amount,
 
+                upi: upi,
 
+                status: "pending",
 
+                time: Date.now()
+            }
 
+        );
 
-/*
-SAVE WITHDRAW REQUEST
-*/
 
+        /*
+        SUCCESS — ONLY ONE ALERT
+        */
 
-const withdrawID =
-push(ref(db,"withdrawRequests")).key;
 
+        closeWithdraw();
 
 
+        document.getElementById("withdrawAmount").value = "";
 
-await set(
-ref(db,"withdrawRequests/"+withdrawID),
-{
+        document.getElementById("withdrawUPI").value = "";
 
 
-uid:UID,
+    }catch(error){
 
+        console.error("Withdraw Error:",error);
 
-amount:amount,
+        alert("Withdraw Error: " + error.message);
 
 
-upi:upi,
+    }finally{
 
+        withdrawSubmitting = false;
 
-status:"pending",
+        if(button){
 
+            button.disabled = false;
+            button.innerText = "Submit Withdraw";
 
-time:Date.now()
+        }
 
-
-});
-
-
-
-alert("Withdraw Request Sent");
-
-
-
-closeWithdraw();
-
-
-
-document.getElementById("withdrawAmount").value="";
-
-document.getElementById("withdrawUPI").value="";
-
-
+    }
 
 };
+
 
 
 
